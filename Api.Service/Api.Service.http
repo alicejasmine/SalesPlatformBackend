@@ -1,0 +1,6 @@
+@Api.Service_HostAddress = http://localhost:5088
+
+GET {{Api.Service_HostAddress}}/GetSample/
+Accept: application/json
+
+###
