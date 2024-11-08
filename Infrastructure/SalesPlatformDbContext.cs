@@ -12,7 +12,6 @@ public class SalesPlatformDbContext : DbContext
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(
-            @"");
+        optionsBuilder.UseSqlServer(Utilities.GetConnectionString());
     }
 }
