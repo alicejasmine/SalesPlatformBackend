@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ApplicationServices.Sample;
 using Domain.Sample;
+using System.Collections.Immutable;
 
 namespace Api.Service.Controllers;
 
@@ -17,12 +18,20 @@ public class SampleController : ControllerBase
         _sampleService = sampleService;
     }
 
-    [HttpGet(Name = "GetSample")]
+    [HttpGet("{id:guid}", Name = "GetSample")]
     public async Task<ActionResult<SampleModel>> Get(Guid id)
     {
         var sample = await _sampleService.GetSampleByIdAsync(id);
 
         return Ok(sample);
+    }
+
+    [HttpGet("all", Name = "GetAllSamples")]
+    public async Task<ActionResult<ImmutableHashSet<SampleDto>>> GetAll()
+    {
+        var samples = await _sampleService.GetAllSamplesAsync();
+
+        return new ActionResult<ImmutableHashSet<SampleDto>>(samples.ToImmutableHashSet());
     }
 
     [HttpPost(Name = "CreateSample")]
@@ -39,7 +48,7 @@ public class SampleController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogError("Could not create new sample in database", ex);
+            _logger.LogInformation("Could not create new sample in database: {ex}", ex);
         }
 
         _logger.LogInformation("Created new SampleModel with ID: {Id}", model.Id);

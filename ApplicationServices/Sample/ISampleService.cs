@@ -1,9 +1,10 @@
 ﻿using Domain.Sample;
+using System.Collections.Immutable;
 
 namespace ApplicationServices.Sample;
 public interface ISampleService
 {
-    Task<IEnumerable<SampleDto>> GetAllSamplesAsync(Guid Id);
+    Task<IImmutableList<SampleDto>> GetAllSamplesAsync();
     Task<SampleDto?> GetSampleByIdAsync(Guid Id);
     Task CreateSampleAsync(SampleDto sampleModel);
 }

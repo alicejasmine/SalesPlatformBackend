@@ -1,5 +1,6 @@
 ﻿using Domain.Sample;
 using Infrastructure.Repository.Sample;
+using System.Collections.Immutable;
 
 namespace ApplicationServices.Sample;
 
@@ -12,28 +13,6 @@ public sealed class SampleService : ISampleService
         _sampleRepository = SampleRepository;
     }
 
-    public async Task CreateSampleAsync(SampleDto sampleDto)
-    {
-        var sampleId = Guid.NewGuid();
-        var created = DateTime.Now;
-        var modified = DateTime.Now;
-
-        var sampleModel = new SampleModel(
-            sampleId,
-            sampleDto.Name,
-            sampleDto.Description,
-            sampleDto.Price,
-            created,
-            modified);
-
-        await _sampleRepository.UpsertAsync(sampleModel);
-    }
-
-    public Task<IEnumerable<SampleDto>> GetAllSamplesAsync(Guid Id)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<SampleDto?> GetSampleByIdAsync(Guid id)
     {
         var sampleDto = await _sampleRepository.GetSampleEntityByIdAsync(id);
@@ -43,6 +22,27 @@ public sealed class SampleService : ISampleService
             return null;
         }
         return ToFullDto(sampleDto);
+    }
+
+    public async Task<IImmutableList<SampleDto>> GetAllSamplesAsync()
+    {
+        var sampleEntities = await _sampleRepository.GetAllSamplesAsync();
+
+        return sampleEntities.Select(ToFullDto).ToImmutableArray();
+    }
+
+    public async Task CreateSampleAsync(SampleDto sampleDto)
+    {
+        var sampleModel = new SampleModel(
+            sampleDto.Id,
+            sampleDto.Name,
+            sampleDto.Description,
+            sampleDto.Price,
+            DateTime.Now,
+            DateTime.Now
+            );
+
+        await _sampleRepository.UpsertAsync(sampleModel);
     }
 
     private static SampleDto ToFullDto(SampleModel user)

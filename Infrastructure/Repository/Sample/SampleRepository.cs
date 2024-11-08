@@ -1,5 +1,6 @@
 ﻿using Domain.Sample;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 
 namespace Infrastructure.Repository.Sample;
 
@@ -8,13 +9,20 @@ public sealed class SampleRepository : BaseRepository<SampleModel, SampleEntity>
     public SampleRepository(SalesPlatformDbContext context) : base(context)
     {
     }
-    
+
     public async Task<SampleModel?> GetSampleEntityByIdAsync(Guid id)
     {
         var fetchedEntity = await DbSetReadOnly
             .SingleOrDefaultAsync(t => t.Id == id);
 
         return fetchedEntity == null ? null : MapEntityToModel(fetchedEntity);
+    }
+
+    public async Task<IImmutableList<SampleModel>> GetAllSamplesAsync()
+    {
+        var entities = await DbSetReadOnly.ToListAsync();
+
+        return entities.Select(MapEntityToModel).ToImmutableArray();
     }
 
     protected override SampleModel MapEntityToModel(SampleEntity entity)
