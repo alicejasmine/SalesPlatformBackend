@@ -12,7 +12,7 @@ public class Utilities
         string user = "",
         string password = "",
         bool trustServerCertificate = true) =>
-        $"Server={server},{DefaultPort};Database={database};User Id={user};Password={password};TrustServerCertificate={trustServerCertificate.ToString().ToUpper()}";
+        $"Server=localhost,1433;Database=SalesPlatformDB;User Id = sa; Password=Suits0811;TrustServerCertificate=True;";
     
     public static string GetConnectionString()
     {

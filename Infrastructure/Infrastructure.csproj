@@ -22,11 +22,16 @@
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Repository\" />
       <Folder Include="Migrations\" />
     </ItemGroup>
+
+	<PropertyGroup>
+		<UserSecretsId>SalesPlatformBackend-Secrets</UserSecretsId>
+	</PropertyGroup>
 
 </Project>

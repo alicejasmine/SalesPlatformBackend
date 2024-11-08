@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Infrastructure": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "sqlconn": "Server=localhost,1433;Database=SalesPlatformDB;User Id=sa;Password=Suits0811;TrustServerCertificate=True;"
+      }
+    }
+  }
+}

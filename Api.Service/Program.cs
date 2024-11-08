@@ -7,6 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddScoped<SampleRepository>();
 
+
 string connectionString = Environment.GetEnvironmentVariable("sqlconn")
                           ?? throw new InvalidOperationException("Database connection string not set.");
 
