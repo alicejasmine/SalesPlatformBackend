@@ -20,9 +20,11 @@ public sealed class SampleRepository : BaseRepository<SampleModel, SampleEntity>
     protected override SampleModel MapEntityToModel(SampleEntity entity)
     {
         return new SampleModel(
+            entity.Id,
             entity.Name,
             entity.Description,
-            entity.Price);
+            entity.Price,
+            entity.Created,
+            entity.Modified);
     }
-    
 }
