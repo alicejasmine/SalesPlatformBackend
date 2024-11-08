@@ -57,9 +57,23 @@ public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel>
         DbSet.Add(entity);
 
         await Context.SaveChangesAsync();
-        Context.ChangeTracker.Clear();
 
         return MapEntityToModel(entity);
+    }
+
+    public async Task DeleteAsync(Guid id)
+    {
+        var entity = await DbSet.SingleOrDefaultAsync(t => t.Id == id);
+
+        if (entity == null)
+        {
+            throw new ArgumentException();
+        }
+
+        DbSet.Remove(entity);
+
+        await Context.SaveChangesAsync();
+
     }
 
     protected abstract TModel MapEntityToModel(TEntity entity);

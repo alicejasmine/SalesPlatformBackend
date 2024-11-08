@@ -7,4 +7,5 @@ public interface ISampleService
     Task<IImmutableList<SampleDto>> GetAllSamplesAsync();
     Task<SampleDto?> GetSampleByIdAsync(Guid Id);
     Task CreateSampleAsync(SampleDto sampleModel);
+    Task DeleteSampleAsync(Guid Id);
 }

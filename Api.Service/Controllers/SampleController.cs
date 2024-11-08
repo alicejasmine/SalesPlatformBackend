@@ -48,11 +48,26 @@ public class SampleController : ControllerBase
         }
         catch (Exception ex)
         {
-            _logger.LogInformation("Could not create new sample in database: {ex}", ex);
+            _logger.LogInformation($"{ex.Message}", ex);
         }
 
         _logger.LogInformation("Created new SampleModel with ID: {Id}", model.Id);
 
+        return Ok();
+    }
+
+    [HttpDelete("/DeleteSample")]
+    public async Task<IActionResult> HandleDelete(Guid id)
+    {
+        try
+        {
+            await _sampleService.DeleteSampleAsync(id);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogInformation($"{ex.Message}", ex);
+            return BadRequest("Could not delete the data");
+        }
         return Ok();
     }
 }

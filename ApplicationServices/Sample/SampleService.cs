@@ -45,6 +45,11 @@ public sealed class SampleService : ISampleService
         await _sampleRepository.UpsertAsync(sampleModel);
     }
 
+    public async Task DeleteSampleAsync(Guid id)
+    {
+        await _sampleRepository.DeleteAsync(id);
+    }
+
     private static SampleDto ToFullDto(SampleModel user)
     {
         return new SampleDto(
