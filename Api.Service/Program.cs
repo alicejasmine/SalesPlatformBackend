@@ -1,5 +1,5 @@
 using Infrastructure;
-using Infrastructure.Data.Sample;
+using Infrastructure.Repository.Sample;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

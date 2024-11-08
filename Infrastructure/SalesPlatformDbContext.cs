@@ -1,4 +1,4 @@
-﻿using Infrastructure.Data.Sample;
+﻿using Infrastructure.Repository.Sample;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
@@ -10,6 +10,7 @@ public class SalesPlatformDbContext : DbContext
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(Utilities.GetConnectionString());
+        optionsBuilder.UseSqlServer(
+            @"");
     }
 }

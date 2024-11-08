@@ -1,15 +1,15 @@
 ﻿using Domain.Sample;
-using Infrastructure.Data.Sample;
+using Infrastructure.Repository.Sample;
 
 namespace ApplicationServices.Sample;
 
 public sealed class SampleService : ISampleService
 {
-    private readonly ISampleRepository _SampleRepository;
+    private readonly ISampleRepository _sampleRepository;
 
     public SampleService(ISampleRepository SampleRepository)
     {
-        _SampleRepository = SampleRepository;
+        _sampleRepository = SampleRepository;
     }
 
     public async Task CreateSampleAsync(SampleDto sampleDto)
@@ -18,7 +18,7 @@ public sealed class SampleService : ISampleService
         var created = DateTime.Now;
         var modified = DateTime.Now;
 
-        var sampleModel = new SampleDto(
+        var sampleModel = new SampleModel(
             sampleId,
             sampleDto.Name,
             sampleDto.Description,
@@ -26,7 +26,7 @@ public sealed class SampleService : ISampleService
             created,
             modified);
 
-        //await _sampleRepository.UpsertAsync(sampleModel);
+        await _sampleRepository.UpsertAsync(sampleModel);
     }
 
     public Task<IEnumerable<SampleDto>> GetAllSamplesAsync(Guid Id)
@@ -36,7 +36,7 @@ public sealed class SampleService : ISampleService
 
     public async Task<SampleDto?> GetSampleByIdAsync(Guid id)
     {
-        var sampleDto = await _SampleRepository.GetSampleEntityByIdAsync(id);
+        var sampleDto = await _sampleRepository.GetSampleEntityByIdAsync(id);
 
         if (sampleDto == null)
         {

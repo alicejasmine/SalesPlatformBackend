@@ -1,7 +1,7 @@
 ﻿using Domain.Sample;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infrastructure.Data.Sample;
+namespace Infrastructure.Repository.Sample;
 
 public sealed class SampleRepository : BaseRepository<SampleModel, SampleEntity>, ISampleRepository
 {
@@ -26,5 +26,16 @@ public sealed class SampleRepository : BaseRepository<SampleModel, SampleEntity>
             entity.Price,
             entity.Created,
             entity.Modified);
+    }
+
+    protected override SampleEntity MapModelToEntity(SampleModel model)
+    {
+        return new SampleEntity(
+            model.Id,
+            model.Name,
+            model.Description,
+            model.Price,
+            model.Created,
+            model.Modified);
     }
 }
