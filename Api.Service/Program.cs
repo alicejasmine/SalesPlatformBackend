@@ -1,14 +1,12 @@
+using ApplicationServices;
 using Infrastructure;
-using Infrastructure.Repository.Sample;
 using Microsoft.EntityFrameworkCore;
-using ApplicationServices.Sample;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddScoped<SampleRepository>();
-builder.Services.AddScoped<ISampleRepository, SampleRepository>();
-builder.Services.AddScoped<ISampleService, SampleService>();
+builder.Services.AddServices();       
+builder.Services.AddRepositories();  
+builder.Services.AddDbContext();
 
 string connectionString = Environment.GetEnvironmentVariable("sqlconn")
                           ?? throw new InvalidOperationException("Database connection string not set.");
