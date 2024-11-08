@@ -1,4 +1,4 @@
-﻿namespace Domain.Dto;
+﻿namespace Domain.Sample;
 
 public class SampleDto
 {

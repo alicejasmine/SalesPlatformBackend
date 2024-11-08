@@ -1,5 +1,4 @@
-﻿using Domain.Dto;
-using Domain.Models;
+﻿using Domain.Sample;
 
 namespace ApplicationServices.Sample;
 public interface ISampleService

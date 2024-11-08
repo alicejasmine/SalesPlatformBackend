@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Domain.Models;
 using ApplicationServices.Sample;
-using Domain.Dto;
+using Domain.Sample;
 
 namespace Api.Service.Controllers;
 

@@ -1,4 +1,4 @@
-﻿using Domain.Models;
+﻿using Domain.Sample;
 
 namespace Infrastructure.Data.Sample;
 

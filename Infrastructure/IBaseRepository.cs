@@ -1,4 +1,4 @@
-﻿using Domain.Models;
+﻿using Domain;
 
 namespace Infrastructure;
 

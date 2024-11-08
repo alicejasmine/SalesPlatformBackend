@@ -1,5 +1,4 @@
-﻿using Domain.Dto;
-using Domain.Models;
+﻿using Domain.Sample;
 using Infrastructure.Data.Sample;
 
 namespace ApplicationServices.Sample;

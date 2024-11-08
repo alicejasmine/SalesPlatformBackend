@@ -1,4 +1,4 @@
-﻿using Domain.Models;
+﻿using Domain.Sample;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data.Sample;
