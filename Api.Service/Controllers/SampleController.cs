@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Domain.Models;
+using ApplicationServices.Sample;
+using Domain.Dto;
 
 namespace Api.Service.Controllers;
 
@@ -8,31 +10,24 @@ namespace Api.Service.Controllers;
 public class SampleController : ControllerBase
 {
     private readonly ILogger<SampleController> _logger;
-    private readonly SampleService _sampleService;
+    private readonly ISampleService _sampleService;
 
-    public SampleController(ILogger<SampleController> logger)
+    public SampleController(ILogger<SampleController> logger, ISampleService sampleService)
     {
         _logger = logger;
+        _sampleService = sampleService;
     }
 
     [HttpGet(Name = "GetSample")]
-    public ActionResult<SampleModel> Get()
+    public async Task<ActionResult<SampleModel>> Get(Guid id)
     {
-        var sample = new SampleModel
-        {
-            Id = Guid.NewGuid(),
-            Name = "Sample 1",
-            Description = "This is a sample description.",
-            Price = 100,
-            Created = DateTime.Now,
-            Modified = DateTime.Now
-        };
+        var sample = await _sampleService.GetSampleByIdAsync(id);
 
         return Ok(sample);
     }
 
     [HttpPost(Name = "CreateSample")]
-    public async ActionResult<SampleModel> Create([FromBody] SampleModel model)
+    public async Task<ActionResult> Create([FromBody] SampleDto model)
     {
         if (!ModelState.IsValid)
         {
@@ -41,12 +36,15 @@ public class SampleController : ControllerBase
 
         try
         {
-            await 
+            await _sampleService.CreateSampleAsync(model);
         }
-       //callservice
+        catch (Exception ex)
+        {
+            _logger.LogError("Could not create new sample in database", ex);
+        }
 
         _logger.LogInformation("Created new SampleModel with ID: {Id}", model.Id);
 
-        return CreatedAtRoute("GetSample", new { id = model.Id }, model);
+        return Ok();
     }
 }

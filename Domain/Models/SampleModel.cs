@@ -2,7 +2,7 @@
 {
     public class SampleModel : BaseModel
     {
-        public SampleModel(string name, string description, int price)
+        public SampleModel(Guid id, string name, string description, int price, DateTime created, DateTime modified) : base(id, created, modified)
         {
             Name = name;
             Description = description;

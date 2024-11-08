@@ -1,16 +1,17 @@
 ﻿using Domain.Dto;
 using Domain.Models;
+using Infrastructure.Data.Sample;
 
 namespace ApplicationServices.Sample;
 
-public class SampleService : ISampleService
+public sealed class SampleService : ISampleService
 {
-    //private readonly ISampleRepository _SampleRepository;
+    private readonly ISampleRepository _SampleRepository;
 
-    //public SampleService(ISampleRepository SampleRepository)
-    //{
-    //    _SampleRepository = SampleRepository;
-    //}
+    public SampleService(ISampleRepository SampleRepository)
+    {
+        _SampleRepository = SampleRepository;
+    }
 
     public async Task CreateSampleAsync(SampleDto sampleDto)
     {
@@ -29,13 +30,31 @@ public class SampleService : ISampleService
         //await _sampleRepository.UpsertAsync(sampleModel);
     }
 
-    public Task<IEnumerable<SampleModel>> GetAllSamplesAsync(Guid Id)
+    public Task<IEnumerable<SampleDto>> GetAllSamplesAsync(Guid Id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<SampleModel?> GetSampleAsync(Guid Id)
+    public async Task<SampleDto?> GetSampleByIdAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var sampleDto = await _SampleRepository.GetSampleEntityByIdAsync(id);
+
+        if (sampleDto == null)
+        {
+            return null;
+        }
+        return ToFullDto(sampleDto);
+    }
+
+    private static SampleDto ToFullDto(SampleModel user)
+    {
+        return new SampleDto(
+            user.Id,
+            user.Name,
+            user.Description,
+            user.Price,
+            user.Created,
+            user.Modified
+        );
     }
 }
