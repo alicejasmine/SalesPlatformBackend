@@ -15,6 +15,7 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
         "sqlconn": "Server=localhost,1433;Database=SalesPlatformDB;User Id=sa;Password=Suits0811;TrustServerCertificate=True;"
       },
       "dotnetRunMessages": true,
