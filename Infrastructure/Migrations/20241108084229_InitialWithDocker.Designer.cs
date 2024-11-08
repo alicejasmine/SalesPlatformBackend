@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(SalesPlatformDbContext))]
-    [Migration("20241107142727_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20241108084229_InitialWithDocker")]
+    partial class InitialWithDocker
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
