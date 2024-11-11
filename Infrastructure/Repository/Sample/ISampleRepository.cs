@@ -6,5 +6,5 @@ namespace Infrastructure.Repository.Sample;
 public interface ISampleRepository : IBaseRepository<SampleModel>
 {
     Task<SampleModel> GetSampleEntityByIdAsync(Guid id);
-    Task<IImmutableList<SampleModel>> GetAllSamplesAsync();
+    Task<IEnumerable<SampleModel>> GetAllSamplesAsync();
 }

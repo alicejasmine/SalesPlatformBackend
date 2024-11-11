@@ -18,7 +18,7 @@ public sealed class SampleRepository : BaseRepository<SampleModel, SampleEntity>
         return fetchedEntity == null ? null : MapEntityToModel(fetchedEntity);
     }
 
-    public async Task<IImmutableList<SampleModel>> GetAllSamplesAsync()
+    public async Task<IEnumerable<SampleModel>> GetAllSamplesAsync()
     {
         var entities = await DbSetReadOnly.ToListAsync();
 

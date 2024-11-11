@@ -9,9 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{66F06F71-5535-46BF-921A-6BEAF5AE6927}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicationServices", "ApplicationServices\ApplicationServices.csproj", "{FB5B68DC-2205-4222-918A-7FF4A4FDB991}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationServices", "ApplicationServices\ApplicationServices.csproj", "{FB5B68DC-2205-4222-918A-7FF4A4FDB991}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api.Service", "Api.Service\Api.Service.csproj", "{250E23BB-34DF-424E-9E75-C1AFE3606530}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Api.Service", "Api.Service\Api.Service.csproj", "{250E23BB-34DF-424E-9E75-C1AFE3606530}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{148E0A54-2F42-4F8B-8875-6FC8F69429E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration.Tests", "Integration.Tests\Integration.Tests.csproj", "{3747CE67-1D7E-474C-970F-255A6322FF65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,10 @@ Global
 		{250E23BB-34DF-424E-9E75-C1AFE3606530}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{250E23BB-34DF-424E-9E75-C1AFE3606530}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{250E23BB-34DF-424E-9E75-C1AFE3606530}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3747CE67-1D7E-474C-970F-255A6322FF65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3747CE67-1D7E-474C-970F-255A6322FF65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3747CE67-1D7E-474C-970F-255A6322FF65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3747CE67-1D7E-474C-970F-255A6322FF65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
