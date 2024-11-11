@@ -45,6 +45,19 @@ public sealed class SampleService : ISampleService
         await _sampleRepository.UpsertAsync(sampleModel);
     }
 
+    public async Task UpdateSampleAsync(SampleDto sampleDto)
+    {
+        var sampleModel = new SampleModel(
+            sampleDto.Id,
+            sampleDto.Name,
+            sampleDto.Description,
+            sampleDto.Price,
+            DateTime.Now,
+            DateTime.Now
+        );
+
+        await _sampleRepository.UpsertAsync(sampleModel);
+    }
     public async Task DeleteSampleAsync(Guid id)
     {
         await _sampleRepository.DeleteAsync(id);

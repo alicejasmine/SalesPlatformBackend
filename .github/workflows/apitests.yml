@@ -1,0 +1,31 @@
+﻿on:
+  push:
+    branches:
+      - main
+      - master
+      - dev-branch
+  workflow_dispatch:
+jobs:
+  ApiTests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.x.x
+
+      - name: Build and run Web API + getting process ID for shutting down later
+        run: cd Api.Service && dotnet run --Environment Development & echo "API_PID=$!" >> $GITHUB_ENV
+        env:
+          pgconn: ${{secrets.PGCONN}}
+
+      - name: Run tests once API is running (sleep interval set to 60 seconds)
+        run: cd Tests && sleep 60 && dotnet build && dotnet test
+        env:
+          pgconn: ${{secrets.PGCONN}}
+          
+      - name: Shutdown Web API once the tests are done running
+        run: kill $API_PID || true

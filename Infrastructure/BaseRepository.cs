@@ -29,7 +29,7 @@ public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel>
 
     public async Task<TModel> UpsertAsync(TModel model)
     {
-        var existingEntity = await DbSetReadOnly
+        var existingEntity = await DbSet
             .SingleOrDefaultAsync(t => t.Id == model.Id);
 
         if (existingEntity == null)
@@ -72,7 +72,7 @@ public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel>
 
         await Context.SaveChangesAsync();
     }
-
+    
     protected abstract TModel MapEntityToModel(TEntity entity);
     protected abstract TEntity MapModelToEntity(TModel model);
 }
