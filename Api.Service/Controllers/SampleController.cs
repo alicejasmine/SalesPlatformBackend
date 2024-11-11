@@ -70,4 +70,34 @@ public class SampleController : ControllerBase
         }
         return Ok();
     }
+    
+    [HttpPut("/UpdateSample")]
+    public async Task<ActionResult> Update([FromBody] SampleDto model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest("Model is not valid");
+        }
+        
+        try
+        {
+            var existingSample = await _sampleService.GetSampleByIdAsync(model.Id);
+            if (existingSample == null)
+            {
+                return NotFound($"Sample with ID {model.Id} not found.");
+            }
+            
+            await _sampleService.UpdateSampleAsync(model);
+
+            _logger.LogInformation("Updated SampleModel with ID: {Id}", model.Id);
+
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating SampleModel with ID: {Id}", model.Id);
+            return StatusCode(500, "Internal server error");
+        }
+    }
+
 }
