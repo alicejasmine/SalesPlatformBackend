@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
-
-
 public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel>
         where TModel : BaseModel
         where TEntity : BaseEntity
@@ -73,10 +71,8 @@ public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel>
         DbSet.Remove(entity);
 
         await Context.SaveChangesAsync();
-
     }
 
     protected abstract TModel MapEntityToModel(TEntity entity);
     protected abstract TEntity MapModelToEntity(TModel model);
-
 }

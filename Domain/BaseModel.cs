@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Domain;
+﻿namespace Domain;
 
 public class BaseModel
 {

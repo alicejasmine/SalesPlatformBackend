@@ -44,6 +44,7 @@ public sealed class SampleRepository : BaseRepository<SampleModel, SampleEntity>
             model.Description,
             model.Price,
             model.Created,
-            model.Modified);
+            model.Modified
+        );
     }
 }

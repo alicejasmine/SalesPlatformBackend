@@ -40,7 +40,7 @@ public sealed class SampleService : ISampleService
             sampleDto.Price,
             DateTime.Now,
             DateTime.Now
-            );
+        );
 
         await _sampleRepository.UpsertAsync(sampleModel);
     }
