@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure;
 using Testcontainers.MsSql;
+using Infrastructure.Repository.Sample;
 
 namespace Integration.Tests.Endpoints
 {
@@ -16,6 +17,7 @@ namespace Integration.Tests.Endpoints
         protected HttpClient Client { get; private set; }
         private WebApplicationFactory<Program> _factory;
         private MsSqlContainer _sqlContainer;
+        private SalesPlatformDbContext _salesPlatformDbContext;
 
         [OneTimeSetUp]
         public async Task SettingUpSql()
@@ -26,10 +28,20 @@ namespace Integration.Tests.Endpoints
                 .Build();
 
             await _sqlContainer.StartAsync();
+
+            var connectionString = _sqlContainer.GetConnectionString();
+
+            var options = new DbContextOptionsBuilder<SalesPlatformDbContext>()
+                .UseSqlServer(connectionString)
+                .Options;
+
+            _salesPlatformDbContext = new SalesPlatformDbContext(options);
+
+            await _salesPlatformDbContext.Database.EnsureCreatedAsync();
         }
 
         [SetUp]
-        public void SetUp()
+        public async Task SetUp()
         {
             var connectionString = _sqlContainer.GetConnectionString();
 
@@ -57,6 +69,32 @@ namespace Integration.Tests.Endpoints
             });
 
             Client = _factory.CreateClient();
+
+            await InsertTestDataAsync();
+        }
+
+        private async Task InsertTestDataAsync()
+        {
+            if (!_salesPlatformDbContext.SampleEntities.Any())
+            {
+                _salesPlatformDbContext.SampleEntities.Add(new SampleEntity(
+                    Guid.NewGuid(),
+                    "Test sample",
+                    "Description of Test sample",
+                    100,
+                    DateTime.Now,
+                    DateTime.Now
+                ));
+                await _salesPlatformDbContext.SaveChangesAsync();
+            }
+        }
+
+        [TearDown]
+        public async Task CleanUp()
+        {
+            var products = _salesPlatformDbContext.SampleEntities.ToList();
+            _salesPlatformDbContext.SampleEntities.RemoveRange(products);
+            await _salesPlatformDbContext.SaveChangesAsync();
         }
 
         [OneTimeTearDown]

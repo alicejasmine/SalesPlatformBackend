@@ -1,41 +1,36 @@
-﻿//using Infrastructure;
-//using Microsoft.EntityFrameworkCore;
+﻿using Infrastructure;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
-//namespace Integration.Tests
-//{
-//    public abstract class SqlDbTestFixture : ConfigurationTestFixture
-//    {
-//        protected DbContextOptions<SalesPlatformDbContext> DbContextOptions;
-//        protected SalesPlatformDbContext DbContext;
+namespace Integration.Tests
+{
+    public abstract class SqlDbTestFixture : ConfigurationTestFixture
+    {
+        protected DbContextOptions<SalesPlatformDbContext> DbContextOptions;
+        protected SalesPlatformDbContext _DbContext;
 
-//        [SetUp]
-//        public void Setup()
-//        {
-//            DbContextOptions = new DbContextOptionsBuilder<SalesPlatformDbContext>()
-//                .UseInMemoryDatabase("TestDatabase")
-//                .Options;
+        [SetUp]
+        public async Task Setup()
+        {
+            var connectionString = Environment.GetEnvironmentVariable("sqlconn");
 
-//            DbContext = new SalesPlatformDbContext(DbContextOptions);
-//            DbContext.Database.EnsureDeleted();
-//            DbContext.Database.EnsureCreated();
+            DbContextOptions = new DbContextOptionsBuilder<SalesPlatformDbContext>()
+                .UseSqlServer(connectionString)
+                .Options;
 
-//            ConfigureDatabase();
-//            DoSetup();
-//        }
+            _DbContext = new SalesPlatformDbContext(DbContextOptions);
 
-//        [TearDown]
-//        public void Teardown()
-//        {
-//            DbContext?.Dispose();
-//            DoTeardown();
-//        }
+            await _DbContext.Database.EnsureCreatedAsync();
+        }
 
-//        private void ConfigureDatabase()
-//        {
-//            // Add seed data or initial setup if needed
-//        }
-
-//        public virtual Task DoSetup() { return Task.CompletedTask; }
-//        public virtual Task DoTeardown() { return Task.CompletedTask; }
-//    }
-//}
+        [TearDown]
+        public async Task Teardown()
+        {
+            if (_DbContext != null)
+            {
+                await _DbContext.Database.CloseConnectionAsync();
+                _DbContext.Dispose();
+            }
+        }
+    }
+}

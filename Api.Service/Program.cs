@@ -7,7 +7,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddServices();       
 builder.Services.AddRepositories();  
 builder.Services.AddDbContext();
-
+//Environment.SetEnvironmentVariable("sqlconn", "Server=localhost,1433;Database=SalesPlatformDB;User Id=sa;Password=Suits0811;TrustServerCertificate=True;");
 string connectionString = Environment.GetEnvironmentVariable("sqlconn")
                           ?? throw new InvalidOperationException("Database connection string not set.");
 

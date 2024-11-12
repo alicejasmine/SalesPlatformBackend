@@ -8,14 +8,14 @@ namespace Integration.Tests.Endpoints.Sample;
 [TestFixture]
 public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
 {
-    private const string BaseUrl = "/Sample";
+    private const string BaseUrl = "https://localhost:7065/";
 
     [Test]
     public async Task GetSample_ShouldReturnSample_WhenSampleExists()
     {
         // Arrange
         var sampleId = Guid.NewGuid();
-        await SeedSampleAsync(sampleId);
+        
 
         // Act
         var response = await Client.GetAsync($"{BaseUrl}/GetSample?id={sampleId}");
@@ -31,7 +31,6 @@ public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
     public async Task GetAllSamples_ShouldReturnAllSamples()
     {
         // Arrange
-        await SeedSamplesAsync();
 
         // Act
         var response = await Client.GetAsync($"{BaseUrl}/GetAllSample");
@@ -60,7 +59,6 @@ public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
     {
         // Arrange
         var sampleId = Guid.NewGuid();
-        await SeedSampleAsync(sampleId);
 
         // Act
         var response = await Client.DeleteAsync($"{BaseUrl}/DeleteSample?id={sampleId}");
@@ -80,20 +78,5 @@ public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-    }
-
-    private async Task SeedSampleAsync(Guid sampleId)
-    {
-        var sample = new SampleDto(Guid.NewGuid(), "Sample Name", "Description", 100, DateTime.Now, DateTime.Now);
-
-        await Client.PostAsJsonAsync($"{BaseUrl}/CreateSample", sample);
-    }
-
-    private async Task SeedSamplesAsync()
-    {
-        for (int i = 0; i < 5; i++)
-        {
-            await SeedSampleAsync(Guid.NewGuid());
-        }
     }
 }
