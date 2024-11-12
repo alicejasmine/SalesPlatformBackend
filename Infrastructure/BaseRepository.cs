@@ -13,7 +13,7 @@ public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel>
 
     private readonly DbSet<TEntity> _dbSet;
 
-    protected BaseRepository(SalesPlatformDbContext context)
+    public BaseRepository(SalesPlatformDbContext context)
     {
         Context = context;
         _dbSet = context.Set<TEntity>();

@@ -2,12 +2,11 @@
 using System.Collections.Immutable;
 using System.Net;
 using System.Net.Http.Json;
-using Umbraco.Cloud.Usage.Environment.Integration.Tests.Endpoints;
 
 namespace Integration.Tests.Endpoints.Sample;
 
 [TestFixture]
-public sealed class SampleControllerEndpointTests : BaseEndpointTest
+public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
 {
     private const string BaseUrl = "/Sample";
 
