@@ -2,9 +2,10 @@
 
 public class BaseModel
 {
-    public Guid Id { get; set; }
-    public DateTime Created { get; set; } = DateTime.Now;
-    public DateTime Modified { get; set; }
+    public Guid Id { get; }
+    public DateTime Created { get; }
+
+    public DateTime Modified { get; }
 
     protected BaseModel(Guid id, DateTime created, DateTime modified)
     {

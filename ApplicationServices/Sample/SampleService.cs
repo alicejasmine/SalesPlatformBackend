@@ -33,13 +33,14 @@ public sealed class SampleService : ISampleService
 
     public async Task CreateSampleAsync(SampleDto sampleDto)
     {
+        var now = DateTime.UtcNow;
         var sampleModel = new SampleModel(
             sampleDto.Id,
             sampleDto.Name,
             sampleDto.Description,
             sampleDto.Price,
-            DateTime.Now,
-            DateTime.Now
+            now,
+            now
         );
 
         await _sampleRepository.UpsertAsync(sampleModel);
@@ -52,8 +53,8 @@ public sealed class SampleService : ISampleService
             sampleDto.Name,
             sampleDto.Description,
             sampleDto.Price,
-            DateTime.Now,
-            DateTime.Now
+            sampleDto.Created,
+            DateTime.UtcNow
         );
 
         await _sampleRepository.UpsertAsync(sampleModel);

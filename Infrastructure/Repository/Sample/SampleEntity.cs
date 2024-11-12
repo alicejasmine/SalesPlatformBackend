@@ -20,5 +20,8 @@ public class SampleEntity : BaseEntity
         Name = name;
         Description = description;
         Price = price;
+        Created = created;
+        Modified = modified;
     }
+    
 }

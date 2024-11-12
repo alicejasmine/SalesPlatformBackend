@@ -6,7 +6,7 @@ public abstract class BaseEntity
 
 {
     [Key]  public Guid Id { get; set; }
-    public DateTime Created { get; set; } = DateTime.UtcNow;
+    public DateTime Created { get; set; }
     public DateTime Modified { get; set; }
 
     protected BaseEntity()

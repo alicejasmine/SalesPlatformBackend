@@ -2,9 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
-public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel>
-        where TModel : BaseModel
-        where TEntity : BaseEntity
+public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel> where TEntity : BaseEntity where TModel : BaseModel
 {
     protected IQueryable<TEntity> DbSetReadOnly => _dbSet.AsNoTracking();
     protected DbSet<TEntity> DbSet => _dbSet;
@@ -36,12 +34,10 @@ public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel>
         {
             return await AddAsync(model);
         }
-
         var updatedEntity = MapModelToEntity(model);
-
+        
         Context.Entry(existingEntity).CurrentValues.SetValues(updatedEntity);
-        existingEntity.Modified = DateTime.Now;
-
+        
         await Context.SaveChangesAsync();
         Context.ChangeTracker.Clear();
 
@@ -51,7 +47,6 @@ public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel>
     private async Task<TModel> AddAsync(TModel model)
     {
         var entity = MapModelToEntity(model);
-
         DbSet.Add(entity);
 
         await Context.SaveChangesAsync();
