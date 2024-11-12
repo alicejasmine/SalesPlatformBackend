@@ -35,7 +35,7 @@ public class SampleController : ControllerBase
     }
 
     [HttpPost("/CreateSample")]
-    public async Task<ActionResult> Create([FromBody] SampleDto model)
+    public async Task<ActionResult> Create([FromBody] SampleDto dto)
     {
         if (!ModelState.IsValid)
         {
@@ -44,14 +44,14 @@ public class SampleController : ControllerBase
 
         try
         {
-            await _sampleService.CreateSampleAsync(model);
+            await _sampleService.CreateSampleAsync(dto);
         }
         catch (Exception ex)
         {
             _logger.LogInformation($"{ex.Message}", ex);
         }
 
-        _logger.LogInformation("Created new SampleModel with ID: {Id}", model.Id);
+        _logger.LogInformation("Created new SampleModel with ID: {Id}", dto.Id);
 
         return Ok();
     }
@@ -72,7 +72,7 @@ public class SampleController : ControllerBase
     }
     
     [HttpPut("/UpdateSample")]
-    public async Task<ActionResult> Update([FromBody] SampleDto model)
+    public async Task<ActionResult> Update([FromBody] SampleDto dto)
     {
         if (!ModelState.IsValid)
         {
@@ -81,23 +81,22 @@ public class SampleController : ControllerBase
         
         try
         {
-            var existingSample = await _sampleService.GetSampleByIdAsync(model.Id);
+            var existingSample = await _sampleService.GetSampleByIdAsync(dto.Id);
             if (existingSample == null)
             {
-                return NotFound($"Sample with ID {model.Id} not found.");
+                return NotFound($"Sample with ID {dto.Id} not found.");
             }
             
-            await _sampleService.UpdateSampleAsync(model);
+            await _sampleService.UpdateSampleAsync(dto);
 
-            _logger.LogInformation("Updated SampleModel with ID: {Id}", model.Id);
+            _logger.LogInformation("Updated SampleModel with ID: {Id}", dto.Id);
 
             return Ok();
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating SampleModel with ID: {Id}", model.Id);
+            _logger.LogError(ex, "Error updating SampleModel with ID: {Id}", dto.Id);
             return StatusCode(500, "Internal server error");
         }
     }
-
 }
