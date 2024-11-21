@@ -9,15 +9,7 @@ public sealed class SampleRepository : BaseRepository<SampleModel, SampleEntity>
     public SampleRepository(SalesPlatformDbContext context) : base(context)
     {
     }
-
-    public async Task<SampleModel?> GetSampleEntityByIdAsync(Guid id)
-    {
-        var fetchedEntity = await DbSetReadOnly
-            .SingleOrDefaultAsync(t => t.Id == id);
-
-        return fetchedEntity == null ? null : MapEntityToModel(fetchedEntity);
-    }
-
+    
     public async Task<IEnumerable<SampleModel>> GetAllSamplesAsync()
     {
         var entities = await DbSetReadOnly.ToListAsync();

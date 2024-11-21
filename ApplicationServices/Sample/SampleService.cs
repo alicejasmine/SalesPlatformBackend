@@ -15,7 +15,7 @@ public sealed class SampleService : ISampleService
 
     public async Task<SampleDto?> GetSampleByIdAsync(Guid id)
     {
-        var sampleDto = await _sampleRepository.GetSampleEntityByIdAsync(id);
+        var sampleDto = await _sampleRepository.GetByIdAsync(id);
 
         if (sampleDto == null)
         {
