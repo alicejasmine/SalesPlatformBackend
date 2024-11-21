@@ -26,8 +26,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Repository\" />
       <Folder Include="Migrations\" />
+        <Folder Include="Repositories\" />
     </ItemGroup>
 
 	<PropertyGroup>
