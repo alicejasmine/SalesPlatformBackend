@@ -36,6 +36,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
     public async Task GetAllSamples_ShouldReturnAllSamples()
     {
         // Arrange
+        await Data.StoreUser(SampleModelFixture.DefaultSample);
 
         // Act
         var response = await AppHttpClient.GetAsync($"{BaseUrl}/GetAllSample");
@@ -57,6 +58,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
+
     }
 
     [Test]

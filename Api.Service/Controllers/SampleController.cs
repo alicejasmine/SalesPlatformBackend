@@ -49,6 +49,7 @@ public class SampleController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogInformation($"{ex.Message}", ex);
+            return BadRequest($"{ex.Message}");
         }
 
         _logger.LogInformation("Created new SampleModel with ID: {Id}", dto.Id);

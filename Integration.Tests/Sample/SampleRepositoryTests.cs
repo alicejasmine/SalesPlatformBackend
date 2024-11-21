@@ -49,7 +49,7 @@ internal class SampleRepositoryTests : BaseRepositoryTests<SampleRepository>
         await DbContext.SaveChangesAsync();
 
         // Act
-        var sample = await Repository.GetSampleEntityByIdAsync(sampleEntity.Id);
+        var sample = await Repository.GetByIdAsync(sampleEntity.Id);
 
         // Assert
         Assert.That(sample, Is.Not.Null);
@@ -63,7 +63,7 @@ internal class SampleRepositoryTests : BaseRepositoryTests<SampleRepository>
         var nonExistingId = Guid.NewGuid();
 
         // Act
-        var sample = await Repository.GetSampleEntityByIdAsync(nonExistingId);
+        var sample = await Repository.GetByIdAsync(nonExistingId);
 
         // Assert
         Assert.That(sample, Is.Null);
