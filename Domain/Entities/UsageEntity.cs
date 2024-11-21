@@ -7,7 +7,7 @@ public class UsageEntity
     public Guid ProjectId { get; init; }
     public Guid EnvironmentId { get; init; }
     public DateOnly DocumentCreationDate { get; init; }
-    public BandwidthDataEntity TotalMonthlyBandwidth { get; set; }
+    public long TotalMonthlyBandwidth { get; set; }
     public long TotalMonthlyMedia { get; set; }
     public Dictionary<DateOnly, DailyUsageEntity> Days { get; set; } = new Dictionary<DateOnly, DailyUsageEntity>();
 }
