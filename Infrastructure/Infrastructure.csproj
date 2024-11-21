@@ -11,6 +11,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.43.0" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
         <PrivateAssets>all</PrivateAssets>
