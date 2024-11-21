@@ -20,14 +20,13 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<ISampleRepository, SampleRepository>();
-        services.AddScoped<IUsageDocumentRepository, UsageDocumentRepository>();
        
         return services;
     }
     public static IServiceCollection AddDbContext(this IServiceCollection services)
     {
-        string connectionString = Environment.GetEnvironmentVariable("sqlconn")
-                                  ?? throw new InvalidOperationException("Database connection string not set.");
+        var connectionString =  Environment.GetEnvironmentVariable("sqlconn") 
+            ?? throw new InvalidOperationException("Database connection string not set.");
 
         services.AddDbContext<SalesPlatformDbContext>(options =>
             options.UseSqlServer(connectionString));

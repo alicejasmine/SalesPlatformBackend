@@ -1,24 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-	<TargetFramework>net8.0</TargetFramework>
-	<Nullable>enable</Nullable>
-	<ImplicitUsings>enable</ImplicitUsings>
-	<UserSecretsId>342fb314-fc4d-4195-bdfc-1a96b50726f9</UserSecretsId>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>342fb314-fc4d-4195-bdfc-1a96b50726f9</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
-	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.9.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
+		<InternalsVisibleTo Include="Integration.Tests" />
 	</ItemGroup>
 
     <ItemGroup>
 	    <ProjectReference Include="..\ApplicationServices\ApplicationServices.csproj" />
 	    <ProjectReference Include="..\Domain\Domain.csproj" />
 	    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-    </ItemGroup>
+		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<PreserveCompilationContext>true</PreserveCompilationContext>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+	</PropertyGroup>
+
 
 </Project>

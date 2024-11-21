@@ -18,7 +18,7 @@ public class SampleController : ControllerBase
         _sampleService = sampleService;
     }
 
-    [HttpGet("/GetSample")]
+    [HttpGet("GetSample")]
     public async Task<ActionResult<SampleModel>> Get(Guid id)
     {
         var sample = await _sampleService.GetSampleByIdAsync(id);
@@ -49,6 +49,7 @@ public class SampleController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogInformation($"{ex.Message}", ex);
+            return BadRequest($"{ex.Message}");
         }
 
         _logger.LogInformation("Created new SampleModel with ID: {Id}", dto.Id);

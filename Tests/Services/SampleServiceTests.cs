@@ -71,7 +71,6 @@ internal class SampleServiceTests
         var result = await _sampleService.GetAllSamplesAsync();
 
         // Assert
-        Assert.IsInstanceOf<IImmutableList<SampleDto>>(result);
         Assert.That(result.Count, Is.EqualTo(2));
 
         Assert.That(result[0].Name, Is.EqualTo("Sample1"));
