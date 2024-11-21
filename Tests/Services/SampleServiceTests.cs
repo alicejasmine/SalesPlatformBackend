@@ -26,7 +26,7 @@ internal class SampleServiceTests
     {
         // Arrange
         var sampleModel = new SampleModel(_id, "Sample Name", "Description", 100, DateTime.Now, DateTime.Now);
-        _sampleRepositoryMock.Setup(repo => repo.GetSampleEntityByIdAsync(_id))
+        _sampleRepositoryMock.Setup(repo => repo.GetByIdAsync(_id))
                              .ReturnsAsync(sampleModel);
 
         // Act
@@ -36,14 +36,14 @@ internal class SampleServiceTests
         Assert.That(result, Is.Not.Null);
         Assert.That(result?.Id, Is.EqualTo(_id));
         Assert.That(result?.Name, Is.EqualTo("Sample Name"));
-        _sampleRepositoryMock.Verify(repo => repo.GetSampleEntityByIdAsync(_id), Times.Once);
+        _sampleRepositoryMock.Verify(repo => repo.GetByIdAsync(_id), Times.Once);
     }
 
     [Test]
     public async Task GetSampleByIdAsync_ReturnsNull_WhenSampleDoesNotExist()
     {
         // Arrange
-        _sampleRepositoryMock.Setup(repo => repo.GetSampleEntityByIdAsync(_id))
+        _sampleRepositoryMock.Setup(repo => repo.GetByIdAsync(_id))
                              .ReturnsAsync((SampleModel?)null);
 
         // Act
@@ -51,7 +51,7 @@ internal class SampleServiceTests
 
         // Assert
         Assert.That(result, Is.Null);
-        _sampleRepositoryMock.Verify(repo => repo.GetSampleEntityByIdAsync(_id), Times.Once);
+        _sampleRepositoryMock.Verify(repo => repo.GetByIdAsync(_id), Times.Once);
     }
 
     [Test]
