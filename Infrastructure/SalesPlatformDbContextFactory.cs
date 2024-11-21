@@ -14,7 +14,6 @@ namespace Infrastructure
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddUserSecrets<SalesPlatformDbContextFactory>()
                 .Build();
-
             var connectionString = Environment.GetEnvironmentVariable("sqlconn")
                        ?? throw new InvalidOperationException("Database connection string not set.");
             optionsBuilder.UseSqlServer(connectionString);

@@ -18,7 +18,7 @@ public class SampleController : ControllerBase
         _sampleService = sampleService;
     }
 
-    [HttpGet("/GetSample")]
+    [HttpGet("GetSample")]
     public async Task<ActionResult<SampleModel>> Get(Guid id)
     {
         var sample = await _sampleService.GetSampleByIdAsync(id);
