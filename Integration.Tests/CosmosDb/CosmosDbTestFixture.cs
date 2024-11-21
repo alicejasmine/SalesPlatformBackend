@@ -1,8 +1,7 @@
 ﻿using Infrastructure;
 using Microsoft.Azure.Cosmos;
 
-
-namespace Integration.Tests;
+namespace Integration.Tests.CosmosDb;
 
 public abstract class CosmosDbTestFixture
 {
@@ -60,7 +59,7 @@ public abstract class CosmosDbTestFixture
         await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerProperties);
     }
     
-    protected Container UsageTestContainer => CosmosDbClient.GetContainer(Constants.CosmosDbProperties.TestDatabaseName, Constants.CosmosDbProperties.CollectionName);
+    protected Container UsageTestContainer => CosmosDbClient.GetContainer(Constants.CosmosDbProperties.TestDatabaseName, Constants.CosmosDbProperties.TestCollectionName);
 
     public virtual Task DoSetup() { return Task.CompletedTask; }
     public virtual Task DoTeardown() { return Task.CompletedTask; }

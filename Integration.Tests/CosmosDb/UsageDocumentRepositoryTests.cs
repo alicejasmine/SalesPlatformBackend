@@ -3,7 +3,7 @@ using Infrastructure.Repositories.Usage;
 using Microsoft.Extensions.Logging;
 using Moq;
 
-namespace Integration.Tests;
+namespace Integration.Tests.CosmosDb;
 
 public class UsageDocumentRepositoryTests : CosmosDbTestFixture
 {
