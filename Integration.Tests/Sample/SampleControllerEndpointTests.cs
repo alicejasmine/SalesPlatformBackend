@@ -1,30 +1,35 @@
-﻿using Domain.Sample;
+﻿using Api.Service.Controllers;
+using Domain.Sample;
+using Infrastructure;
+using Integration.Tests.Library;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
 using System.Net;
 using System.Net.Http.Json;
+using Test.Fixtures.Sample;
 
-namespace Integration.Tests.Endpoints.Sample;
+namespace Integration.Tests.Sample;
 
 [TestFixture]
-public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
+[TestOf(typeof(SampleController))]
+internal sealed class SampleControllerEndpointTests : BaseEndpointTests
 {
-    private const string BaseUrl = "https://localhost:7065/";
+    private const string BaseUrl = "https://localhost:7065";
 
     [Test]
     public async Task GetSample_ShouldReturnSample_WhenSampleExists()
     {
         // Arrange
-        var sampleId = Guid.NewGuid();
-        
+        await Data.StoreUser(SampleModelFixture.DefaultSample);
 
         // Act
-        var response = await Client.GetAsync($"{BaseUrl}/GetSample?id={sampleId}");
+        var response = await AppHttpClient.GetAsync($"{BaseUrl}/GetSample?id={SampleModelFixture.DefaultSample.Id}");
 
         // Assert
         var sample = await response.Content.ReadFromJsonAsync<SampleModel>();
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
         Assert.That(sample, Is.Not.Null);
-        Assert.That(sample.Id, Is.EqualTo(sampleId));
+        Assert.That(sample.Id, Is.EqualTo(SampleModelFixture.DefaultSample.Id));
     }
 
     [Test]
@@ -33,7 +38,7 @@ public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
         // Arrange
 
         // Act
-        var response = await Client.GetAsync($"{BaseUrl}/GetAllSample");
+        var response = await AppHttpClient.GetAsync($"{BaseUrl}/GetAllSample");
 
         // Assert
         var samples = await response.Content.ReadFromJsonAsync<ImmutableHashSet<SampleDto>>();
@@ -48,7 +53,7 @@ public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
         var sample = new SampleDto(Guid.NewGuid(), "Sample Name", "Description", 100, DateTime.Now, DateTime.Now);
 
         // Act
-        var response = await Client.PostAsJsonAsync($"{BaseUrl}/CreateSample", sample);
+        var response = await AppHttpClient.PostAsJsonAsync($"{BaseUrl}/CreateSample", sample);
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -61,7 +66,7 @@ public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
         var sampleId = Guid.NewGuid();
 
         // Act
-        var response = await Client.DeleteAsync($"{BaseUrl}/DeleteSample?id={sampleId}");
+        var response = await AppHttpClient.DeleteAsync($"{BaseUrl}/DeleteSample?id={sampleId}");
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -74,7 +79,7 @@ public sealed class SampleControllerEndpointTests : ApiEndpointsTestFixture
         var nonExistentSampleId = Guid.NewGuid();
 
         // Act
-        var response = await Client.DeleteAsync($"{BaseUrl}/DeleteSample?id={nonExistentSampleId}");
+        var response = await AppHttpClient.DeleteAsync($"{BaseUrl}/DeleteSample?id={nonExistentSampleId}");
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));

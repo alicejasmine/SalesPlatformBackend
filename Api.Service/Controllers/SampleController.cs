@@ -18,7 +18,7 @@ public class SampleController : ControllerBase
         _sampleService = sampleService;
     }
 
-    [HttpGet("/GetSample")]
+    [HttpGet("GetSample")]
     public async Task<ActionResult<SampleModel>> Get(Guid id)
     {
         var sample = await _sampleService.GetSampleByIdAsync(id);
@@ -34,7 +34,7 @@ public class SampleController : ControllerBase
         return new ActionResult<ImmutableHashSet<SampleDto>>(samples.ToImmutableHashSet());
     }
 
-    [HttpPost("/CreateSample")]
+    [HttpPost("CreateSample")]
     public async Task<ActionResult> Create([FromBody] SampleDto model)
     {
         if (!ModelState.IsValid)
