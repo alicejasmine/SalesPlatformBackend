@@ -3,7 +3,7 @@
     branches:
       - main
       - master
-      - dev-branch
+      - Dev
   workflow_dispatch:
 jobs:
   ApiTests:
