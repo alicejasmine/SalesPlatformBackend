@@ -14,13 +14,11 @@ public class Program
                               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
                               .AddEnvironmentVariables();
 
-        string connectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
-
-        builder.Services.AddDbContext<SalesPlatformDbContext>(options =>
-            options.UseSqlServer(connectionString));
-
         builder.Services.AddServices();
         builder.Services.AddRepositories();
+ 
+        builder.Services.AddDbContext();
+         builder.Services.AddCosmosDb();
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

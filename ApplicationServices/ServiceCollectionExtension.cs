@@ -1,5 +1,6 @@
 ﻿using ApplicationServices.Sample;
 using Infrastructure;
+using Infrastructure.CosmosDb;
 using Infrastructure.Repositories.Usage;
 using Infrastructure.Repository.Sample;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,12 @@ public static class ServiceCollectionExtension
 
         services.AddDbContext<SalesPlatformDbContext>(options =>
             options.UseSqlServer(connectionString));
+        return services;
+    }
+    
+    public static IServiceCollection AddCosmosDb(this IServiceCollection services)
+    {
+        services.ConfigureCosmosDbContainer();
         return services;
     }
 }
