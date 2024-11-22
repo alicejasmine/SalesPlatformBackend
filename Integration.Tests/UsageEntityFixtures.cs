@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Umbraco.Cloud.Usage.Environment.Domain.ValueObject;
 
 namespace Integration.Tests;
 
@@ -6,11 +7,12 @@ public static class UsageEntityFixtures
 {
     private static readonly Guid DefaultEnvironmentId = Guid.Parse("3b95c098-21b4-4f8b-9f7c-6a435ed83931");
     private static readonly DateOnly DefaultDate = DateOnly.Parse("2024-01-01");
-    
+
+    public static readonly DocumentIdentifier DefaultDocumentIdentifier = new DocumentIdentifier(DefaultEnvironmentId, DefaultDate);
 
     public static UsageEntity DefaultUsage { get; } = new UsageEntity
     {
-        id = "d5476bbd-bd30-4f54-8a63-b1bc1a8e4bc2",
+        id = DefaultDocumentIdentifier.Value,
         PartitionKey = DefaultEnvironmentId,
         ProjectId = Guid.Parse("d5476bbd-bd30-4f54-8a63-b1bc1a8e4bc2"),
         EnvironmentId = DefaultEnvironmentId,
