@@ -23,6 +23,7 @@ public class UsageDocumentRepositoryTests : CosmosDbTestFixture
     public async Task CreateUsageDocument_DoesStoreUsageEntity_WhenSuccess()
     {
         //Arrange
+        var documentIdentifier = UsageEntityFixtures.DefaultDocumentIdentifier;
         var usageEntity = UsageEntityFixtures.DefaultUsage;
 
         //Act

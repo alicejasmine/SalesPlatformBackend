@@ -3,7 +3,7 @@ using Domain.ValueObject;
 
 namespace Integration.Tests;
 
-public static class UsageEntityFixtures
+public static class UsageEntityFixture
 {
     private static readonly Guid DefaultEnvironmentId = Guid.Parse("3b95c098-21b4-4f8b-9f7c-6a435ed83931");
     private static readonly DateOnly DefaultDate = DateOnly.Parse("2024-01-01");
