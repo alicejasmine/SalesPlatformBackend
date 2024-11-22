@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Umbraco.Cloud.Usage.Environment.Domain.ValueObject;
+using Domain.ValueObject;
 
 namespace Integration.Tests;
 

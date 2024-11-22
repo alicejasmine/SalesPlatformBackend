@@ -1,4 +1,5 @@
 ﻿using ApplicationServices.Sample;
+using ApplicationServices.Seed;
 using Infrastructure;
 using Infrastructure.CosmosDb;
 using Infrastructure.Repositories.Usage;
@@ -14,12 +15,14 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<ISampleService, SampleService>();
         services.AddScoped<IUsageDocumentService, UsageDocumentService>();
+        services.AddScoped<ISeedService, SeedService>();
         
        return services;
     }
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<ISampleRepository, SampleRepository>();
+        services.AddScoped<IUsageDocumentRepository, UsageDocumentRepository>();
        
         return services;
     }
