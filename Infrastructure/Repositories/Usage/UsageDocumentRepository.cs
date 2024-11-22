@@ -6,19 +6,15 @@ namespace Infrastructure.Repositories.Usage;
 
 public class UsageDocumentRepository  : IUsageDocumentRepository
 {
-    private readonly CosmosClient _cosmosClient;
-    private readonly ILogger<UsageDocumentRepository> _logger;
-    private Container Container =>
-        _cosmosClient.GetContainer(Constants.CosmosDbProperties.DatabaseName, Constants.CosmosDbProperties.CollectionName);
-    public UsageDocumentRepository(CosmosClient cosmosClient, ILogger<UsageDocumentRepository> logger)
+    private readonly Container _container;
+    public UsageDocumentRepository(Container container)
     {
-        _cosmosClient = cosmosClient;
-        _logger = logger;
+        _container = container;
     }
     
     public async Task<UsageEntity> CreateUsageDocument(UsageEntity usageEntity)
     {
-        var createdEntity = await Container.CreateItemAsync(
+        var createdEntity = await _container.CreateItemAsync(
             usageEntity,
             new PartitionKey(usageEntity.PartitionKey.ToString())
         );
