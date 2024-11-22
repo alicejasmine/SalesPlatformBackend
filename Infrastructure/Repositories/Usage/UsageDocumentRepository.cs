@@ -1,4 +1,6 @@
-﻿using Domain.Entities;
+﻿using System.Net;
+using Domain;
+using Domain.Entities;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Logging;
 
@@ -24,4 +26,21 @@ public class UsageDocumentRepository  : IUsageDocumentRepository
         );
         return createdEntity.Resource;
     }
+    
+    public async Task<UsageEntity?> GetUsageEntity(DocumentIdentifier documentIdentifier)
+    {
+        try
+        {
+            var response = await Container.ReadItemAsync<UsageEntity>(
+                documentIdentifier.Value,
+                new PartitionKey(documentIdentifier.EnvironmentId.ToString())
+            );
+            return response.Resource;
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+    }
+
 }

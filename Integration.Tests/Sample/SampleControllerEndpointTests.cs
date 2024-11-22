@@ -6,12 +6,13 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
 using System.Net;
 using System.Net.Http.Json;
+using Api.Service.Usage;
 using Test.Fixtures.Sample;
 
 namespace Integration.Tests.Sample;
 
 [TestFixture]
-[TestOf(typeof(SampleController))]
+[TestOf(typeof(GetMonthlyUsageEndpoint))]
 internal sealed class SampleControllerEndpointTests : BaseEndpointTests
 {
     private const string BaseUrl = "https://localhost:7065";

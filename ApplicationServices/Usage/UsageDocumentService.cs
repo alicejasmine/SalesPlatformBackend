@@ -1,7 +1,9 @@
-﻿using Infrastructure.Repositories.Usage;
+﻿using Domain;
+using Domain.Entities;
+using Infrastructure.Repositories.Usage;
 using Microsoft.Extensions.Logging;
 
-namespace ApplicationServices;
+namespace ApplicationServices.Usage;
 
 public class UsageDocumentService: IUsageDocumentService
 {
@@ -12,5 +14,14 @@ public class UsageDocumentService: IUsageDocumentService
     {
         _usageDocumentRepository = usageDocumentRepository;
         _logger = logger;
+    }
+
+    public async Task<UsageEntity?> GetUsageEntity(Guid environmentId, int month, int year)
+    
+    {
+        var date = new DateOnly(year, month, 1);
+        var documentIdentifier = new DocumentIdentifier(environmentId, date);
+        
+        return await _usageDocumentRepository.GetUsageEntity(documentIdentifier);
     }
 }
