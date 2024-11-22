@@ -1,6 +1,6 @@
 ﻿using Domain.Entities;
 
-namespace ApplicationServices;
+namespace ApplicationServices.Usage;
 
 public interface IUsageDocumentService
 {
