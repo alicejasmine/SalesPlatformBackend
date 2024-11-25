@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Api.Service.Usage;
-public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthlyUsageRequestDto>.WithActionResult<UsageTotalUsageResponse>
+public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthlyUsageRequestDto>.WithActionResult<TotalUsageResponse>
 {
     private readonly IUsageDocumentService _usageDocumentService;
 
@@ -17,7 +17,7 @@ public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthl
     }
 
     [HttpGet("GetSixMonthsUsage")]
-    [ProducesResponseType(typeof(UsageTotalUsageResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(TotalUsageResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Get Six Months Usage",
@@ -25,7 +25,7 @@ public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthl
         OperationId = "GetSixMonthsUsage")
         ]
 
-    public override async Task<ActionResult<UsageTotalUsageResponse>> HandleAsync([FromQuery] GetMonthlyUsageRequestDto dto, CancellationToken cancellationToken = new())
+    public override async Task<ActionResult<TotalUsageResponse>> HandleAsync([FromQuery] GetMonthlyUsageRequestDto dto, CancellationToken cancellationToken = new())
     {
         var usageData = await _usageDocumentService.GetUsageEntities(dto.EnvironmentId, dto.Month, dto.Year, 6);
 
@@ -37,9 +37,15 @@ public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthl
                 statusCode: StatusCodes.Status404NotFound);
         }
 
-        var totalBandwidth = usageData.Sum(u => u.TotalMonthlyBandwidth);
-        var totalMedia = usageData.Sum(u => u.TotalMonthlyMedia);
+        var totalDurationBandwidth = usageData.Select(u => u.TotalMonthlyBandwidth).ToList();
+        var totalDurationMedia = usageData.Select(u => u.TotalMonthlyMedia).ToList();
 
-        return new ActionResult<UsageTotalUsageResponse>(UsageMapper.MapTotalUsageEntityToResponse(totalBandwidth, totalMedia));
+        var response = new TotalUsageResponse
+        {
+            TotalDurationBandwidth = totalDurationBandwidth,
+            TotalDurationMedia = totalDurationMedia
+        };
+
+        return Ok(response);
     }
 }

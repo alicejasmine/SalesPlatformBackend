@@ -27,13 +27,4 @@ internal static class UsageMapper
             }).ToList()
         };
     }
-
-    internal static UsageTotalUsageResponse MapTotalUsageEntityToResponse(long totalBandwidth, long totalMedia)
-    {
-        return new UsageTotalUsageResponse
-        {
-            TotalDurationBandwidth = totalBandwidth,
-            TotalDurationMedia= totalMedia,
-        };
-    }
 }
