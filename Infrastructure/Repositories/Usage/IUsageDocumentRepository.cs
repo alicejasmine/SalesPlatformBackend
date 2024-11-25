@@ -2,5 +2,5 @@
 
 public interface IUsageDocumentRepository
 {
-    
+    Task SeedUsageDocument(Guid projectId, Guid environmentId);
 }
