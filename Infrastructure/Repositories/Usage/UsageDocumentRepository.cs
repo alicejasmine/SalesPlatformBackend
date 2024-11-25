@@ -2,7 +2,6 @@
 using Domain;
 using Domain.Entities;
 using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Repositories.Usage;
 
