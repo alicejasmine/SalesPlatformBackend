@@ -34,6 +34,7 @@
       <ProjectReference Include="..\ApplicationServices\ApplicationServices.csproj" />
       <ProjectReference Include="..\Domain\Domain.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\Test.Fixtures\TestFixtures.csproj" />
     </ItemGroup>
 
 </Project>

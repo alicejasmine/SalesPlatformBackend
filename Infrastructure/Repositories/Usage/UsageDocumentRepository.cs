@@ -1,7 +1,7 @@
-﻿using Domain.Entities;
+﻿using System.Net;
 using Domain.ValueObject;
+using Domain.Entities;
 using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Repositories.Usage;
 
@@ -21,6 +21,23 @@ public class UsageDocumentRepository : IUsageDocumentRepository
         );
         return createdEntity.Resource;
     }
+    
+    public async Task<UsageEntity?> GetUsageEntity(DocumentIdentifier documentIdentifier)
+    {
+        try
+        {
+            var response = await _container.ReadItemAsync<UsageEntity>(
+                documentIdentifier.Value,
+                new PartitionKey(documentIdentifier.EnvironmentId.ToString())
+            );
+            return response.Resource;
+        }
+        catch (CosmosException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+        {
+            return null;
+        }
+    }
+
 
     #region seed data
     public async Task SeedUsageDocument(Guid projectId, Guid environmentId)
@@ -65,7 +82,6 @@ public class UsageDocumentRepository : IUsageDocumentRepository
                 usageEntity.TotalMonthlyBandwidth += dailyUsageEntity.Bandwidth.TotalBytes;
                 usageEntity.TotalMonthlyMedia += dailyUsageEntity.MediaSizeInBytes;
             }
-            //save usage entity to cosmo
 
             await CreateUsageDocument(usageEntity);
         }
