@@ -3,26 +3,22 @@ using Infrastructure.Repositories.Usage;
 using Moq;
 using Microsoft.Extensions.Logging;
 using Domain.ValueObject;
-using Integration.Tests;
 using Domain.Entities;
 
 namespace Tests.Services;
-public class UsageServiceTests
+public class UsageDocumentServiceTests
 {
     private UsageDocumentService _usageDocumentService;
     private Mock<IUsageDocumentRepository> _usageDocumentRepository;
-    private Mock<ILogger<UsageDocumentService>> _loggerMock;
 
 
     [SetUp]
     public void Setup()
     {
         _usageDocumentRepository = new Mock<IUsageDocumentRepository>();
-        _loggerMock = new Mock<ILogger<UsageDocumentService>>();
 
         _usageDocumentService = new UsageDocumentService(
-            _usageDocumentRepository.Object,
-            _loggerMock.Object
+            _usageDocumentRepository.Object
         );
     }
 
@@ -49,7 +45,7 @@ public class UsageServiceTests
         }
 
         // Act
-        var result = await _usageDocumentService.GetUsageEntities(environmentID, baseDate.Month, baseDate.Year, monthsToTake);
+        var result = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(environmentID, baseDate.Month, baseDate.Year, monthsToTake);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -71,7 +67,7 @@ public class UsageServiceTests
             .ReturnsAsync((UsageEntity?)null);
 
         // Act
-        var result = await _usageDocumentService.GetUsageEntities(environmentID, baseDate.Month, baseDate.Year, monthsToTake);
+        var result = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(environmentID, baseDate.Month, baseDate.Year, monthsToTake);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -104,7 +100,7 @@ public class UsageServiceTests
             .ReturnsAsync((UsageEntity?)null);
 
         // Act
-        var result = await _usageDocumentService.GetUsageEntities(environmentID, baseDate.Month, baseDate.Year, monthsToTake);
+        var result = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(environmentID, baseDate.Month, baseDate.Year, monthsToTake);
 
         // Assert
         Assert.That(result, Is.Not.Null);

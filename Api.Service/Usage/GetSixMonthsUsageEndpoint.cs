@@ -27,7 +27,7 @@ public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthl
 
     public override async Task<ActionResult<TotalUsageResponse>> HandleAsync([FromQuery] GetMonthlyUsageRequestDto dto, CancellationToken cancellationToken = new())
     {
-        var usageData = await _usageDocumentService.GetUsageEntities(dto.EnvironmentId, dto.Month, dto.Year, 6);
+        var usageData = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(dto.EnvironmentId, dto.Month, dto.Year, 6);
 
         if (usageData == null || !usageData.Any())
         {

@@ -8,12 +8,10 @@ namespace ApplicationServices.Usage;
 public class UsageDocumentService: IUsageDocumentService
 {
     private readonly IUsageDocumentRepository _usageDocumentRepository;
-    private readonly ILogger<UsageDocumentService> _logger;
     
-    public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository, ILogger<UsageDocumentService> logger)
+    public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository)
     {
         _usageDocumentRepository = usageDocumentRepository;
-        _logger = logger;
     }
 
     public async Task<UsageEntity?> GetUsageEntity(Guid environmentId, int month, int year)
@@ -24,7 +22,7 @@ public class UsageDocumentService: IUsageDocumentService
         return await _usageDocumentRepository.GetUsageEntity(documentIdentifier);
     }
 
-    public async Task<IEnumerable<UsageEntity>> GetUsageEntities(Guid environmentId, int month, int year, int monthsToTake)
+    public async Task<IEnumerable<UsageEntity>> GetUsageEntitiesForMultipleMonths(Guid environmentId, int month, int year, int monthsToTake)
     {
         var usageData = new List<UsageEntity>();
 
