@@ -1,5 +1,5 @@
 ﻿using ApplicationServices.Sample;
-using ApplicationServices.SeedService;
+using ApplicationServices.Seed;
 using Infrastructure;
 using Infrastructure.CosmosDb;
 using Infrastructure.Repositories.Usage;

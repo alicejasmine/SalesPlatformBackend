@@ -1,9 +1,8 @@
 ﻿using Infrastructure.Repositories.Usage;
-using Microsoft.Extensions.Logging;
 
-namespace ApplicationServices.SeedService;
+namespace ApplicationServices.Seed;
 
-public class SeedService: ISeedService
+public class SeedService : ISeedService
 {
     private readonly IUsageDocumentRepository _usageDocumentRepository;
     //private readonly ICreditService _creditRepository;

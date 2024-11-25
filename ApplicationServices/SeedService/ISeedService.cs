@@ -1,4 +1,4 @@
-﻿namespace ApplicationServices.SeedService;
+﻿namespace ApplicationServices.Seed;
 
 public interface ISeedService
 {
