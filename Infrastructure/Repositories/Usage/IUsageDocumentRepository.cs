@@ -1,4 +1,4 @@
-﻿using Domain;
+﻿using Domain.ValueObject;
 using Domain.Entities;
 
 namespace Infrastructure.Repositories.Usage;

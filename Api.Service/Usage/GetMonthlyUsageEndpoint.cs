@@ -1,6 +1,6 @@
 ﻿using Api.Service.Controllers;
 using Api.Service.DTOs;
-using ApplicationServices;
+using ApplicationServices.Usage;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

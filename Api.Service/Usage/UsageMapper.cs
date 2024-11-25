@@ -1,4 +1,5 @@
 ﻿using Api.Service.DTOs;
+using Api.Service.Usage.DTOs;
 using Domain.Entities;
 
 namespace Api.Service.Controllers;
@@ -24,6 +25,15 @@ internal static class UsageMapper
                 },
                 MediaSizeInBytes = d.Value.MediaSizeInBytes
             }).ToList()
+        };
+    }
+
+    internal static UsageTotalUsageResponse MapTotalUsageEntityToResponse(long totalBandwidth, long totalMedia)
+    {
+        return new UsageTotalUsageResponse
+        {
+            TotalDurationBandwidth = totalBandwidth,
+            TotalDurationMedia= totalMedia,
         };
     }
 }

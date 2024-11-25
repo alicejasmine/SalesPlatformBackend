@@ -5,6 +5,7 @@ using Infrastructure.CosmosDb;
 using Infrastructure.Repositories.Usage;
 using Infrastructure.Repository.Sample;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ApplicationServices;
@@ -34,9 +35,9 @@ public static class ServiceCollectionExtension
         return services;
     }
     
-    public static IServiceCollection AddCosmosDb(this IServiceCollection services)
+    public static IServiceCollection AddCosmosDb(this IServiceCollection services, IConfiguration configuration)
     {
-        services.ConfigureCosmosDbContainer();
+        services.ConfigureCosmosDbContainer(configuration);
         return services;
     }
 }

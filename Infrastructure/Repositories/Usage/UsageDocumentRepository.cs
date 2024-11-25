@@ -1,12 +1,11 @@
 ﻿using System.Net;
-using Domain;
+using Domain.ValueObject;
 using Domain.Entities;
 using Microsoft.Azure.Cosmos;
-using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.Repositories.Usage;
 
-public class UsageDocumentRepository  : IUsageDocumentRepository
+public class UsageDocumentRepository : IUsageDocumentRepository
 {
     private readonly Container _container;
     public UsageDocumentRepository(Container container)
@@ -27,7 +26,7 @@ public class UsageDocumentRepository  : IUsageDocumentRepository
     {
         try
         {
-            var response = await Container.ReadItemAsync<UsageEntity>(
+            var response = await _container.ReadItemAsync<UsageEntity>(
                 documentIdentifier.Value,
                 new PartitionKey(documentIdentifier.EnvironmentId.ToString())
             );
