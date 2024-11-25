@@ -1,9 +1,9 @@
 ﻿using ApplicationServices.Usage;
 using Infrastructure.Repositories.Usage;
 using Moq;
-using Microsoft.Extensions.Logging;
 using Domain.ValueObject;
 using Domain.Entities;
+using Integration.Tests;
 
 namespace Tests.Services;
 public class UsageDocumentServiceTests
@@ -108,4 +108,96 @@ public class UsageDocumentServiceTests
         Assert.That(result.Sum(u => u.TotalMonthlyBandwidth), Is.EqualTo(220));
         Assert.That(result.Sum(u => u.TotalMonthlyMedia), Is.EqualTo(420));
     }
+    
+    
+    [Test]
+    public async Task GetUsageEntity_ReturnsUsageEntity_WhenFound()
+    {
+        // Arrange
+        var environmentId = UsageEntityFixture.DefaultDocumentIdentifier.EnvironmentId;
+        var usageEntity = UsageEntityFixture.DefaultUsage;
+        var date = new DateOnly(2024, 11, 1);
+        
+        _usageDocumentRepository
+            .Setup(x => x.GetUsageEntity(It.Is<DocumentIdentifier>(d => d.EnvironmentId == usageEntity.EnvironmentId)))
+            .ReturnsAsync(usageEntity);
+
+        // Act
+        var result = await _usageDocumentService.GetUsageEntity(environmentId, date.Month, date.Year);
+        
+      
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result!.EnvironmentId, Is.EqualTo(usageEntity.EnvironmentId));
+        Assert.That(result.ProjectId, Is.EqualTo(usageEntity.ProjectId));
+        Assert.That(result.TotalMonthlyBandwidth, Is.EqualTo(usageEntity.TotalMonthlyBandwidth));
+        Assert.That(result.TotalMonthlyMedia, Is.EqualTo(usageEntity.TotalMonthlyMedia));
+        Assert.That(result.Days.Count, Is.EqualTo(usageEntity.Days.Count));
+        
+        foreach (var (key, value) in usageEntity.Days)
+        {
+            Assert.That(result.Days.ContainsKey(key), $"Result is missing day: {key}");
+            var actualDailyUsage = result.Days[key];
+            
+            Assert.That(actualDailyUsage.MediaSizeInBytes, Is.EqualTo(value.MediaSizeInBytes), $"Mismatch in MediaSizeInBytes for day: {key}");
+            Assert.That(actualDailyUsage.Bandwidth.TotalBytes, Is.EqualTo(value.Bandwidth.TotalBytes), $"Mismatch in Bandwidth.TotalBytes for day: {key}");
+            Assert.That(actualDailyUsage.Bandwidth.RequestCount, Is.EqualTo(value.Bandwidth.RequestCount), $"Mismatch in Bandwidth.RequestCount for day: {key}");
+        }
+    }
+    
+    [Test]
+    public async Task GetUsageEntity_ReturnsNull_WhenNotFound()
+    {
+        // Arrange
+        var environmentId = UsageEntityFixture.DefaultDocumentIdentifier.EnvironmentId;
+        var date = new DateOnly(2024, 11, 1);
+
+        _usageDocumentRepository
+            .Setup(x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()))
+            .ReturnsAsync((UsageEntity?)null); // Simulate not found
+
+        // Act
+        var result = await _usageDocumentService.GetUsageEntity(environmentId, date.Month, date.Year);
+
+        // Assert
+        Assert.That(result, Is.Null);
+        _usageDocumentRepository.Verify(
+            x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()),
+            Times.Once, "Repository method was not called."
+        );
+    }
+
+    [Test]
+    public async Task GetUsageEntity_ReturnsUsageEntity_WithNoData_WhenNoDataIsAvailable()
+    {
+        // Arrange
+        var environmentId = UsageEntityFixture.DefaultDocumentIdentifier.EnvironmentId;
+        var date = new DateOnly(2024, 11, 1);
+
+        var emptyUsageEntity = new UsageEntity
+        {
+            EnvironmentId = Guid.Empty,
+            DocumentCreationDate = date,
+            ProjectId = Guid.Empty,
+            TotalMonthlyBandwidth = 0
+        };
+
+        _usageDocumentRepository
+            .Setup(x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()))
+            .ReturnsAsync(emptyUsageEntity);
+
+        // Act
+        var result = await _usageDocumentService.GetUsageEntity(environmentId, date.Month, date.Year);
+
+        // Assert
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result!.EnvironmentId, Is.EqualTo(Guid.Empty));
+        Assert.That(result.ProjectId, Is.EqualTo(Guid.Empty));
+        Assert.That(result.TotalMonthlyBandwidth, Is.EqualTo(0));
+        _usageDocumentRepository.Verify(
+            x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()),
+            Times.Once, "Repository method was not called."
+        );
+    }
+
 }
