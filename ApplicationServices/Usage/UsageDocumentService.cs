@@ -1,5 +1,5 @@
-﻿using Domain;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.ValueObject;
 using Infrastructure.Repositories.Usage;
 using Microsoft.Extensions.Logging;
 

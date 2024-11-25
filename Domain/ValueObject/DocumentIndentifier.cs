@@ -1,4 +1,4 @@
-﻿using System;
+﻿
 
 namespace Domain.ValueObject;
 public readonly record struct DocumentIdentifier(Guid EnvironmentId, DateOnly Date)
