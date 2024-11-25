@@ -35,7 +35,7 @@ public class GetMonthlyUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthlyU
         {
             return Problem(
                 title: "Usage data could not be found for the selected date",
-                detail: $"Could not find usage data with environmentId {dto.EnvironmentId} for the month {dto.Year} and year {dto.Year}",
+                detail: $"Could not find usage data with environmentId {dto.EnvironmentId} for the month {dto.Month} and year {dto.Year}",
                 statusCode: 404
             ); 
         }
