@@ -1,7 +1,6 @@
 ﻿using Domain.Entities;
 using Infrastructure.Repositories.Usage;
 
-
 namespace Integration.Tests.CosmosDb;
 
 public class UsageDocumentRepositoryTests : CosmosDbTestFixture
