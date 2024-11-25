@@ -21,7 +21,7 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped<ISampleRepository, SampleRepository>();
-       
+        services.AddScoped<IUsageDocumentRepository, UsageDocumentRepository>();
         return services;
     }
     public static IServiceCollection AddDbContext(this IServiceCollection services)

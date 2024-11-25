@@ -16,9 +16,9 @@ public class Program
 
         builder.Services.AddServices();
         builder.Services.AddRepositories();
- 
+
         builder.Services.AddDbContext();
-         builder.Services.AddCosmosDb();
+        builder.Services.AddCosmosDb();
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

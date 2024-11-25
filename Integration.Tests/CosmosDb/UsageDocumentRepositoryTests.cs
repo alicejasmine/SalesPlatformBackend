@@ -1,20 +1,17 @@
 ﻿using Domain.Entities;
 using Infrastructure.Repositories.Usage;
-using Microsoft.Extensions.Logging;
-using Moq;
+
 
 namespace Integration.Tests.CosmosDb;
 
 public class UsageDocumentRepositoryTests : CosmosDbTestFixture
 {
     private UsageDocumentRepository _usageDocumentRepository;
-    private Mock<ILogger<UsageDocumentRepository>> _loggerMock;
 
     [SetUp]
     public override Task DoSetup()
     {
-        _loggerMock = new Mock<ILogger<UsageDocumentRepository>>();
-        _usageDocumentRepository = new UsageDocumentRepository(CosmosDbClient, _loggerMock.Object);
+        _usageDocumentRepository = new UsageDocumentRepository(UsageTestContainer);
         
         return Task.CompletedTask;
     }

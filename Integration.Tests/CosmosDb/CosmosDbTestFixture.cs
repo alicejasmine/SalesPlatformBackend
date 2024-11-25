@@ -55,7 +55,7 @@ public abstract class CosmosDbTestFixture
     private async Task ConfigureTestDatabase()
     {
         var databaseResponse = await CosmosDbClient.CreateDatabaseIfNotExistsAsync(Constants.CosmosDbProperties.TestDatabaseName, 1000);
-        var containerProperties = new ContainerProperties(Constants.CosmosDbProperties.CollectionName, Constants.CosmosDbProperties.PartitionKeyPath);
+        var containerProperties = new ContainerProperties(Constants.CosmosDbProperties.TestCollectionName, Constants.CosmosDbProperties.PartitionKeyPath);
         await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerProperties);
     }
     
