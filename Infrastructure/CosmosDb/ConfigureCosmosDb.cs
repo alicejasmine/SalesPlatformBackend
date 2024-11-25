@@ -18,14 +18,14 @@ public static class ConfigureCosmosDb
             throw new InvalidOperationException("CosmosDbServiceAuthKey is not set in the configuration");
 
         var cosmosClient = new CosmosClient(endpoint, authKey);
-            
-        var response = cosmosClient.CreateDatabaseIfNotExistsAsync(Constants.CosmosDbProperties.DatabaseName).GetAwaiter().GetResult();
-        response.Database.CreateContainerIfNotExistsAsync(
-                new ContainerProperties(Constants.CosmosDbProperties.CollectionName, Constants.CosmosDbProperties.PartitionKeyPath))
-            .GetAwaiter().GetResult();
-            
+        
+        var databaseResponse = cosmosClient.CreateDatabaseIfNotExistsAsync(Constants.CosmosDbProperties.DatabaseName).GetAwaiter().GetResult();
+        var containerResponse = databaseResponse.Database.CreateContainerIfNotExistsAsync(
+            new ContainerProperties(Constants.CosmosDbProperties.CollectionName, Constants.CosmosDbProperties.PartitionKeyPath)
+        ).GetAwaiter().GetResult();
+        
+        services.AddSingleton(containerResponse.Container);
         services.AddSingleton(cosmosClient);
-
         return services;
     }
 }
