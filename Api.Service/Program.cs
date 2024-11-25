@@ -1,6 +1,4 @@
 using ApplicationServices;
-using Infrastructure;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Service;
 
@@ -18,7 +16,7 @@ public class Program
         builder.Services.AddRepositories();
 
         builder.Services.AddDbContext();
-        builder.Services.AddCosmosDb();
+        builder.Services.AddCosmosDb(builder.Configuration);
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

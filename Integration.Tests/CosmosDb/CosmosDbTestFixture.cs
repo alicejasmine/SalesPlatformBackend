@@ -1,5 +1,6 @@
 ﻿using Infrastructure;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Configuration;
 
 namespace Integration.Tests.CosmosDb;
 
@@ -10,7 +11,8 @@ public abstract class CosmosDbTestFixture
     [SetUp]
     public async Task Setup()
     {
-        var cosmosConnection = GetCosmosDbConnection();
+        var configuration = GetConfiguration();
+        var cosmosConnection = GetCosmosDbConnection(configuration);
 
         CosmosDbClient = new CosmosClient(cosmosConnection.ConnectionString, new CosmosClientOptions
         {
@@ -35,12 +37,23 @@ public abstract class CosmosDbTestFixture
         CosmosDbClient.Dispose();
         CosmosDbClient = null;
     }
-    
-    private static (HttpClient client, string ConnectionString) GetCosmosDbConnection()
+
+    private static IConfiguration GetConfiguration()
     {
-        var endpoint = Environment.GetEnvironmentVariable("CosmosDbServiceEndpoint");
-        var authkey = Environment.GetEnvironmentVariable("CosmosDbServiceAuthKey");
-        
+        var configuration = new ConfigurationBuilder()
+            .AddEnvironmentVariables();
+
+        configuration.AddJsonFile("local.integrationTestsSettings.json", true);
+
+
+        return configuration.Build();
+    }
+
+    private static (HttpClient client, string ConnectionString) GetCosmosDbConnection(IConfiguration configuration)
+    {
+        var endpoint = configuration[Constants.CosmosDbProperties.CosmosDbServiceEndpoint];
+        var authkey = configuration[Constants.CosmosDbProperties.CosmosDbServiceAuthKey];
+
         if (string.IsNullOrEmpty(endpoint) || string.IsNullOrEmpty(authkey))
         {
             throw new InvalidOperationException("Cosmos DB connection details are missing in the configuration");
@@ -58,7 +71,7 @@ public abstract class CosmosDbTestFixture
         var containerProperties = new ContainerProperties(Constants.CosmosDbProperties.TestCollectionName, Constants.CosmosDbProperties.PartitionKeyPath);
         await databaseResponse.Database.CreateContainerIfNotExistsAsync(containerProperties);
     }
-    
+
     protected Container UsageTestContainer => CosmosDbClient.GetContainer(Constants.CosmosDbProperties.TestDatabaseName, Constants.CosmosDbProperties.TestCollectionName);
 
     public virtual Task DoSetup() { return Task.CompletedTask; }

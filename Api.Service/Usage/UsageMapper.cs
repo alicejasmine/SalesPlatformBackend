@@ -1,4 +1,5 @@
 ﻿using Api.Service.DTOs;
+using Api.Service.Usage.DTOs;
 using Domain.Entities;
 
 namespace Api.Service.Controllers;

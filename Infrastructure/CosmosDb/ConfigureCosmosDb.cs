@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Infrastructure.CosmosDb;
@@ -6,11 +7,11 @@ namespace Infrastructure.CosmosDb;
 public static class ConfigureCosmosDb
 {
     public static IServiceCollection ConfigureCosmosDbContainer(
-        this IServiceCollection services)
+        this IServiceCollection services, IConfiguration configuration)
     {
-        var endpoint = Environment.GetEnvironmentVariable("CosmosDbServiceEndpoint");
-        var authKey = Environment.GetEnvironmentVariable("CosmosDbServiceAuthKey");
-            
+        var endpoint = configuration["CosmosDbServiceEndpoint"];
+        var authKey = configuration["CosmosDbServiceAuthKey"];
+
         if (string.IsNullOrEmpty(endpoint))
             throw new InvalidOperationException("CosmosDbServiceEndpoint is not set in the configuration");
 
