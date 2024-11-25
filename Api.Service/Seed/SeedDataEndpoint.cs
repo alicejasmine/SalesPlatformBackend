@@ -1,4 +1,4 @@
-﻿using ApplicationServices.Seed;
+﻿using ApplicationServices.SeedService;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -14,13 +14,13 @@ namespace Api.Service.Seed
             _seedService = seedService;
         }
 
-        [HttpGet("GetMonthlyUsage")]
+        [HttpPut("SeedDataEndpoint")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
         [SwaggerOperation(
-            Summary = "Get Monthly Usage",
-            Description = "Get Monthly Usage by environment id and date",
-            OperationId = "GetMonthlyUsage")
+            Summary = "Add Test Data in the database",
+            Description = "Add Test Data in the database for testing locally",
+            OperationId = "SeedDataEndpoint")
             ]
         public override async Task<ActionResult> HandleAsync(CancellationToken cancellationToken = new CancellationToken())
         {

@@ -13,13 +13,4 @@ public class UsageDocumentService: IUsageDocumentService
         _usageDocumentRepository = usageDocumentRepository;
         _logger = logger;
     }
-
-    public async Task SeedDatabasesWithData()
-    {
-        var projectId = Guid.NewGuid();
-        var environmentId = Guid.NewGuid();
-
-        //make usage table data
-        await _usageDocumentRepository.SeedUsageDocument(projectId, environmentId);
-    }
 }

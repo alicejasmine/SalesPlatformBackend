@@ -1,6 +1,7 @@
 ﻿using Infrastructure.Repositories.Usage;
+using Microsoft.Extensions.Logging;
 
-namespace ApplicationServices.Seed;
+namespace ApplicationServices.SeedService;
 
 public class SeedService: ISeedService
 {
