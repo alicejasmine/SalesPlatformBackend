@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices.JavaScript;
-using Domain.Entities;
-using Domain.ValueObject;
+﻿using Domain.Entities;
 using Infrastructure.Repositories.Usage;
 using Microsoft.Azure.Cosmos;
 
@@ -44,7 +42,7 @@ public class UsageDocumentRepositoryTests : CosmosDbTestFixture
     
         
     [Test]
-    public async Task GetUsageEntity_ReturnsUsageEntity_WhenSuccess()
+    public async Task GetUsageEntity_ReturnsUsageEntity_WhenFound()
     {
         //Arrange
         var documentIdentifier = UsageEntityFixture.DefaultDocumentIdentifier;
@@ -59,5 +57,18 @@ public class UsageDocumentRepositoryTests : CosmosDbTestFixture
         Assert.That(usages.Days.Count, Is.EqualTo(UsageEntityFixture.DefaultUsage.Days.Count));
         Assert.That(usages.id, Is.EqualTo(UsageEntityFixture.DefaultUsage.id));
         Assert.That(usages.PartitionKey, Is.EqualTo(UsageEntityFixture.DefaultUsage.PartitionKey));
+    }
+    
+    [Test]
+    public async Task GetUsageEntity_ReturnsNull_WhenNotFound()
+    {
+        //Arrange
+        var documentIdentifier = UsageEntityFixture.DefaultDocumentIdentifier;
+        
+        //Act
+        var usage = await _usageDocumentRepository.GetUsageEntity(documentIdentifier);
+        
+        //Assert
+        Assert.That(usage, Is.Null);
     }
 }
