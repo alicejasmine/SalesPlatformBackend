@@ -17,7 +17,7 @@ public class GetMonthlyUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthlyU
       
     }
 
-    [HttpGet("GetMonthlyUsage/{environmentId}/{year}/{month}")]
+    [HttpGet("Usage/GetMonthlyUsage/{environmentId}/{year}/{month}")]
     [ProducesResponseType(typeof(UsageResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
