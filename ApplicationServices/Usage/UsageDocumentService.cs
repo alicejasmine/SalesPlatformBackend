@@ -1,7 +1,6 @@
 ﻿using Domain.ValueObject;
 using Domain.Entities;
 using Infrastructure.Repositories.Usage;
-using Microsoft.Extensions.Logging;
 
 namespace ApplicationServices.Usage;
 

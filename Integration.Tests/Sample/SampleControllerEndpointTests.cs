@@ -1,8 +1,5 @@
-﻿using Api.Service.Controllers;
-using Domain.Sample;
-using Infrastructure;
+﻿using Domain.Sample;
 using Integration.Tests.Library;
-using Microsoft.EntityFrameworkCore;
 using System.Collections.Immutable;
 using System.Net;
 using System.Net.Http.Json;
