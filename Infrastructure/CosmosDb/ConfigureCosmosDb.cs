@@ -8,8 +8,6 @@ public static class ConfigureCosmosDb
     public static IServiceCollection ConfigureCosmosDbContainer(
         this IServiceCollection services)
     {
-        Environment.SetEnvironmentVariable("CosmosDbServiceEndpoint", "https://localhost:8081");
-        Environment.SetEnvironmentVariable("CosmosDbServiceAuthKey", "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==");
         var endpoint = Environment.GetEnvironmentVariable("CosmosDbServiceEndpoint");
         var authKey = Environment.GetEnvironmentVariable("CosmosDbServiceAuthKey");
             

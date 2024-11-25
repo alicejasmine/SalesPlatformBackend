@@ -15,13 +15,18 @@ public class SeedService: ISeedService
 
     public async Task SeedDatabasesWithData()
     {
-        //for loop for every project
-        var projectId = Guid.NewGuid();
-        var environmentId = Guid.NewGuid();
+        var numberOfSeedData = 5;
 
-        //make project table data
-        //make usage table data
-        await _usageDocumentRepository.SeedUsageDocument(projectId, environmentId);
-        //make credit table
+        for (var i = 0; i < numberOfSeedData; i++)
+        {
+            var projectId = Guid.NewGuid();
+            var environmentId = Guid.NewGuid();
+
+            //make project table data
+                //take the generated project id, environment id, and project alias
+            //make usage table data
+            await _usageDocumentRepository.SeedUsageDocument(projectId, environmentId);
+            //make credit table
+        }
     }
 }
