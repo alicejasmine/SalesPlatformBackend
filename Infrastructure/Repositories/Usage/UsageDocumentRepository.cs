@@ -27,7 +27,7 @@ public class UsageDocumentRepository  : IUsageDocumentRepository
     {
         try
         {
-            var response = await Container.ReadItemAsync<UsageEntity>(
+            var response = await _container.ReadItemAsync<UsageEntity>(
                 documentIdentifier.Value,
                 new PartitionKey(documentIdentifier.EnvironmentId.ToString())
             );
