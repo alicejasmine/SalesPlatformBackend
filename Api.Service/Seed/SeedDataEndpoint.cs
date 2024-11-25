@@ -1,4 +1,4 @@
-﻿using ApplicationServices.SeedService;
+﻿using ApplicationServices.Seed;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

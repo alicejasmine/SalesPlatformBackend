@@ -38,25 +38,4 @@ public class UsageDocumentRepositoryTests : CosmosDbTestFixture
         Assert.That(storedUsageEntity.TotalMonthlyBandwidth, Is.EqualTo(UsageEntityFixtures.DefaultUsage.TotalMonthlyBandwidth));
         Assert.That(storedUsageEntity.id, Is.EqualTo(UsageEntityFixtures.DefaultUsage.id));
     }
-
-    [Test]
-    public async Task CreateSeedDataDocuments_DoesStoreUsageEntities_WhenSuccess()
-    {
-        //Arrange
-        var projectId = UsageEntityFixtures.DefaultUsage.ProjectId;
-        var environmentId = UsageEntityFixtures.DefaultUsage.EnvironmentId;
-
-        //Act
-        await _usageDocumentRepository.SeedUsageDocument(projectId, environmentId);
-
-        //Assert
-        var usages = UsageTestContainer.GetItemLinqQueryable<UsageEntity>(allowSynchronousQueryExecution: true).ToList();
-
-        Assert.That(usages, Is.Not.Null);
-        Assert.That(usages.Count, Is.EqualTo(24));
-
-        var storedUsageEntity = usages.First();
-        Assert.That(storedUsageEntity.ProjectId, Is.EqualTo(UsageEntityFixtures.DefaultUsage.ProjectId));
-        Assert.That(storedUsageEntity.EnvironmentId, Is.EqualTo(UsageEntityFixtures.DefaultUsage.EnvironmentId));
-    }
 }
