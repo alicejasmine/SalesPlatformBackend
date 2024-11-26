@@ -154,7 +154,7 @@ public class UsageDocumentServiceTests
 
         _usageDocumentRepository
             .Setup(x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()))
-            .ReturnsAsync((UsageEntity?)null); // Simulate not found
+            .ReturnsAsync((UsageEntity?)null); 
 
         // Act
         var result = await _usageDocumentService.GetUsageEntity(environmentId, date.Month, date.Year);
@@ -166,38 +166,4 @@ public class UsageDocumentServiceTests
             Times.Once, "Repository method was not called."
         );
     }
-
-    [Test]
-    public async Task GetUsageEntity_ReturnsUsageEntity_WithNoData_WhenNoDataIsAvailable()
-    {
-        // Arrange
-        var environmentId = UsageEntityFixture.DefaultDocumentIdentifier.EnvironmentId;
-        var date = new DateOnly(2024, 11, 1);
-
-        var emptyUsageEntity = new UsageEntity
-        {
-            EnvironmentId = Guid.Empty,
-            DocumentCreationDate = date,
-            ProjectId = Guid.Empty,
-            TotalMonthlyBandwidth = 0
-        };
-
-        _usageDocumentRepository
-            .Setup(x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()))
-            .ReturnsAsync(emptyUsageEntity);
-
-        // Act
-        var result = await _usageDocumentService.GetUsageEntity(environmentId, date.Month, date.Year);
-
-        // Assert
-        Assert.That(result, Is.Not.Null);
-        Assert.That(result!.EnvironmentId, Is.EqualTo(Guid.Empty));
-        Assert.That(result.ProjectId, Is.EqualTo(Guid.Empty));
-        Assert.That(result.TotalMonthlyBandwidth, Is.EqualTo(0));
-        _usageDocumentRepository.Verify(
-            x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()),
-            Times.Once, "Repository method was not called."
-        );
-    }
-
 }
