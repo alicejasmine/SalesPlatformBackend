@@ -17,7 +17,7 @@ public class GetMonthlyUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthlyU
         _usageDocumentService = usageDocumentService;
       
     }
-
+    
     [HttpGet("GetMonthlyUsage")]
     [ProducesResponseType(typeof(UsageResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]

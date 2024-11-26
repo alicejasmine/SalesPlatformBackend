@@ -2,7 +2,6 @@
 using Infrastructure.Repositories.Usage;
 using Microsoft.Azure.Cosmos;
 
-
 namespace Integration.Tests.CosmosDb;
 
 public class UsageDocumentRepositoryTests : CosmosDbTestFixture
