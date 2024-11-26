@@ -109,7 +109,6 @@ public class UsageDocumentServiceTests
         Assert.That(result.Sum(u => u.TotalMonthlyMedia), Is.EqualTo(420));
     }
     
-    
     [Test]
     public async Task GetUsageEntity_ReturnsUsageEntity_WhenFound()
     {

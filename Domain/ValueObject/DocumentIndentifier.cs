@@ -1,6 +1,5 @@
 namespace Domain.ValueObject;
 
-
 public readonly record struct DocumentIdentifier(Guid EnvironmentId, DateOnly Date)
 {
     public string Value { get; } = $"{EnvironmentId}-{Date.Year}-{Date.Month}";

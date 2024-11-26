@@ -39,7 +39,6 @@ public class UsageDocumentRepositoryTests : CosmosDbTestFixture
         Assert.That(storedUsageEntity.id, Is.EqualTo(UsageEntityFixtures.DefaultUsage.id));
     }
     
-        
     [Test]
     public async Task GetUsageEntity_ReturnsUsageEntity_WhenFound()
     {
