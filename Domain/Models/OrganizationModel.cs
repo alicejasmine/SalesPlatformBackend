@@ -4,12 +4,11 @@ namespace Domain.Models;
 
 public class OrganizationModel : BaseModel
 {
-    public OrganizationModel(Guid id, string alias, string displayName, string description, int totalCredits, PartnershipEnum partnership, ICollection<ProjectModel> projects, ICollection<PurchaseModel> purchases, ICollection<CreditHistoryModel> creditHistory, DateTime created, DateTime modified)
+    public OrganizationModel(Guid id, string alias, string displayName, int totalCredits, PartnershipEnum partnership, ICollection<ProjectModel> projects, ICollection<PurchaseModel> purchases, ICollection<CreditHistoryModel> creditHistory, DateTime created, DateTime modified)
         : base(id, created, modified)
     {
         Alias = alias;
         DisplayName = displayName;
-        Description = description;
         TotalCredits = totalCredits;
         Partnership = partnership;
         Projects = projects ?? new List<ProjectModel>();
@@ -19,7 +18,6 @@ public class OrganizationModel : BaseModel
 
     public string Alias { get; set; }
     public string DisplayName { get; set; }
-    public string Description { get; set; }
     public int TotalCredits { get; private set; }
     public PartnershipEnum Partnership { get; set; }
     public ICollection<ProjectModel> Projects { get; set; }

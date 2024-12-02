@@ -38,7 +38,6 @@ public class UsageDocumentRepository : IUsageDocumentRepository
         }
     }
 
-
     #region seed data
     public async Task SeedUsageDocument(Guid projectId, Guid environmentId)
     {
