@@ -2,12 +2,8 @@
 
 public class DailyUsageModel
 {
-    public BandwidthDataModel Bandwidth { get; set; }
+    public long BandwidthInBytes { get; set; }
+    public int ContentNodes { get; set; }
+    public int Hostnames { get; set; }
     public long MediaSizeInBytes { get; set; }
-}
-
-public class BandwidthDataModel
-{
-    public long TotalBytes { get; init; }
-    public int RequestCount { get; init; }
 }
