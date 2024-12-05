@@ -2,19 +2,19 @@
 
 public class ProjectModel : BaseModel
 {
-    public ProjectModel(Guid id, string displayName, string alias, DateTime created, DateTime modified, PlanModel plan, Guid organizationId)
+    public ProjectModel(Guid id, Guid environmentId, string alias, string displayName, Guid planId, Guid organizationId, DateTime created, DateTime modified)
             : base(id, created, modified)
     {
-        EnvironmentId = id;
+        EnvironmentId = environmentId;
         DisplayName = displayName;
         Alias = alias;
-        Plan = plan;
+        PlanId = planId;
         OrganizationId = organizationId;
     }
 
     public Guid EnvironmentId { get; set; }
-    public string DisplayName { get; set; }
     public string Alias { get; set; }
-    public PlanModel Plan { get; set; }
+    public string DisplayName { get; set; }
+    public Guid PlanId { get; set; }
     public Guid OrganizationId { get; set; }
 }
