@@ -7,14 +7,19 @@ namespace ApplicationServices.Usage;
 public class UsageDocumentService : IUsageDocumentService
 {
     private readonly IUsageDocumentRepository _usageDocumentRepository;
+    private readonly IUsageRepository _usageRepository;
+    
+    public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository, IUsageRepository usageRepository)
 
-    public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository)
     {
         _usageDocumentRepository = usageDocumentRepository;
+        _usageRepository = usageRepository;
     }
 
-    public async Task<UsageEntity?> GetUsageEntity(Guid environmentId, int month, int year)
+    public async Task<UsageEntity?> GetUsageEntity(string alias, int month, int year)
     {
+        var environmentId = await _usageRepository.GetEnvironmentIdByAlias(alias);
+        
         var date = new DateOnly(year, month, 1);
         var documentIdentifier = new DocumentIdentifier(environmentId, date);
 
