@@ -29,13 +29,13 @@ public class GetMonthlyUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthlyU
     
     public override async Task<ActionResult<UsageResponse>> HandleAsync([FromQuery] GetMonthlyUsageRequestDto dto, CancellationToken cancellationToken = new CancellationToken())
     {
-        var monthlyUsage = await _usageDocumentService.GetUsageEntity(dto.EnvironmentId, dto.Month, dto.Year);
+        var monthlyUsage = await _usageDocumentService.GetUsageEntity(dto.Alias, dto.Month, dto.Year);
 
         if (monthlyUsage == null)
         {
             return Problem(
                 title: "Usage data could not be found for the selected date",
-                detail: $"Could not find usage data with environmentId {dto.EnvironmentId} for the month {dto.Month} and year {dto.Year}",
+                detail: $"Could not find usage data with Alias {dto.Alias} for the month {dto.Month} and year {dto.Year}",
                 statusCode: 404
             ); 
         }
