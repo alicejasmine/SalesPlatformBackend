@@ -9,7 +9,6 @@ namespace Api.Service.Controllers;
 public class CreateSampleEndpoint : EndpointBaseAsync.WithRequest<SampleDto>.WithActionResult
 {
     private readonly ISampleService _sampleService;
-    private readonly ILogger<CreateSampleEndpoint> _logger;
 
     public CreateSampleEndpoint(ISampleService sampleService)
     {
