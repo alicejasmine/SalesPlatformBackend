@@ -5,7 +5,7 @@ using Domain.Sample;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Api.Service.Controllers;
+namespace Api.Service.Sample;
 
 public class GetAllSamplesEndpoint : EndpointBaseAsync.WithoutRequest.WithActionResult<ImmutableHashSet<SampleModel>>
 {

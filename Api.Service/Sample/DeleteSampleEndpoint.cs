@@ -3,7 +3,7 @@ using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
-namespace Api.Service.Controllers;
+namespace Api.Service.Sample;
 
 public class DeleteSampleEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActionResult
 {
