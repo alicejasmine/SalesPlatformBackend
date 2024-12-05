@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Api.Service.DTOs;
+namespace Api.Service.Usage.DTOs;
 
 public class GetMonthlyUsageRequestDto
 {

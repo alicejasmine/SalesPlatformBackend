@@ -16,7 +16,7 @@ public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthl
         _usageDocumentService = usageDocumentService;
     }
 
-    [HttpGet("GetSixMonthsUsage")]
+    [HttpGet("Usage/GetSixMonthsUsage")]
     [ProducesResponseType(typeof(TotalUsageResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
