@@ -14,12 +14,8 @@ public class UsageEntity
 
 public class DailyUsageEntity
 {
-    public BandwidthDataEntity Bandwidth { get; set; }
+    public long BandwidthInBytes { get; set; }
+    public int ContentNodes { get; set; }
+    public int Hostnames { get; set; }
     public long MediaSizeInBytes { get; set; }
-}
-
-public class BandwidthDataEntity
-{
-    public long TotalBytes { get; init; }
-    public int RequestCount { get; init; }
 }

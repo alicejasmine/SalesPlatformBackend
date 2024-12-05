@@ -70,16 +70,14 @@ public class UsageDocumentRepository : IUsageDocumentRepository
 
                 var dailyUsageEntity = new DailyUsageEntity
                 {
-                    Bandwidth = new BandwidthDataEntity
-                    {
-                        TotalBytes = random.NextInt64(0, 1073741824), // Random long between 0 and 1GB
-                        RequestCount = random.Next(0, 10000)           // Random int between 0 and 10000
-                    },
+                    BandwidthInBytes = 2048,
+                    ContentNodes = 23,
+                    Hostnames = 3,
                     MediaSizeInBytes = random.NextInt64(0, 1073741824) // Random long between 0 and 1GB
                 };
 
                 usageEntity.Days[dailyDate] = dailyUsageEntity;
-                usageEntity.TotalMonthlyBandwidth += dailyUsageEntity.Bandwidth.TotalBytes;
+                usageEntity.TotalMonthlyBandwidth += dailyUsageEntity.BandwidthInBytes;
                 usageEntity.TotalMonthlyMedia += dailyUsageEntity.MediaSizeInBytes;
             }
 
