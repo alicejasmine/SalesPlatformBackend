@@ -4,6 +4,7 @@ using Api.Service.Usage.DTOs;
 using ApplicationServices.Usage;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos.Linq;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace Api.Service.Usage;
@@ -20,20 +21,19 @@ public class GetYearWorthOfTotalDataEndpoint : EndpointBaseAsync
     }
 
     [HttpGet("Usage/GetYearWorthOfTotalData")]
-    [ProducesResponseType(typeof((long totalBandwidth, long totalMedia)), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(YearTotalUsageResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Get Year Worth Of Usage",
-        Description = "Get Year worth of usage data by id and date",
-        OperationId = "GetSixMonthGetYearWorthOfTotalDatasUsage")
+        Description = "Get Year worth of usage data by id",
+        OperationId = "GetYearWorthOfTotalDatasUsage")
         ]
-
     public override async Task<ActionResult<YearTotalUsageResponse>> HandleAsync([FromQuery] GetYearWorthOfTotalDataRequestDto requestDto, CancellationToken cancellationToken = new())
     {
         var currentDate = DateTime.UtcNow;
-        var usageData = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(requestDto.EnvironmentId, currentDate.Month, currentDate.Year, 12);
+        var usageData = await _usageDocumentService.GetYearOfUsageData(requestDto.EnvironmentId, requestDto.year);
 
-        if (usageData == null || !usageData.Any())
+        if (usageData.totalBandwidthInBytes == 0 && usageData.totalMediaInBytes == 0)
         {
             return Problem(
                 title: "Usage data not found",
@@ -41,13 +41,10 @@ public class GetYearWorthOfTotalDataEndpoint : EndpointBaseAsync
                 statusCode: StatusCodes.Status404NotFound);
         }
 
-        var totalBandwidth = usageData.Sum(u => u.TotalMonthlyBandwidth);
-        var totalMedia = usageData.Sum(u => u.TotalMonthlyMedia);
-
         var response = new YearTotalUsageResponse
         {
-            TotalBandwidth = totalBandwidth,
-            TotalMedia = totalMedia
+            TotalBandwidth = usageData.totalBandwidthInBytes,
+            TotalMedia = usageData.totalMediaInBytes
         };
 
         return Ok(response);

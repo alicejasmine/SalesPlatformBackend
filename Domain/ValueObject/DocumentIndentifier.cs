@@ -9,5 +9,10 @@ public readonly record struct DocumentIdentifier(Guid EnvironmentId, DateOnly Da
     {
     }
 
+    public DocumentIdentifier(Guid environmentId)
+        : this(environmentId, DateOnly.FromDateTime(DateTime.UtcNow))
+    {
+    }
+
     public override string ToString() => Value;
 }
