@@ -1,5 +1,6 @@
 ﻿using Api.Service.Controllers;
 using Api.Service.DTOs;
+using Api.Service.Usage.DTOs;
 using ApplicationServices.Usage;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
@@ -16,8 +17,8 @@ public class GetMonthlyUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthlyU
         _usageDocumentService = usageDocumentService;
       
     }
-
-    [HttpGet("Usage/GetMonthlyUsage/{environmentId}/{year}/{month}")]
+    
+    [HttpGet("GetMonthlyUsage")]
     [ProducesResponseType(typeof(UsageResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
@@ -26,14 +27,15 @@ public class GetMonthlyUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthlyU
         OperationId = "GetMonthlyUsage")
     ]
     
-    public override async Task<ActionResult<UsageResponse>> HandleAsync(GetMonthlyUsageRequestDto dto, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<UsageResponse>> HandleAsync([FromQuery] GetMonthlyUsageRequestDto dto, CancellationToken cancellationToken = new CancellationToken())
     {
         var monthlyUsage = await _usageDocumentService.GetUsageEntity(dto.EnvironmentId, dto.Month, dto.Year);
+
         if (monthlyUsage == null)
         {
             return Problem(
                 title: "Usage data could not be found for the selected date",
-                detail: $"Could not find usage data with environmentId {dto.EnvironmentId} for the month {dto.Year} and year {dto.Year}",
+                detail: $"Could not find usage data with environmentId {dto.EnvironmentId} for the month {dto.Month} and year {dto.Year}",
                 statusCode: 404
             ); 
         }
