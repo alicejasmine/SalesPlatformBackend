@@ -46,10 +46,11 @@ public class UsageDocumentService : IUsageDocumentService
         return usageData;
     }
 
-    public async Task<(long totalBandwidthInBytes, long totalMediaInBytes)> GetYearOfUsageData(Guid environmentId, int year)
+    public async Task<(long totalBandwidthInBytes, long totalMediaInBytes)> GetYearOfUsageData(string alias, int year)
     {
         var usageData = new List<UsageEntity>();
         var currentDate = DateTime.UtcNow;
+        var environmentId = await _usageRepository.GetEnvironmentIdByAlias(alias);
 
         for (var i = 0; i < 12; i++)
         {
