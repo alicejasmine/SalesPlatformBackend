@@ -4,10 +4,10 @@ using Infrastructure.Repositories.Usage;
 
 namespace ApplicationServices.Usage;
 
-public class UsageDocumentService: IUsageDocumentService
+public class UsageDocumentService : IUsageDocumentService
 {
     private readonly IUsageDocumentRepository _usageDocumentRepository;
-    
+
     public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository)
     {
         _usageDocumentRepository = usageDocumentRepository;
@@ -17,7 +17,7 @@ public class UsageDocumentService: IUsageDocumentService
     {
         var date = new DateOnly(year, month, 1);
         var documentIdentifier = new DocumentIdentifier(environmentId, date);
-        
+
         return await _usageDocumentRepository.GetUsageEntity(documentIdentifier);
     }
 
@@ -38,5 +38,28 @@ public class UsageDocumentService: IUsageDocumentService
         }
 
         return usageData;
+    }
+
+    public async Task<(long totalBandwidthInBytes, long totalMediaInBytes)> GetYearOfUsageData(Guid environmentId, int year)
+    {
+        var usageData = new List<UsageEntity>();
+        var currentDate = DateTime.UtcNow;
+
+        for (var i = 0; i < 12; i++)
+        {
+            var date = new DateOnly(year, currentDate.Month, 1).AddMonths(-i);
+            var documentIdentifier = new DocumentIdentifier(environmentId, date);
+
+            var usageEntity = await _usageDocumentRepository.GetUsageEntity(documentIdentifier);
+            if (usageEntity != null)
+            {
+                usageData.Add(usageEntity);
+            }
+        }
+
+        var totalBandwidthInBytes = usageData.Sum(u => u.TotalMonthlyBandwidth);
+        var totalMediaInBytes = usageData.Sum(u => u.TotalMonthlyMedia);
+
+        return (totalBandwidthInBytes, totalMediaInBytes);
     }
 }

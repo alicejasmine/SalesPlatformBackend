@@ -6,4 +6,5 @@ public interface IUsageDocumentService
 {
     Task<UsageEntity?> GetUsageEntity(Guid environmentId, int month, int year);
     Task<IEnumerable<UsageEntity>?> GetUsageEntitiesForMultipleMonths(Guid environmentId, int month, int year, int monthsToTake);
+    Task<(long totalBandwidthInBytes, long totalMediaInBytes)> GetYearOfUsageData(Guid environmentId, int year);
 }
