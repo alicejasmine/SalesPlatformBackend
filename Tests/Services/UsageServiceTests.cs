@@ -139,8 +139,9 @@ public class UsageDocumentServiceTests
             var actualDailyUsage = result.Days[key];
             
             Assert.That(actualDailyUsage.MediaSizeInBytes, Is.EqualTo(value.MediaSizeInBytes), $"Mismatch in MediaSizeInBytes for day: {key}");
-            Assert.That(actualDailyUsage.Bandwidth.TotalBytes, Is.EqualTo(value.Bandwidth.TotalBytes), $"Mismatch in Bandwidth.TotalBytes for day: {key}");
-            Assert.That(actualDailyUsage.Bandwidth.RequestCount, Is.EqualTo(value.Bandwidth.RequestCount), $"Mismatch in Bandwidth.RequestCount for day: {key}");
+            Assert.That(actualDailyUsage.BandwidthInBytes, Is.EqualTo(value.BandwidthInBytes), $"Mismatch in BandwidthInBytes for day: {key}");
+            Assert.That(actualDailyUsage.Hostnames, Is.EqualTo(value.Hostnames), $"Mismatch in Hostnames for day: {key}");
+            Assert.That(actualDailyUsage.ContentNodes, Is.EqualTo(value.ContentNodes), $"Mismatch in ContentNodes for day: {key}");
         }
     }
     
