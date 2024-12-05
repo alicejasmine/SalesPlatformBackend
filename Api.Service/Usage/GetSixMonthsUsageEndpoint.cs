@@ -27,13 +27,13 @@ public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthl
 
     public override async Task<ActionResult<TotalUsageResponse>> HandleAsync([FromQuery] GetMonthlyUsageRequestDto dto, CancellationToken cancellationToken = new())
     {
-        var usageData = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(dto.EnvironmentId, dto.Month, dto.Year, 6);
+        var usageData = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(dto.Alias, dto.Month, dto.Year, 6);
 
         if (usageData == null || !usageData.Any())
         {
             return Problem(
                 title: "Usage data not found",
-                detail: $"No usage data found for environmentId {dto.EnvironmentId} starting from {dto.Month}/{dto.Year}",
+                detail: $"No usage data found for alias {dto.Alias} starting from {dto.Month}/{dto.Year}",
                 statusCode: StatusCodes.Status404NotFound);
         }
 

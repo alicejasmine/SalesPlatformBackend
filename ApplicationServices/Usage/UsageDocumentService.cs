@@ -26,10 +26,11 @@ public class UsageDocumentService : IUsageDocumentService
         return await _usageDocumentRepository.GetUsageEntity(documentIdentifier);
     }
 
-    public async Task<IEnumerable<UsageEntity>> GetUsageEntitiesForMultipleMonths(Guid environmentId, int month, int year, int monthsToTake)
+    public async Task<IEnumerable<UsageEntity>?> GetUsageEntitiesForMultipleMonths(string alias, int month, int year, int monthsToTake)
     {
         var usageData = new List<UsageEntity>();
-
+        var environmentId = await _usageRepository.GetEnvironmentIdByAlias(alias);
+        
         for (var i = 0; i < monthsToTake; i++)
         {
             var date = new DateOnly(year, month, 1).AddMonths(-i);
