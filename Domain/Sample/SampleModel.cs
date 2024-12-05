@@ -1,4 +1,6 @@
-﻿namespace Domain.Sample
+﻿using Domain.Models;
+
+namespace Domain.Sample
 {
     public class SampleModel : BaseModel
     {
