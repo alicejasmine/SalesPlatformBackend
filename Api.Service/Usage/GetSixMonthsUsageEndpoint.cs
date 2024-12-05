@@ -21,7 +21,7 @@ public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthl
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Get Six Months Usage",
-        Description = "Get total bandwidth and media usage for the last 6 months by environment id and date",
+        Description = "Get total bandwidth and media usage for the last 6 months by alias and date",
         OperationId = "GetSixMonthsUsage")
         ]
 
