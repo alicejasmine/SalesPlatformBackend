@@ -1,8 +1,8 @@
 using System.Net;
 using Domain.ValueObject;
-using Domain.Entities;
 
 using Microsoft.Azure.Cosmos;
+using Domain.Entities;
 
 namespace Infrastructure.Repositories.Usage;
 

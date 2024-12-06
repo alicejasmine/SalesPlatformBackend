@@ -1,18 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Domain.Entities;
 
-namespace Infrastructure.Repository.Sample;
+namespace Domain.Sample;
 
 public class SampleEntity : BaseEntity
 {
-    [Required]  
+    [Required]
     [MaxLength(50)]
     public string Name { get; set; }
-   
-    [Required]  
+
+    [Required]
     [MaxLength(250)]
     public string Description { get; set; }
-    
-    [Required]  
+
+    [Required]
     public int Price { get; set; }
 
     public SampleEntity(Guid id, string name, string description, int price, DateTime created, DateTime modified) : base(id, created, modified)
@@ -23,5 +24,5 @@ public class SampleEntity : BaseEntity
         Created = created;
         Modified = modified;
     }
-    
+
 }

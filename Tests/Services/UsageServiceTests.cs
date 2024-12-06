@@ -2,6 +2,7 @@
 using Infrastructure.Repositories.Usage;
 using Moq;
 using Domain.ValueObject;
+using Integration.Tests;
 using Domain.Entities;
 using Test.Fixtures.Usage;
 

@@ -1,5 +1,4 @@
 ﻿using Domain.Sample;
-using System.Collections.Immutable;
 
 namespace Infrastructure.Repository.Sample;
 

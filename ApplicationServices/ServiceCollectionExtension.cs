@@ -8,6 +8,9 @@ using Infrastructure.Repository.Sample;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.Repositories.Project;
+using Infrastructure.Repositories.Organization;
+using Infrastructure.Repositories.Plan;
 
 namespace ApplicationServices;
 
@@ -25,6 +28,9 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<ISampleRepository, SampleRepository>();
         services.AddScoped<IUsageDocumentRepository, UsageDocumentRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IOrganizationRepository, OrganizationRepository>();
+        services.AddScoped<IPlanRepository, PlanRepository>();
         return services;
     }
     public static IServiceCollection AddDbContext(this IServiceCollection services)

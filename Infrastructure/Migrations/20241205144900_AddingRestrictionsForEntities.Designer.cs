@@ -4,6 +4,7 @@ using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(SalesPlatformDbContext))]
-    partial class SalesPlatformDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241205144900_AddingRestrictionsForEntities")]
+    partial class AddingRestrictionsForEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,6 +111,9 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid?>("OrganizationEntityId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uniqueidentifier");
 
@@ -116,7 +122,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OrganizationId");
+                    b.HasIndex("OrganizationEntityId");
 
                     b.ToTable("ProjectEntities");
                 });
@@ -153,13 +159,9 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.ProjectEntity", b =>
                 {
-                    b.HasOne("Domain.Entities.OrganizationEntity", "Organization")
+                    b.HasOne("Domain.Entities.OrganizationEntity", null)
                         .WithMany("Projects")
-                        .HasForeignKey("OrganizationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Organization");
+                        .HasForeignKey("OrganizationEntityId");
                 });
 
             modelBuilder.Entity("Domain.Entities.OrganizationEntity", b =>
