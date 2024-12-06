@@ -24,7 +24,9 @@ public class DeleteSampleEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActi
         OperationId = "DeleteSample",
         Tags = new[] { "Sample" })
     ]
-    public override async Task<ActionResult> HandleAsync(Guid id, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync(
+        Guid id,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         try
         {

@@ -26,7 +26,9 @@ public class UpdateSampleEndpoint : EndpointBaseAsync.WithRequest<SampleDto>.Wit
         OperationId = "UpdateSample",
         Tags = new[] { "Sample" })
     ]
-    public override async Task<ActionResult> HandleAsync(SampleDto dto, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult> HandleAsync(
+        SampleDto dto,
+        CancellationToken cancellationToken = new CancellationToken())
     {
         if (!ModelState.IsValid)
         {
