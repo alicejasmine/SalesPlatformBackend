@@ -5,18 +5,18 @@ namespace Domain.Entities;
 public class OrganizationEntity : BaseEntity
 {
     [Required]
-    [StringLength(50)]
+    [MaxLength(50)]
     public string Alias { get; set; }
 
     [Required]
-    [StringLength(50)]
+    [MaxLength(50)]
     public string DisplayName { get; set; }
 
     [Required]
     public int TotalCredits { get; private set; }
 
     [Required]
-    public PartnershipEnum Partnership { get; set; }
+    public PartnershipEnum Partnership { get; private set; }
 
     [Required]
     public ICollection<ProjectEntity>? Projects { get; set; }
