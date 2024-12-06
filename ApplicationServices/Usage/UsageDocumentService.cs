@@ -1,5 +1,6 @@
 using Domain.Entities;
 using Domain.ValueObject;
+using Infrastructure.Repositories.Project;
 using Infrastructure.Repositories.Usage;
 
 namespace ApplicationServices.Usage;
@@ -7,18 +8,18 @@ namespace ApplicationServices.Usage;
 public class UsageDocumentService : IUsageDocumentService
 {
     private readonly IUsageDocumentRepository _usageDocumentRepository;
-    private readonly IUsageRepository _usageRepository;
+    private readonly IProjectRepository _projectRepository;
     
-    public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository, IUsageRepository usageRepository)
+    public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository, IProjectRepository projectRepository)
 
     {
         _usageDocumentRepository = usageDocumentRepository;
-        _usageRepository = usageRepository;
+        _projectRepository = projectRepository;
     }
 
     public async Task<UsageEntity?> GetUsageEntity(string alias, int month, int year)
     {
-        var environmentId = await _usageRepository.GetEnvironmentIdByAlias(alias);
+        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
         
         var date = new DateOnly(year, month, 1);
         var documentIdentifier = new DocumentIdentifier(environmentId, date);
@@ -29,7 +30,7 @@ public class UsageDocumentService : IUsageDocumentService
     public async Task<IEnumerable<UsageEntity>?> GetUsageEntitiesForMultipleMonths(string alias, int month, int year, int monthsToTake)
     {
         var usageData = new List<UsageEntity>();
-        var environmentId = await _usageRepository.GetEnvironmentIdByAlias(alias);
+        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
         
         for (var i = 0; i < monthsToTake; i++)
         {
@@ -50,7 +51,7 @@ public class UsageDocumentService : IUsageDocumentService
     {
         var usageData = new List<UsageEntity>();
         var currentDate = DateTime.UtcNow;
-        var environmentId = await _usageRepository.GetEnvironmentIdByAlias(alias);
+        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
 
         for (var i = 0; i < 12; i++)
         {

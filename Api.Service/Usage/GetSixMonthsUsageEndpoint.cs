@@ -1,6 +1,4 @@
-﻿using Api.Service.Controllers;
-using Api.Service.DTOs;
-using Api.Service.Usage.DTOs;
+﻿using Api.Service.Usage.DTOs;
 using ApplicationServices.Usage;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
