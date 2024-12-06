@@ -14,4 +14,15 @@ public class SalesPlatformDbContext : DbContext
     public SalesPlatformDbContext(DbContextOptions<SalesPlatformDbContext> options) : base(options)
     {
     }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<ProjectEntity>()
+            .HasOne(p => p.Organization)
+            .WithMany(o => o.Projects)
+            .HasForeignKey(p => p.OrganizationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        base.OnModelCreating(modelBuilder);
+    }
 }
