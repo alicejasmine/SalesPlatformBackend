@@ -12,14 +12,9 @@ public class UsageResponse
 
     public class DailyUsageResponse
     {
-        public DateOnly Date { get; set; }
-        public BandwidthResponse Bandwidth { get; set; }
+        public long BandwidthInBytes { get; set; }
+        public int ContentNodes { get; set; }
+        public int Hostnames { get; set; }
         public long MediaSizeInBytes { get; set; }
-    }
-
-    public class BandwidthResponse
-    {
-        public long TotalBytes { get; set; }
-        public int RequestCount { get; set; }
     }
 }

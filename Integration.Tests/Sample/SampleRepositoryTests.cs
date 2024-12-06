@@ -1,4 +1,5 @@
-﻿using Infrastructure.Repository.Sample;
+﻿using Domain.Sample;
+using Infrastructure.Repository.Sample;
 using Integration.Tests.Library;
 
 namespace Integration.Tests.Sample;

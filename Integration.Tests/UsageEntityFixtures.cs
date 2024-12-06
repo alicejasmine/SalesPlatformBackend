@@ -30,7 +30,9 @@ public static class UsageEntityFixtures
     {
         public static DailyUsageEntity DefaultDailyUsage { get; } = new DailyUsageEntity
         {
-            Bandwidth = new BandwidthDataEntity { TotalBytes = 1024, RequestCount = 100 },
+            BandwidthInBytes = 1024,
+            Hostnames = 23,
+            ContentNodes = 3,
             MediaSizeInBytes = 2048,
         };
     }

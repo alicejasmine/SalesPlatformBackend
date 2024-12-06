@@ -16,12 +16,9 @@ internal static class UsageMapper
             TotalMonthlyMedia = entity.TotalMonthlyMedia,
             DailyUsages = entity.Days.Select(d => new UsageResponse.DailyUsageResponse
             {
-                Date = d.Key,
-                Bandwidth = new UsageResponse.BandwidthResponse
-                {
-                    TotalBytes = d.Value.Bandwidth.TotalBytes,
-                    RequestCount = d.Value.Bandwidth.RequestCount
-                },
+                BandwidthInBytes = d.Value.BandwidthInBytes,
+                Hostnames = d.Value.Hostnames,
+                ContentNodes = d.Value.ContentNodes,
                 MediaSizeInBytes = d.Value.MediaSizeInBytes
             }).ToList()
         };
