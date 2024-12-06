@@ -17,7 +17,6 @@ public abstract class BaseEndpointTests
     protected DataOperations Data { get; private set; }
     protected SalesPlatformDbContext AppDbContext => AppServices.GetRequiredService<SalesPlatformDbContext>();
 
-    //private ContainerizedSqlServerDatabase _database;
     private SelfHostedApi _selfHostedApi;
 
     private HttpClient _appClient;
