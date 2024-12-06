@@ -18,7 +18,7 @@ public abstract class BaseRepository<TModel, TEntity> : IBaseRepository<TModel> 
         _dbSet = context.Set<TEntity>();
     }
 
-    public async Task<TModel?> GetByIdAsync(Guid id)
+    public virtual async Task<TModel?> GetByIdAsync(Guid id)
     {
         var fetchedEntity = await DbSetReadOnly
             .SingleOrDefaultAsync(t => t.Id == id);
