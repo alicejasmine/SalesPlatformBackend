@@ -7,7 +7,6 @@ using System.Text;
 
 namespace Integration.Tests.Library;
 
-[TestFixture]
 public abstract class BaseEndpointTests
 {
     protected HttpClient AppHttpClient => _appClient;

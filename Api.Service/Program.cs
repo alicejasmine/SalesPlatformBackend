@@ -15,7 +15,7 @@ public class Program
         builder.Services.AddServices();
         builder.Services.AddRepositories();
 
-        builder.Services.AddDbContext();
+        builder.Services.AddDbContext(builder.Configuration);
         builder.Services.AddCosmosDb(builder.Configuration);
 
         builder.Services.AddControllers();

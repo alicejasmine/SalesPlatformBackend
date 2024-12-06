@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Repositories.Project;
 using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Plan;
+using System.Configuration;
 
 namespace ApplicationServices;
 
@@ -33,10 +34,10 @@ public static class ServiceCollectionExtension
         services.AddScoped<IPlanRepository, PlanRepository>();
         return services;
     }
-    public static IServiceCollection AddDbContext(this IServiceCollection services)
+    public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString =  Environment.GetEnvironmentVariable("sqlconn") 
-            ?? throw new InvalidOperationException("Database connection string not set.");
+        var connectionString = configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("Database connection string not set in the configuration.");
 
         services.AddDbContext<SalesPlatformDbContext>(options =>
             options.UseSqlServer(connectionString));

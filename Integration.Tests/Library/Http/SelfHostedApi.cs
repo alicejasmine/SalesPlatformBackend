@@ -28,7 +28,13 @@ public sealed class SelfHostedApi : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureAppConfiguration((_, conf) => conf.AddInMemoryCollection(CreateConfiguration()));
+        builder.ConfigureAppConfiguration((context, config) =>
+        {
+            config.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["ConnectionStrings:DefaultConnection"] = _connectionString,
+            });
+        });
 
         base.ConfigureWebHost(builder);
 
@@ -41,14 +47,6 @@ public sealed class SelfHostedApi : WebApplicationFactory<Program>
         /// Needed for the API service to not start Rebus.
         /// <see cref="Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder, IWebHostEnvironment)"/>.
         builder.UseEnvironment("integration-test");
-    }
-
-    private Dictionary<string, string?> CreateConfiguration()
-    {
-        return new(StringComparer.Ordinal)
-        {
-            ["SqlDbConnectionString"] = _connectionString,
-        };
     }
 
     protected override void Dispose(bool disposing)
