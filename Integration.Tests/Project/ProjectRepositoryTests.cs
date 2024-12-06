@@ -29,10 +29,13 @@ namespace Integration.Tests.Project
         }
 
         [TearDown]
-        public void TearDown()
+        public async Task TearDown()
         {
-            _dbContext.Database.EnsureDeleted();
-            _dbContext.Dispose();
+            //this will be changed depending on what we do with test setup, it's just for checking that the tests work 
+           // await _dbContext.Database.ExecuteSqlRawAsync("DELETE FROM ProjectEntities"); 
+            //await _dbContext.Database.ExecuteSqlRawAsync("DELETE FROM OrganizationEntities");
+            //await _dbContext.SaveChangesAsync();
+           // _dbContext.Dispose();
         }
 
         [Test]
