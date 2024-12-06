@@ -1,31 +1,30 @@
 ﻿using Infrastructure.Repository.Sample;
 using Integration.Tests.Library;
+using Test.Fixtures.Sample;
 
 namespace Integration.Tests.Sample;
 
 [TestFixture]
-internal class SampleRepositoryTests : BaseRepositoryTests<SampleRepository>
+public sealed class SampleRepositoryTests : BaseDatabaseTestFixture
 {
-    protected override SampleRepository CreateRepository() => new(DbContext);
+    private SampleRepository _sampleRepository;
+
+    [SetUp]
+    public async Task SetupTest()
+    {
+        _sampleRepository = new(DatabaseTestsFixture.DbContext);
+    }
 
     [Test]
     public async Task GetAllSamples_ShouldReturnAllSamples()
     {
         // Arrange
-        var sampleEntity = new SampleEntity(
-            Guid.NewGuid(),
-            "Test Product",
-            "Description of test product",
-            100,
-            DateTime.Now,
-            DateTime.Now
-        );
+        var sampleEntity = SampleModelFixture.DefaultSample;
 
-        DbContext.SampleEntities.Add(sampleEntity);
-        await DbContext.SaveChangesAsync();
+        await _sampleRepository.UpsertAsync(sampleEntity);
 
         // Act
-        var samples = await Repository.GetAllSamplesAsync();
+        var samples = await _sampleRepository.GetAllSamplesAsync();
 
         // Assert
         Assert.That(samples, Is.Not.Empty);
@@ -36,20 +35,12 @@ internal class SampleRepositoryTests : BaseRepositoryTests<SampleRepository>
     public async Task GetSampleById_ShouldReturnCorrectSample()
     {
         // Arrange
-        var sampleEntity = new SampleEntity(
-            Guid.NewGuid(),
-            "Sample Product",
-            "Description of sample product",
-            150,
-            DateTime.Now,
-            DateTime.Now
-        );
+        var sampleEntity = SampleModelFixture.DefaultSample;
 
-        DbContext.SampleEntities.Add(sampleEntity);
-        await DbContext.SaveChangesAsync();
+        await _sampleRepository.UpsertAsync(sampleEntity);
 
         // Act
-        var sample = await Repository.GetByIdAsync(sampleEntity.Id);
+        var sample = await _sampleRepository.GetByIdAsync(sampleEntity.Id);
 
         // Assert
         Assert.That(sample, Is.Not.Null);
@@ -63,7 +54,7 @@ internal class SampleRepositoryTests : BaseRepositoryTests<SampleRepository>
         var nonExistingId = Guid.NewGuid();
 
         // Act
-        var sample = await Repository.GetByIdAsync(nonExistingId);
+        var sample = await _sampleRepository.GetByIdAsync(nonExistingId);
 
         // Assert
         Assert.That(sample, Is.Null);
@@ -73,7 +64,7 @@ internal class SampleRepositoryTests : BaseRepositoryTests<SampleRepository>
     public async Task GetAllSamples_ShouldReturnEmpty_WhenNoSamplesExist()
     {
         // Act
-        var samples = await Repository.GetAllSamplesAsync();
+        var samples = await _sampleRepository.GetAllSamplesAsync();
 
         // Assert
         Assert.That(samples, Is.Empty);

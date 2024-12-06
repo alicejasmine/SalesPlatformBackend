@@ -3,7 +3,7 @@ using Infrastructure.Repositories.Usage;
 using Moq;
 using Domain.ValueObject;
 using Domain.Entities;
-using Integration.Tests;
+using Test.Fixtures.Usage;
 
 namespace Tests.Services;
 public class UsageDocumentServiceTests

@@ -1,11 +1,10 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Api.Service;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Bus;
 using Rebus.TestHelpers;
-using Api.Service;
 
 namespace Integration.Tests.Library.Http;
 
@@ -33,20 +32,22 @@ public sealed class SelfHostedApi : WebApplicationFactory<Program>
 
         base.ConfigureWebHost(builder);
 
-        builder.ConfigureTestServices(services =>
+        builder.ConfigureServices(services =>
         {
             services.AddHttpClient();
             services.AddScoped<IBus>(_ => Bus);
         });
 
-        builder.UseEnvironment("IntegrationTest");
+        /// Needed for the API service to not start Rebus.
+        /// <see cref="Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder, IWebHostEnvironment)"/>.
+        builder.UseEnvironment("integration-test");
     }
 
     private Dictionary<string, string?> CreateConfiguration()
     {
         return new(StringComparer.Ordinal)
         {
-            ["ConnectionStrings:DefaultConnection"] = _connectionString,
+            ["SqlDbConnectionString"] = _connectionString,
         };
     }
 
@@ -61,7 +62,7 @@ public sealed class SelfHostedApi : WebApplicationFactory<Program>
 
             _disposed = true;
         }
-        
+
         base.Dispose(disposing);
     }
 }

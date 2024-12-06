@@ -1,6 +1,8 @@
 ﻿using Domain.Entities;
 using Infrastructure.Repositories.Usage;
+using Integration.Tests.Library.TestContainers;
 using Microsoft.Azure.Cosmos;
+using Test.Fixtures.Usage;
 
 namespace Integration.Tests.CosmosDb;
 
@@ -20,7 +22,7 @@ public class UsageDocumentRepositoryTests : CosmosDbTestFixture
     public async Task CreateUsageDocument_DoesStoreUsageEntity_WhenSuccess()
     {
         //Arrange
-        var usageEntity = UsageEntityFixtures.DefaultUsage;
+        var usageEntity = UsageEntityFixture.DefaultUsage;
 
         //Act
         await _usageDocumentRepository.CreateUsageDocument(usageEntity);
@@ -32,11 +34,11 @@ public class UsageDocumentRepositoryTests : CosmosDbTestFixture
         Assert.That(usages.Count, Is.EqualTo(1));
             
         var storedUsageEntity = usages.First();
-        Assert.That(storedUsageEntity.ProjectId, Is.EqualTo(UsageEntityFixtures.DefaultUsage.ProjectId));
-        Assert.That(storedUsageEntity.EnvironmentId, Is.EqualTo(UsageEntityFixtures.DefaultUsage.EnvironmentId));
-        Assert.That(storedUsageEntity.DocumentCreationDate, Is.EqualTo(UsageEntityFixtures.DefaultUsage.DocumentCreationDate));
-        Assert.That(storedUsageEntity.TotalMonthlyBandwidth, Is.EqualTo(UsageEntityFixtures.DefaultUsage.TotalMonthlyBandwidth));
-        Assert.That(storedUsageEntity.id, Is.EqualTo(UsageEntityFixtures.DefaultUsage.id));
+        Assert.That(storedUsageEntity.ProjectId, Is.EqualTo(UsageEntityFixture.DefaultUsage.ProjectId));
+        Assert.That(storedUsageEntity.EnvironmentId, Is.EqualTo(UsageEntityFixture.DefaultUsage.EnvironmentId));
+        Assert.That(storedUsageEntity.DocumentCreationDate, Is.EqualTo(UsageEntityFixture.DefaultUsage.DocumentCreationDate));
+        Assert.That(storedUsageEntity.TotalMonthlyBandwidth, Is.EqualTo(UsageEntityFixture.DefaultUsage.TotalMonthlyBandwidth));
+        Assert.That(storedUsageEntity.id, Is.EqualTo(UsageEntityFixture.DefaultUsage.id));
     }
     
     [Test]
@@ -44,7 +46,7 @@ public class UsageDocumentRepositoryTests : CosmosDbTestFixture
     {
         //Arrange
         var documentIdentifier = UsageEntityFixture.DefaultDocumentIdentifier;
-        var usageEntity = UsageEntityFixtures.DefaultUsage;
+        var usageEntity = UsageEntityFixture.DefaultUsage;
         await UsageTestContainer.CreateItemAsync(usageEntity, new PartitionKey(documentIdentifier.EnvironmentId.ToString()));
         
         //Act

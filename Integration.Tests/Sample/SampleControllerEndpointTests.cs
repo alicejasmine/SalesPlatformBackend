@@ -3,13 +3,11 @@ using Integration.Tests.Library;
 using System.Collections.Immutable;
 using System.Net;
 using System.Net.Http.Json;
-using Api.Service.Usage;
 using Test.Fixtures.Sample;
 
 namespace Integration.Tests.Sample;
 
 [TestFixture]
-[TestOf(typeof(GetMonthlyUsageEndpoint))]
 internal sealed class SampleControllerEndpointTests : BaseEndpointTests
 {
     private const string BaseUrl = "https://localhost:7065";
@@ -18,7 +16,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
     public async Task GetSample_ShouldReturnSample_WhenSampleExists()
     {
         // Arrange
-        await Data.StoreUser(SampleModelFixture.DefaultSample);
+        await Data.StoreSample(SampleModelFixture.DefaultSample);
 
         // Act
         var response = await AppHttpClient.GetAsync($"{BaseUrl}/GetSample?id={SampleModelFixture.DefaultSample.Id}");
@@ -34,7 +32,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
     public async Task GetAllSamples_ShouldReturnAllSamples()
     {
         // Arrange
-        await Data.StoreUser(SampleModelFixture.DefaultSample);
+        await Data.StoreSample(SampleModelFixture.DefaultSample);
 
         // Act
         var response = await AppHttpClient.GetAsync($"{BaseUrl}/GetAllSample");
