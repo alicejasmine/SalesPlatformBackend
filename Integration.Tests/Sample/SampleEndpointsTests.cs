@@ -10,7 +10,7 @@ namespace Integration.Tests.Sample;
 
 [TestFixture]
 [TestOf(typeof(GetMonthlyUsageEndpoint))]
-internal sealed class SampleControllerEndpointTests : BaseEndpointTests
+internal sealed class SampleEndpointsTests : BaseEndpointTests
 {
     private const string BaseUrl = "https://localhost:7065";
 
