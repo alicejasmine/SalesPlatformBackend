@@ -10,6 +10,7 @@ public class SalesPlatformDbContext : DbContext
     public DbSet<ProjectEntity> ProjectEntities { get; set; }
     public DbSet<PlanEntity> PlanEntities { get; set; }
     public DbSet<OrganizationEntity> organizationEntities { get; set; }
+    //change names and remove Entities from names
     
     public SalesPlatformDbContext(DbContextOptions<SalesPlatformDbContext> options) : base(options)
     {
