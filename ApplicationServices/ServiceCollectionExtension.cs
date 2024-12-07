@@ -1,4 +1,5 @@
-﻿using ApplicationServices.Sample;
+﻿using ApplicationServices.Project;
+using ApplicationServices.Sample;
 using ApplicationServices.Usage;
 using ApplicationServices.Seed;
 using Infrastructure;
@@ -21,6 +22,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<ISampleService, SampleService>();
         services.AddScoped<IUsageDocumentService, UsageDocumentService>();
         services.AddScoped<ISeedService, SeedService>();
+        services.AddScoped<IProjectService, ProjectService>();
         
        return services;
     }
