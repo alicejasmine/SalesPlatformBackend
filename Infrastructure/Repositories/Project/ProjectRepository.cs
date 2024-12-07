@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.Project;
 
@@ -41,5 +42,16 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
             model.Created,
             model.Modified
         );
+    }
+
+    public async Task<ProjectModel?> GetProjectByAlias(string alias)
+    {
+        var projectEntity = await Context.Set<ProjectEntity>()
+            .FirstOrDefaultAsync(p => p.Alias == alias);
+
+        if (projectEntity == null)
+            return null;
+        
+        return MapEntityToModel(projectEntity);
     }
 }
