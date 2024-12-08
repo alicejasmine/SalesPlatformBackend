@@ -31,4 +31,9 @@ public class ProjectEntity : BaseEntity
         PlanId = planId;
         OrganizationId = organizationId;
     }
+
+    public ProjectEntity()
+    {
+       
+    }
 }
