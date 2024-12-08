@@ -7,11 +7,11 @@ public class ProjectEntityFixture
     public static ProjectEntity DefaultProject { get; } = new ProjectEntity
     {
         Id = Guid.NewGuid(), 
-        Alias = "increa-website1",
-        DisplayName = "Lego",
+        Alias = "default-website1",
+        DisplayName = "default project",
         EnvironmentId = Guid.Parse("a419a351-285f-4b7a-a262-ea2be1d5ee7d"),
         PlanId = Guid.Parse("41788996-f724-48ee-9241-8ac057af0214"),
-        OrganizationId = Guid.Parse("e13086cf-610d-4cce-adff-bb2e25f0f1cc"),
+        OrganizationId = Guid.Parse("f7d3a2a9-50d8-4bcd-b1aa-e3c9f30347e7"),
         Created = DateTime.UtcNow,
         Modified = DateTime.UtcNow
     };

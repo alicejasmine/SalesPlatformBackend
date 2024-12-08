@@ -22,8 +22,8 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
         return new ProjectModel(
             entity.Id,
             entity.EnvironmentId,
-            entity.DisplayName,
             entity.Alias,
+            entity.DisplayName,
             entity.PlanId,
             entity.OrganizationId,
             entity.Created,
