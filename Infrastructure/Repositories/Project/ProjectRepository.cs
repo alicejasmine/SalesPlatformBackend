@@ -10,34 +10,7 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
     public ProjectRepository(SalesPlatformDbContext context) : base(context)
     {
     }
-
-    protected override ProjectModel MapEntityToModel(ProjectEntity entity)
-    {
-        return new ProjectModel(
-            entity.Id,
-            entity.EnvironmentId,
-            entity.Alias,
-            entity.DisplayName,
-            entity.PlanId,
-            entity.OrganizationId,
-            entity.Created,
-            entity.Modified);
-    }
-
-    protected override ProjectEntity MapModelToEntity(ProjectModel model)
-    {
-        return new ProjectEntity(
-            model.Id,
-            model.EnvironmentId,
-            model.DisplayName,
-            model.Alias,
-            model.PlanId,
-            model.OrganizationId,
-            model.Created,
-            model.Modified
-        );
-    }
-
+    
     public async Task<ProjectModel?> GetProjectByAlias(string alias)
     {
         try
@@ -102,5 +75,32 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
         {
             throw new Exception("An unexpected error occurred while retrieving the projects.", ex);
         }
+    }
+    
+    protected override ProjectModel MapEntityToModel(ProjectEntity entity)
+    {
+        return new ProjectModel(
+            entity.Id,
+            entity.EnvironmentId,
+            entity.Alias,
+            entity.DisplayName,
+            entity.PlanId,
+            entity.OrganizationId,
+            entity.Created,
+            entity.Modified);
+    }
+
+    protected override ProjectEntity MapModelToEntity(ProjectModel model)
+    {
+        return new ProjectEntity(
+            model.Id,
+            model.EnvironmentId,
+            model.DisplayName,
+            model.Alias,
+            model.PlanId,
+            model.OrganizationId,
+            model.Created,
+            model.Modified
+        );
     }
 }
