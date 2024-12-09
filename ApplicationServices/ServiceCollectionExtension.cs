@@ -35,16 +35,15 @@ public static class ServiceCollectionExtension
         services.AddScoped<IPlanRepository, PlanRepository>();
         return services;
     }
-    public static IServiceCollection AddDbContext(this IServiceCollection services)
+    public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString =  Environment.GetEnvironmentVariable("sqlconn") 
-            ?? throw new InvalidOperationException("Database connection string not set.");
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDbContext<SalesPlatformDbContext>(options =>
             options.UseSqlServer(connectionString));
         return services;
     }
-    
+
     public static IServiceCollection AddCosmosDb(this IServiceCollection services, IConfiguration configuration)
     {
         services.ConfigureCosmosDbContainer(configuration);

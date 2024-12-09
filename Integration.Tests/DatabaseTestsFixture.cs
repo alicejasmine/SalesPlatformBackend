@@ -1,27 +1,23 @@
-﻿using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
-using Infrastructure.Repository;
+﻿using Infrastructure;
 using Integration.Tests.Library.TestContainers;
-using Respawn;
-using Infrastructure;
+using Microsoft.EntityFrameworkCore;
 
-namespace Integration.Tests.Library;
+namespace Integration.Tests;
 
 [SetUpFixture]
-public abstract class BaseRepositoryTests<TRepository> where TRepository : class
+public sealed class DatabaseTestsFixture
 {
-    protected SalesPlatformDbContext DbContext { get; private set; }
-
-    protected TRepository Repository => CreateRepository();
+    public static SalesPlatformDbContext DbContext { get; private set; }
+    public static string ConnectionString { get; private set; }
 
     private ContainerizedSqlServerDatabase _database;
-    private Respawner _spawner;
 
     [OneTimeSetUp]
     public async Task OneTimeSetup()
     {
         _database = new ContainerizedSqlServerDatabase();
         await _database.Start();
+        ConnectionString = _database.ConnectionString;
 
         var options = new DbContextOptionsBuilder<SalesPlatformDbContext>()
             .UseSqlServer(_database.ConnectionString)
@@ -29,18 +25,6 @@ public abstract class BaseRepositoryTests<TRepository> where TRepository : class
 
         DbContext = new SalesPlatformDbContext(options);
         await DbContext.Database.MigrateAsync();
-    }
-
-    [SetUp]
-    public async Task Setup()
-    {
-        _spawner = await Respawner.CreateAsync(_database.ConnectionString);
-    }
-
-    [TearDown]
-    public async Task TearDown()
-    {
-        await _spawner.ResetAsync(_database.ConnectionString);
     }
 
     [OneTimeTearDown]
@@ -56,6 +40,4 @@ public abstract class BaseRepositoryTests<TRepository> where TRepository : class
             await _database.DisposeAsync();
         }
     }
-
-    protected abstract TRepository CreateRepository();
 }

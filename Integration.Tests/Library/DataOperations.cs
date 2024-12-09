@@ -15,17 +15,12 @@ public sealed class DataOperations
         _services = serviceProvider;
     }
 
-    public async Task StoreUser(SampleModel sample)
+    public async Task StoreSample(SampleModel sample)
     {
         var repo = _services.GetRequiredService<ISampleRepository>();
         await repo.UpsertAsync(sample);
     }
 
-    //public async Task StoreOperation(UsageModel operation)
-    //{
-    //    var repo = _services.GetRequiredService<IUsageRepository>();
-    //    await repo.UpsertAsync(operation);
-    //}
     public async Task StoreProject(ProjectModel project)
     {
         var repo = _services.GetRequiredService<IProjectRepository>();
@@ -38,3 +33,4 @@ public sealed class DataOperations
         await repo.UpsertAsync(organization);
     }
 }
+
