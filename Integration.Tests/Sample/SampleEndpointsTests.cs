@@ -8,7 +8,7 @@ using Test.Fixtures.Sample;
 namespace Integration.Tests.Sample;
 
 [TestFixture]
-internal sealed class SampleControllerEndpointTests : BaseEndpointTests
+internal sealed class SampleEndpointsTests : BaseEndpointTests
 {
     private const string BaseUrl = "https://localhost:7065";
 
@@ -61,7 +61,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
     public async Task DeleteSample_ShouldReturnOk_WhenSampleExists()
     {
         // Arrange
-        var sampleId = Guid.NewGuid();
+        await Data.StoreUser(SampleModelFixture.DefaultSample);
 
         // Act
         var response = await AppHttpClient.DeleteAsync($"/DeleteSample?id={sampleId}");
@@ -71,7 +71,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
     }
 
     [Test]
-    public async Task DeleteSample_ShouldReturnBadRequest_WhenSampleDoesNotExist()
+    public async Task DeleteSample_ShouldReturnNotFound_WhenSampleDoesNotExist()
     {
         // Arrange
         var nonExistentSampleId = Guid.NewGuid();
@@ -80,6 +80,6 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
         var response = await AppHttpClient.DeleteAsync($"DeleteSample?id={nonExistentSampleId}");
 
         // Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
 }

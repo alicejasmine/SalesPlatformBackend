@@ -10,15 +10,16 @@ public class UsageDocumentServiceTests
 {
     private UsageDocumentService _usageDocumentService;
     private Mock<IUsageDocumentRepository> _usageDocumentRepository;
-
+    private Mock<IProjectRepository> _projectRepository;
 
     [SetUp]
     public void Setup()
     {
         _usageDocumentRepository = new Mock<IUsageDocumentRepository>();
+        _projectRepository = new Mock<IProjectRepository>();
 
         _usageDocumentService = new UsageDocumentService(
-            _usageDocumentRepository.Object
+            _usageDocumentRepository.Object, _projectRepository.Object
         );
     }
 
@@ -27,6 +28,7 @@ public class UsageDocumentServiceTests
     {
         // Arrange
         var environmentID = Guid.NewGuid();
+        var projectAlias = "oxygen-website1";
         var baseDate = new DateOnly(2024, 11, 1);
         var monthsToTake = 3;
 
@@ -45,7 +47,7 @@ public class UsageDocumentServiceTests
         }
 
         // Act
-        var result = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(environmentID, baseDate.Month, baseDate.Year, monthsToTake);
+        var result = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(projectAlias, baseDate.Month, baseDate.Year, monthsToTake);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -58,7 +60,7 @@ public class UsageDocumentServiceTests
     public async Task GetUsageEntities_ReturnsEmptyList_WhenNoDataExists()
     {
         // Arrange
-        var environmentID = Guid.NewGuid();
+        var projectAlias = "oxygen-website1";
         var baseDate = new DateOnly(2024, 11, 1);
         var monthsToTake = 6;
 
@@ -67,7 +69,7 @@ public class UsageDocumentServiceTests
             .ReturnsAsync((UsageEntity?)null);
 
         // Act
-        var result = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(environmentID, baseDate.Month, baseDate.Year, monthsToTake);
+        var result = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(projectAlias, baseDate.Month, baseDate.Year, monthsToTake);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -81,7 +83,8 @@ public class UsageDocumentServiceTests
         var environmentID = Guid.NewGuid();
         var baseDate = new DateOnly(2024, 11, 1);
         var monthsToTake = 6;
-
+        var projectAlias = "oxygen-website1";
+        
         var usageEntities = new List<UsageEntity>
     {
         new UsageEntity { EnvironmentId = environmentID, DocumentCreationDate = baseDate, TotalMonthlyBandwidth = 100, TotalMonthlyMedia = 200 },
@@ -100,7 +103,7 @@ public class UsageDocumentServiceTests
             .ReturnsAsync((UsageEntity?)null);
 
         // Act
-        var result = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(environmentID, baseDate.Month, baseDate.Year, monthsToTake);
+        var result = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(projectAlias, baseDate.Month, baseDate.Year, monthsToTake);
 
         // Assert
         Assert.That(result, Is.Not.Null);
@@ -113,16 +116,20 @@ public class UsageDocumentServiceTests
     public async Task GetUsageEntity_ReturnsUsageEntity_WhenFound()
     {
         // Arrange
-        var environmentId = UsageEntityFixture.DefaultDocumentIdentifier.EnvironmentId;
         var usageEntity = UsageEntityFixture.DefaultUsage;
         var date = new DateOnly(2024, 11, 1);
+        var projectAlias = "oxygen-website1";
+        
+        _projectRepository
+            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == projectAlias)))
+            .ReturnsAsync(usageEntity.EnvironmentId);
         
         _usageDocumentRepository
             .Setup(x => x.GetUsageEntity(It.Is<DocumentIdentifier>(d => d.EnvironmentId == usageEntity.EnvironmentId)))
             .ReturnsAsync(usageEntity);
 
         // Act
-        var result = await _usageDocumentService.GetUsageEntity(environmentId, date.Month, date.Year);
+        var result = await _usageDocumentService.GetUsageEntity(projectAlias, date.Month, date.Year);
         
       
         // Assert
@@ -151,13 +158,14 @@ public class UsageDocumentServiceTests
         // Arrange
         var environmentId = UsageEntityFixture.DefaultDocumentIdentifier.EnvironmentId;
         var date = new DateOnly(2024, 11, 1);
+        var projectAlias = "oxygen-website1";
 
         _usageDocumentRepository
             .Setup(x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()))
             .ReturnsAsync((UsageEntity?)null); 
 
         // Act
-        var result = await _usageDocumentService.GetUsageEntity(environmentId, date.Month, date.Year);
+        var result = await _usageDocumentService.GetUsageEntity(projectAlias, date.Month, date.Year);
 
         // Assert
         Assert.That(result, Is.Null);

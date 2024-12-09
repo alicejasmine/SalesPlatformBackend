@@ -23,19 +23,19 @@ public class GetYearWorthOfTotalDataEndpoint : EndpointBaseAsync
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Get Year Worth Of Usage",
-        Description = "Get Year worth of usage data by id",
+        Description = "Get Year worth of usage data by alias",
         OperationId = "GetYearWorthOfTotalDatasUsage")
         ]
     public override async Task<ActionResult<YearTotalUsageResponse>> HandleAsync([FromQuery] GetYearWorthOfTotalDataRequestDto requestDto, CancellationToken cancellationToken = new())
     {
         var currentDate = DateTime.UtcNow;
-        var usageData = await _usageDocumentService.GetYearOfUsageData(requestDto.EnvironmentId, requestDto.year);
+        var usageData = await _usageDocumentService.GetYearOfUsageData(requestDto.Alias, requestDto.year);
 
         if (usageData.totalBandwidthInBytes == 0 && usageData.totalMediaInBytes == 0)
         {
             return Problem(
                 title: "Usage data not found",
-                detail: $"No usage data found for environmentId {requestDto.EnvironmentId} starting from {currentDate.Month}/{currentDate.Year}",
+                detail: $"No usage data found for alias {requestDto.Alias} starting from {currentDate.Month}/{currentDate.Year}",
                 statusCode: StatusCodes.Status404NotFound);
         }
 
