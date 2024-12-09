@@ -22,7 +22,7 @@ internal sealed class ProjectRepositoryTests :BaseDatabaseTestFixture
     }
     
     [Test]
-    public async Task GetProjectByAlias_ReturnsModel_WhenFound()
+    public async Task GetProjectByProjectAlias_ReturnsModel_WhenFound()
     {
         //Arrange
         await _organizationRepository.UpsertAsync(OrganizationModelFixture.DefaultOrganization);
@@ -30,7 +30,7 @@ internal sealed class ProjectRepositoryTests :BaseDatabaseTestFixture
         await _projectRepository.UpsertAsync(ProjectModelFixture.DefaultProject);
 
         //Act
-        var project = await _projectRepository.GetProjectByAlias(expectedProject.Alias);
+        var project = await _projectRepository.GetProjectByProjectAlias(expectedProject.Alias);
 
         //Assert
         Assert.That(project, Is.Not.Null);
@@ -39,10 +39,10 @@ internal sealed class ProjectRepositoryTests :BaseDatabaseTestFixture
     }
 
     [Test]
-    public async Task GetProjectByAlias_ReturnsNull_WhenNotFound()
+    public async Task GetProjectByProjectAlias_ReturnsNull_WhenNotFound()
     {
         //Arrange & Act
-        var project = await _projectRepository.GetProjectByAlias("non-existent-alias");
+        var project = await _projectRepository.GetProjectByProjectAlias("non-existent-alias");
 
         //Assert
         Assert.That(project, Is.Null);

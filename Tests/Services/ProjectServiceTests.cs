@@ -20,16 +20,16 @@ namespace Tests.Services
         }
 
         [Test]
-        public async Task GetProjectByAlias_ReturnsProject_WhenFound()
+        public async Task GetProjectByProjectAlias_ReturnsProject_WhenFound()
         {
             //Arrange
             var expectedProject = ProjectModelFixture.DefaultProject;
 
-            _mockProjectRepository.Setup(repo => repo.GetProjectByAlias(expectedProject.Alias))
+            _mockProjectRepository.Setup(repo => repo.GetProjectByProjectAlias(expectedProject.Alias))
                 .ReturnsAsync(expectedProject);
 
             //Act
-            var result = await _projectService.GetProjectByAlias(expectedProject.Alias);
+            var result = await _projectService.GetProjectByProjectAlias(expectedProject.Alias);
 
             //Assert
             Assert.That(result, Is.Not.Null);
@@ -38,16 +38,16 @@ namespace Tests.Services
         }
 
         [Test]
-        public async Task GetProjectByAlias_ReturnsNull_WhenNotFound()
+        public async Task GetProjectByProjectAlias_ReturnsNull_WhenNotFound()
         {
             //Arrange
             var alias = "non-existent-alias";
 
-            _mockProjectRepository.Setup(repo => repo.GetProjectByAlias(alias))
+            _mockProjectRepository.Setup(repo => repo.GetProjectByProjectAlias(alias))
                 .ReturnsAsync((ProjectModel?)null);
 
             //Act
-            var result = await _projectService.GetProjectByAlias(alias);
+            var result = await _projectService.GetProjectByProjectAlias(alias);
 
             //Assert
             Assert.That(result, Is.Null);

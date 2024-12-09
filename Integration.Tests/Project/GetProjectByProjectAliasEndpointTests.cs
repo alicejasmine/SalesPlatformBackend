@@ -10,12 +10,12 @@ using TestFixtures.Project;
 namespace Integration.Tests.Project;
 
 [TestFixture]
-[TestOf(typeof(GetProjectByAliasEndpoint))]
-internal sealed class GetProjectByAliasEndpointTests : BaseEndpointTests
+[TestOf(typeof(GetProjectByProjectAliasEndpoint))]
+internal sealed class GetProjectByProjectAliasEndpointTests : BaseEndpointTests
 {
     
     [Test]
-    public async Task GetProjectByAlias_ReturnsNotFound_WithDetails_WhenProjectNotFound()
+    public async Task GetProjectByProjectAlias_ReturnsNotFound_WithDetails_WhenProjectNotFound()
     {
         //Arrange 
         var projectAlias = "non existent alias";
@@ -31,7 +31,7 @@ internal sealed class GetProjectByAliasEndpointTests : BaseEndpointTests
     }
 
     [Test]
-    public async Task GetProjectByAlias_ReturnsProject_WhenSuccess()
+    public async Task GetProjectByProjectAlias_ReturnsProject_WhenSuccess()
     {
         //Arrange
         var project = ProjectModelFixture.DefaultProject;
