@@ -4,7 +4,7 @@ namespace Infrastructure.Repositories.Project;
 
 public interface IProjectRepository : IBaseRepository<ProjectModel>
 {
-    Task<ProjectModel?> GetProjectByAlias(string projectAlias);
+    Task<ProjectModel?> GetProjectByProjectAlias(string projectAlias);
 
     Task<Guid> GetEnvironmentIdByProjectAlias(string projectAlias);
     Task<List<ProjectModel>> GetAllProjects();

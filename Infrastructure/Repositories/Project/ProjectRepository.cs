@@ -11,7 +11,7 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
     {
     }
     
-    public async Task<ProjectModel?> GetProjectByAlias(string alias)
+    public async Task<ProjectModel?> GetProjectByProjectAlias(string alias)
     {
         try
         {
