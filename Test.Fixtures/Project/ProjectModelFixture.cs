@@ -4,14 +4,22 @@ namespace TestFixtures.Project;
 
 public class ProjectModelFixture
 {
+    private static readonly Guid DefaultEnvironmentId = Guid.Parse("3b95c098-21b4-4f8b-9f7c-6a435ed83931");
+    private static readonly Guid DefaultPlanId = Guid.Parse("d5476bbd-bd30-4f54-8a63-b1bc1a8e4bc2");
+    private static readonly Guid DefaultOrganizationId = Guid.Parse("c1aaf1b9-5824-4e27-9b29-3d5ebc5d66d4");
+    private static readonly DateTime DefaultCreated = DateTime.UtcNow;
+    private static readonly DateTime DefaultModified = DateTime.UtcNow;
+        
+    private const string DefaultAlias = "oxygen-website4";
+    private const string DefaultDisplayName = "Oxygen Website";
     public static ProjectModel DefaultProject { get; } = new ProjectModel(
         id: Guid.NewGuid(),
-        environmentId: Guid.Parse("a419a351-285f-4b7a-a262-ea2be1d5ee7d"),
-        alias: "default-website1",
-        displayName: "default project",
-        planId: Guid.Parse("41788996-f724-48ee-9241-8ac057af0214"),
-        organizationId: Guid.Parse("f7d3a2a9-50d8-4bcd-b1aa-e3c9f30347e7"),
-        created: DateTime.UtcNow,
-        modified: DateTime.UtcNow
+        environmentId:DefaultEnvironmentId,
+        alias: DefaultAlias,
+        displayName: DefaultDisplayName,
+        planId: DefaultPlanId,
+        organizationId: DefaultOrganizationId,
+        created: DefaultCreated,
+        modified: DefaultModified
     );
 }

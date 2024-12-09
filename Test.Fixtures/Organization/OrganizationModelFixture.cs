@@ -5,8 +5,9 @@ namespace TestFixtures.Organization;
 
 public static class OrganizationModelFixture
 {
+    private static readonly Guid DefaultOrganizationId = Guid.Parse("c1aaf1b9-5824-4e27-9b29-3d5ebc5d66d4");
     public static OrganizationModel DefaultOrganization { get; } = new OrganizationModel(
-        id: Guid.Parse("f7d3a2a9-50d8-4bcd-b1aa-e3c9f30347e7"),
+        id: DefaultOrganizationId,
         alias: "default-organization",
         displayName: "Default Organization",
         totalCredits: 1000,

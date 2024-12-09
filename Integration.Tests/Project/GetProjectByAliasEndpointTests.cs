@@ -19,7 +19,7 @@ internal sealed class GetProjectByAliasEndpointTests : BaseEndpointTests
     public async Task GetProjectByAlias_ReturnsNotFound_WithDetails_WhenProjectNotFound()
     {
         //Arrange 
-        var projectAlias = ProjectModelFixture.DefaultProject.Alias;
+        var projectAlias = "non existent alias";
         
         //Act
         using var response = await AppHttpClient.GetAsync($"{BaseUrl}/GetProjectByAlias?alias={projectAlias}");

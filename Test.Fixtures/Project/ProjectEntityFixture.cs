@@ -10,7 +10,7 @@ namespace TestFixtures.Project
         private static readonly DateTime DefaultCreated = DateTime.UtcNow;
         private static readonly DateTime DefaultModified = DateTime.UtcNow;
         
-        private const string DefaultAlias = "oxygen-website1";
+        private const string DefaultAlias = "oxygen-website4";
         private const string DefaultDisplayName = "Oxygen Website";
         
         public static ProjectEntity DefaultProject { get; } = new ProjectEntity(
