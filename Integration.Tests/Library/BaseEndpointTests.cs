@@ -1,6 +1,5 @@
 ﻿using Infrastructure;
 using Integration.Tests.Library.Http;
-using Integration.Tests.Library.TestContainers;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.TestHelpers;
 using System.Text;

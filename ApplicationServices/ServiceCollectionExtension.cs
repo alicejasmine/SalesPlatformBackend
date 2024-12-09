@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Repositories.Project;
 using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Plan;
-using System.Configuration;
 
 namespace ApplicationServices;
 
