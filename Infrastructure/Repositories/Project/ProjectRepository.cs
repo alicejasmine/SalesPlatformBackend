@@ -67,7 +67,7 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
         }
     }
 
-    public async Task<Guid> GetEnvironmentIdByAlias(string alias)
+    public async Task<Guid> GetEnvironmentIdByProjectAlias(string alias)
     {
         if (string.IsNullOrWhiteSpace(alias))
         {
