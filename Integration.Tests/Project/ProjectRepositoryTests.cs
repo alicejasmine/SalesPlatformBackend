@@ -1,8 +1,7 @@
-using Infrastructure;
+using Domain.Models;
 using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Project;
 using Integration.Tests.Library;
-using Microsoft.EntityFrameworkCore;
 using TestFixtures.Organization;
 using TestFixtures.Project;
 
@@ -47,5 +46,32 @@ internal sealed class ProjectRepositoryTests :BaseDatabaseTestFixture
 
         //Assert
         Assert.That(project, Is.Null);
+    }
+    
+    [Test]
+    public async Task GetAllProjects_ReturnsProjectList_WhenFound()
+    {
+        //Arrange
+        await _organizationRepository.UpsertAsync(OrganizationModelFixture.DefaultOrganization);
+        await _projectRepository.UpsertAsync(ProjectModelFixture.DefaultProject);
+        await _projectRepository.UpsertAsync(ProjectModelFixture.OtherDefaultProject);
+
+        //Act
+        var projects = await _projectRepository.GetAllProjects();
+
+        //Assert
+        Assert.That(projects, Is.Not.Null);
+        Assert.That(projects.Count, Is.EqualTo(2));
+    }
+    
+    
+    [Test]
+    public async Task GetAllProjects_ReturnsEmptyList_WhenNoProjectsFound()
+    {
+        //Arrange & Act
+        var projects = await _projectRepository.GetAllProjects();
+
+        //Assert
+        Assert.That(projects, Is.Empty);
     }
 }
