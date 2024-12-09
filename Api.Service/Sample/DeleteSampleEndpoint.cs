@@ -30,6 +30,16 @@ public class DeleteSampleEndpoint : EndpointBaseAsync.WithRequest<Guid>.WithActi
     {
         try
         {
+            var sample = await _sampleService.GetSampleByIdAsync(id);
+            if (sample==null)
+            {
+                return NotFound(new ProblemDetails
+                {
+                    Title = "Sample Not Found",
+                    Detail = $"No sample found with ID {id}.",
+                    Status = StatusCodes.Status404NotFound
+                });
+            }
             await _sampleService.DeleteSampleAsync(id);
 
             return Ok();
