@@ -76,7 +76,12 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
             throw new Exception("An unexpected error occurred while retrieving the projects.", ex);
         }
     }
-    
+
+    public Task<List<ProjectModel>> GetProjectsByOrganizationAlias(string organizationAlias)
+    {
+        throw new NotImplementedException();
+    }
+
     protected override ProjectModel MapEntityToModel(ProjectEntity entity)
     {
         return new ProjectModel(
