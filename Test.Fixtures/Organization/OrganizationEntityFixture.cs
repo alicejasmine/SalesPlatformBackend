@@ -10,7 +10,7 @@ namespace TestFixtures.Organization
             get
             {
                 return new OrganizationEntity(
-                    id: Guid.NewGuid(),
+                    id: OrganizationModelFixture.DefaultOrganization.Id,
                     alias: "oxygen",
                     displayName: "Oxygen",
                     totalCredits: 154827,
@@ -19,19 +19,6 @@ namespace TestFixtures.Organization
                     modified: DateTime.UtcNow
                 );
             }
-        }
-
-        public static OrganizationEntity CustomOrganization(string alias, string displayName, int totalCredits, PartnershipEnum partnership)
-        {
-            return new OrganizationEntity(
-                id: Guid.NewGuid(),
-                alias: alias,
-                displayName: displayName,
-                totalCredits: totalCredits,
-                partnership: partnership,
-                created: DateTime.UtcNow,
-                modified: DateTime.UtcNow
-            );
         }
 
         public static List<OrganizationEntity> GetOrganizations()
