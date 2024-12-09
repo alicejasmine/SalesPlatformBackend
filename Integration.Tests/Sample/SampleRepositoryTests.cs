@@ -28,7 +28,11 @@ public sealed class SampleRepositoryTests : BaseDatabaseTestFixture
 
         // Assert
         Assert.That(samples, Is.Not.Empty);
-        Assert.That(samples.First().Name, Is.EqualTo("Test Product"));
+        var firstSample = samples.First();
+        Assert.That(firstSample.Id, Is.EqualTo(SampleModelFixture.DefaultSample.Id));
+        Assert.That(firstSample.Description, Is.EqualTo(SampleModelFixture.DefaultSample.Description));
+        Assert.That(firstSample.Name, Is.EqualTo(SampleModelFixture.DefaultSample.Name));
+        Assert.That(firstSample.Price, Is.EqualTo(SampleModelFixture.DefaultSample.Price));
     }
 
     [Test]
@@ -44,7 +48,10 @@ public sealed class SampleRepositoryTests : BaseDatabaseTestFixture
 
         // Assert
         Assert.That(sample, Is.Not.Null);
-        Assert.That(sample.Name, Is.EqualTo("Sample Product"));
+        Assert.That(sample.Id, Is.EqualTo(SampleModelFixture.DefaultSample.Id));
+        Assert.That(sample.Description, Is.EqualTo(SampleModelFixture.DefaultSample.Description));
+        Assert.That(sample.Name, Is.EqualTo(SampleModelFixture.DefaultSample.Name));
+        Assert.That(sample.Price, Is.EqualTo(SampleModelFixture.DefaultSample.Price));
     }
 
     [Test]

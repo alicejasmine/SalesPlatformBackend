@@ -33,7 +33,7 @@ internal sealed class SampleEndpointsTests : BaseEndpointTests
         await Data.StoreSample(SampleModelFixture.DefaultSample);
 
         // Act
-        var response = await AppHttpClient.GetAsync($"/GetAllSample");
+        var response = await AppHttpClient.GetAsync($"/GetAllSamples");
 
         // Assert
         var samples = await response.Content.ReadFromJsonAsync<ImmutableHashSet<SampleDto>>();
