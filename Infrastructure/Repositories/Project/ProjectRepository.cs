@@ -84,4 +84,23 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
 
         return fetchedEntity.EnvironmentId;
     }
+
+    public async Task<List<ProjectModel>> GetAllProjects()
+    {
+        try
+        { 
+            var projectEntities = await DbSetReadOnly.ToListAsync();
+            
+            if (!projectEntities.Any())
+            {
+                return new List<ProjectModel>();
+            }
+
+            return projectEntities.Select(MapEntityToModel).ToList();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An unexpected error occurred while retrieving the projects.", ex);
+        }
+    }
 }

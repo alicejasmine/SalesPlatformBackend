@@ -15,4 +15,9 @@ public class ProjectService : IProjectService
     {
         return await _projectRepository.GetProjectByAlias(alias);
     }
+
+    public async Task<List<ProjectModel>> GetAllProjects()
+    {
+        return await _projectRepository.GetAllProjects();
+    }
 }
