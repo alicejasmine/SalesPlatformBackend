@@ -1,4 +1,7 @@
-﻿using Domain.Sample;
+﻿using Domain.Models;
+using Domain.Sample;
+using Infrastructure.Repositories.Organization;
+using Infrastructure.Repositories.Project;
 using Infrastructure.Repository.Sample;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -23,4 +26,15 @@ public sealed class DataOperations
     //    var repo = _services.GetRequiredService<IUsageRepository>();
     //    await repo.UpsertAsync(operation);
     //}
+    public async Task StoreProject(ProjectModel project)
+    {
+        var repo = _services.GetRequiredService<IProjectRepository>();
+        await repo.UpsertAsync(project);
+    }
+    
+    public async Task StoreOrganization(OrganizationModel organization)
+    {
+        var repo = _services.GetRequiredService<IOrganizationRepository>();
+        await repo.UpsertAsync(organization);
+    }
 }
