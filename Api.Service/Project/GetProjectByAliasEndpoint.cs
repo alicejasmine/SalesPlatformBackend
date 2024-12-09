@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Api.Service.Project;
 
-public class GetProjectByAliasEndpoint : EndpointBaseAsync.WithRequest<GetProjectByAliasRequestDto>.WithActionResult<ProjectResponse>
+public class GetProjectByAliasEndpoint : EndpointBaseAsync.WithRequest<GetProjectByProjectAliasRequestDto>.WithActionResult<ProjectResponse>
 {
     private readonly IProjectService _projectService;
 
@@ -23,7 +23,7 @@ public class GetProjectByAliasEndpoint : EndpointBaseAsync.WithRequest<GetProjec
         Description = "Retrieve project details by alias",
         OperationId = "GetProjectByAlias")
     ]
-    public override async Task<ActionResult<ProjectResponse>> HandleAsync([FromQuery] GetProjectByAliasRequestDto dto, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<ProjectResponse>> HandleAsync([FromQuery] GetProjectByProjectAliasRequestDto dto, CancellationToken cancellationToken = new CancellationToken())
     {
         var project = await _projectService.GetProjectByAlias(dto.Alias);
 
