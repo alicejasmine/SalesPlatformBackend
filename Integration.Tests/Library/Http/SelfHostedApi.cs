@@ -8,7 +8,7 @@ using Rebus.TestHelpers;
 
 namespace Integration.Tests.Library.Http;
 
-public sealed class SelfHostedApi : WebApplicationFactory<Program>
+public sealed class SelfHostedApi : WebApplicationFactory<Startup>
 {
     public FakeBus Bus { get; } = new FakeBus();
 
@@ -30,6 +30,9 @@ public sealed class SelfHostedApi : WebApplicationFactory<Program>
     {
         builder.ConfigureAppConfiguration((context, config) =>
         {
+            config.SetBasePath(Directory.GetCurrentDirectory())
+                  .AddJsonFile("local.integrationTestsSettings.json", optional: false, reloadOnChange: true);
+
             config.AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["ConnectionStrings:DefaultConnection"] = _connectionString,
@@ -44,8 +47,6 @@ public sealed class SelfHostedApi : WebApplicationFactory<Program>
             services.AddScoped<IBus>(_ => Bus);
         });
 
-        /// Needed for the API service to not start Rebus.
-        /// <see cref="Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder, IWebHostEnvironment)"/>.
         builder.UseEnvironment("integration-test");
     }
 

@@ -19,7 +19,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
         await Data.StoreSample(SampleModelFixture.DefaultSample);
 
         // Act
-        var response = await AppHttpClient.GetAsync($"{BaseUrl}/GetSample?id={SampleModelFixture.DefaultSample.Id}");
+        var response = await AppHttpClient.GetAsync($"/GetSample?id={SampleModelFixture.DefaultSample.Id}");
 
         // Assert
         var sample = await response.Content.ReadFromJsonAsync<SampleModel>();
@@ -35,7 +35,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
         await Data.StoreSample(SampleModelFixture.DefaultSample);
 
         // Act
-        var response = await AppHttpClient.GetAsync($"{BaseUrl}/GetAllSample");
+        var response = await AppHttpClient.GetAsync($"/GetAllSample");
 
         // Assert
         var samples = await response.Content.ReadFromJsonAsync<ImmutableHashSet<SampleDto>>();
@@ -50,7 +50,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
         var sample = new SampleDto(Guid.NewGuid(), "Sample Name", "Description", 100, DateTime.Now, DateTime.Now);
 
         // Act
-        var response = await AppHttpClient.PostAsJsonAsync($"{BaseUrl}/CreateSample", sample);
+        var response = await AppHttpClient.PostAsJsonAsync($"/CreateSample", sample);
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -64,7 +64,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
         var sampleId = Guid.NewGuid();
 
         // Act
-        var response = await AppHttpClient.DeleteAsync($"{BaseUrl}/DeleteSample?id={sampleId}");
+        var response = await AppHttpClient.DeleteAsync($"/DeleteSample?id={sampleId}");
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
@@ -77,7 +77,7 @@ internal sealed class SampleControllerEndpointTests : BaseEndpointTests
         var nonExistentSampleId = Guid.NewGuid();
 
         // Act
-        var response = await AppHttpClient.DeleteAsync($"{BaseUrl}/DeleteSample?id={nonExistentSampleId}");
+        var response = await AppHttpClient.DeleteAsync($"DeleteSample?id={nonExistentSampleId}");
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));

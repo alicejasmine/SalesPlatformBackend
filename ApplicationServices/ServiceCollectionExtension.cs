@@ -36,14 +36,13 @@ public static class ServiceCollectionExtension
     }
     public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("DefaultConnection")
-        ?? throw new InvalidOperationException("Database connection string not set in the configuration.");
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
         services.AddDbContext<SalesPlatformDbContext>(options =>
             options.UseSqlServer(connectionString));
         return services;
     }
-    
+
     public static IServiceCollection AddCosmosDb(this IServiceCollection services, IConfiguration configuration)
     {
         services.ConfigureCosmosDbContainer(configuration);

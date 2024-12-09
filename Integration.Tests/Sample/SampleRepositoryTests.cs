@@ -1,5 +1,4 @@
-﻿using Domain.Sample;
-using Infrastructure.Repository.Sample;
+﻿using Infrastructure.Repository.Sample;
 using Integration.Tests.Library;
 using Test.Fixtures.Sample;
 
