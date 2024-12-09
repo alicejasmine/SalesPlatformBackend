@@ -1,22 +1,25 @@
+using Infrastructure;
 using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Project;
 using Integration.Tests.Library;
+using Microsoft.EntityFrameworkCore;
 using TestFixtures.Organization;
 using TestFixtures.Project;
 
 namespace Integration.Tests.Project;
 
 [TestFixture]
-internal sealed class ProjectRepositoryTests : BaseRepositoryTests<ProjectRepository>
+internal sealed class ProjectRepositoryTests :BaseDatabaseTestFixture
 {
-    
+    private ProjectRepository _projectRepository;
     private OrganizationRepository _organizationRepository;
-    protected override ProjectRepository CreateRepository() => new(DbContext);
-    
+  
+
     [SetUp]
     public async Task SetUp()
     {
-        _organizationRepository = new OrganizationRepository(DbContext);
+        _projectRepository = new(DatabaseTestsFixture.DbContext);
+        _organizationRepository = new (DatabaseTestsFixture.DbContext);
     }
     
     [Test]
@@ -25,10 +28,10 @@ internal sealed class ProjectRepositoryTests : BaseRepositoryTests<ProjectReposi
         //Arrange
         await _organizationRepository.UpsertAsync(OrganizationModelFixture.DefaultOrganization);
         var expectedProject = ProjectModelFixture.DefaultProject;
-        await Repository.UpsertAsync(ProjectModelFixture.DefaultProject);
+        await _projectRepository.UpsertAsync(ProjectModelFixture.DefaultProject);
 
         //Act
-        var project = await Repository.GetProjectByAlias(expectedProject.Alias);
+        var project = await _projectRepository.GetProjectByAlias(expectedProject.Alias);
 
         //Assert
         Assert.That(project, Is.Not.Null);
@@ -40,7 +43,7 @@ internal sealed class ProjectRepositoryTests : BaseRepositoryTests<ProjectReposi
     public async Task GetProjectByAlias_ReturnsNull_WhenNotFound()
     {
         //Arrange & Act
-        var project = await Repository.GetProjectByAlias("non-existent-alias");
+        var project = await _projectRepository.GetProjectByAlias("non-existent-alias");
 
         //Assert
         Assert.That(project, Is.Null);
