@@ -83,7 +83,7 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
         {
             if (string.IsNullOrWhiteSpace(organizationAlias))
             {
-                throw new ArgumentException("OrganizationAlias cannot be null or empty", nameof(organizationAlias));
+                throw new ArgumentException("OrganizationAlias cannot be null or empty");
             }
             
             var projectEntities = await Context.Set<ProjectEntity>()
@@ -97,6 +97,10 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
             }
             
             return projectEntities.Select(MapEntityToModel).ToList();
+        }
+        catch (ArgumentException)
+        {
+            throw;
         }
         catch (Exception ex)
         {
