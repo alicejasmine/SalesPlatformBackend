@@ -122,7 +122,7 @@ public class UsageDocumentServiceTests
         var projectAlias = "oxygen-website1";
         
         _projectRepository
-            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == projectAlias)))
+            .Setup(x => x.GetEnvironmentIdByProjectAlias(It.Is<string>(s => s == projectAlias)))
             .ReturnsAsync(usageEntity.EnvironmentId);
         
         _usageDocumentRepository

@@ -19,7 +19,7 @@ public class UsageDocumentService : IUsageDocumentService
 
     public async Task<UsageEntity?> GetUsageEntity(string alias, int month, int year)
     {
-        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
+        var environmentId = await _projectRepository.GetEnvironmentIdByProjectAlias(alias);
         
         var date = new DateOnly(year, month, 1);
         var documentIdentifier = new DocumentIdentifier(environmentId, date);
@@ -30,7 +30,7 @@ public class UsageDocumentService : IUsageDocumentService
     public async Task<IEnumerable<UsageEntity>?> GetUsageEntitiesForMultipleMonths(string alias, int month, int year, int monthsToTake)
     {
         var usageData = new List<UsageEntity>();
-        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
+        var environmentId = await _projectRepository.GetEnvironmentIdByProjectAlias(alias);
         
         for (var i = 0; i < monthsToTake; i++)
         {
@@ -51,7 +51,7 @@ public class UsageDocumentService : IUsageDocumentService
     {
         var usageData = new List<UsageEntity>();
         var currentDate = DateTime.UtcNow;
-        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
+        var environmentId = await _projectRepository.GetEnvironmentIdByProjectAlias(alias);
 
         for (var i = 0; i < 12; i++)
         {
