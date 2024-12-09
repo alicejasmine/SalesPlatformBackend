@@ -1,15 +1,14 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Api.Service;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Bus;
 using Rebus.TestHelpers;
-using Api.Service;
 
 namespace Integration.Tests.Library.Http;
 
-public sealed class SelfHostedApi : WebApplicationFactory<Program>
+public sealed class SelfHostedApi : WebApplicationFactory<Startup>
 {
     public FakeBus Bus { get; } = new FakeBus();
 
@@ -29,25 +28,26 @@ public sealed class SelfHostedApi : WebApplicationFactory<Program>
 
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        builder.ConfigureAppConfiguration((_, conf) => conf.AddInMemoryCollection(CreateConfiguration()));
+        builder.ConfigureAppConfiguration((context, config) =>
+        {
+            config.SetBasePath(Directory.GetCurrentDirectory())
+                  .AddJsonFile("local.integrationTestsSettings.json", optional: false, reloadOnChange: true);
+
+            config.AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["ConnectionStrings:DefaultConnection"] = _connectionString,
+            });
+        });
 
         base.ConfigureWebHost(builder);
 
-        builder.ConfigureTestServices(services =>
+        builder.ConfigureServices(services =>
         {
             services.AddHttpClient();
             services.AddScoped<IBus>(_ => Bus);
         });
 
-        builder.UseEnvironment("IntegrationTest");
-    }
-
-    private Dictionary<string, string?> CreateConfiguration()
-    {
-        return new(StringComparer.Ordinal)
-        {
-            ["ConnectionStrings:DefaultConnection"] = _connectionString,
-        };
+        builder.UseEnvironment("integration-test");
     }
 
     protected override void Dispose(bool disposing)
@@ -61,7 +61,7 @@ public sealed class SelfHostedApi : WebApplicationFactory<Program>
 
             _disposed = true;
         }
-        
+
         base.Dispose(disposing);
     }
 }

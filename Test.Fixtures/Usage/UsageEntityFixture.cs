@@ -1,7 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.ValueObject;
 
-namespace Integration.Tests;
+namespace Test.Fixtures.Usage;
 
 public static class UsageEntityFixture
 {

@@ -2,7 +2,7 @@
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 
-namespace Integration.Tests.CosmosDb;
+namespace Integration.Tests.Library.TestContainers;
 
 public abstract class CosmosDbTestFixture
 {
@@ -40,13 +40,13 @@ public abstract class CosmosDbTestFixture
 
     private static IConfiguration GetConfiguration()
     {
-        var configuration = new ConfigurationBuilder()
-            .AddEnvironmentVariables();
+        var configurationBuilder = new ConfigurationBuilder()
+            .AddEnvironmentVariables()
+            .AddJsonFile("local.integrationTestsSettings.json", optional: true, reloadOnChange: true);
 
-        configuration.AddJsonFile("local.integrationTestsSettings.json", true);
+        var configuration = configurationBuilder.Build();
 
-
-        return configuration.Build();
+        return configuration;
     }
 
     private static (HttpClient client, string ConnectionString) GetCosmosDbConnection(IConfiguration configuration)

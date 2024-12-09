@@ -2,8 +2,8 @@
 using Infrastructure.Repositories.Usage;
 using Moq;
 using Domain.ValueObject;
-using Integration.Tests;
 using Domain.Entities;
+using Test.Fixtures.Usage;
 using Infrastructure.Repositories.Project;
 
 namespace Tests.Services;
