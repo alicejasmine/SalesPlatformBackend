@@ -1,12 +1,6 @@
 ﻿using Domain.Entities;
-using Domain.Enum;
 using Domain.Models;
-using Domain.Sample;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories.Project;
@@ -51,7 +45,26 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
 
         if (projectEntity == null)
             return null;
-        
+
         return MapEntityToModel(projectEntity);
+    }
+
+    public async Task<Guid> GetEnvironmentIdByAlias(string alias)
+    {
+        if (string.IsNullOrWhiteSpace(alias))
+        {
+            throw new ArgumentException("Alias cannot be null or empty", nameof(alias));
+        }
+
+        var fetchedEntity = await DbSetReadOnly
+            .SingleOrDefaultAsync(t => t.Alias == alias);
+
+        if (fetchedEntity == null)
+        {
+            throw new KeyNotFoundException($"No project found with alias '{alias}'");
+        }
+
+        return fetchedEntity.EnvironmentId;
+
     }
 }

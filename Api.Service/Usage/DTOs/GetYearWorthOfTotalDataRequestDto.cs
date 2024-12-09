@@ -2,7 +2,7 @@
 {
     public class GetYearWorthOfTotalDataRequestDto
     {
-        public Guid EnvironmentId { get; set; }
+        public string Alias { get; set; }
         public int year { get; set; }
     }
 }

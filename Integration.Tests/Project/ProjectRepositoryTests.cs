@@ -1,4 +1,4 @@
-﻿using Infrastructure.Repositories.Organization;
+using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Project;
 using Integration.Tests.Library;
 using TestFixtures.Organization;
