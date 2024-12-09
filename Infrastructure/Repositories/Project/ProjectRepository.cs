@@ -77,9 +77,31 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
         }
     }
 
-    public Task<List<ProjectModel>> GetProjectsByOrganizationAlias(string organizationAlias)
+    public async Task<List<ProjectModel>> GetProjectsByOrganizationAlias(string organizationAlias)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (string.IsNullOrWhiteSpace(organizationAlias))
+            {
+                throw new ArgumentException("OrganizationAlias cannot be null or empty", nameof(organizationAlias));
+            }
+            
+            var projectEntities = await Context.Set<ProjectEntity>()
+                .Include(p => p.Organization) 
+                .Where(p => p.Organization.Alias == organizationAlias) 
+                .ToListAsync();
+            
+            if (!projectEntities.Any())
+            {
+                return new List<ProjectModel>();
+            }
+            
+            return projectEntities.Select(MapEntityToModel).ToList();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An unexpected error occurred while retrieving the projects by organization alias.", ex);
+        }
     }
 
     protected override ProjectModel MapEntityToModel(ProjectEntity entity)
