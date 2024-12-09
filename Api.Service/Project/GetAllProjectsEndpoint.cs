@@ -29,7 +29,7 @@ public class GetAllProjectsEndpoint : EndpointBaseAsync.WithoutRequest.WithActio
         {
             var projects = await _projectService.GetAllProjects();
 
-            if (projects == null )
+            if (projects == null || !projects.Any())
             {
                 return Problem(
                     title: "No Projects Found",
