@@ -40,13 +40,31 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
 
     public async Task<ProjectModel?> GetProjectByAlias(string alias)
     {
-        var projectEntity = await Context.Set<ProjectEntity>()
-            .FirstOrDefaultAsync(p => p.Alias == alias);
+        try
+        {
+            if (string.IsNullOrWhiteSpace(alias))
+            {
+                throw new ArgumentException("Alias cannot be null or empty", nameof(alias));
+            }
 
-        if (projectEntity == null)
-            return null;
+            var projectEntity = await Context.Set<ProjectEntity>()
+                .FirstOrDefaultAsync(p => p.Alias == alias);
 
-        return MapEntityToModel(projectEntity);
+            if (projectEntity == null)
+            {
+                return null; 
+            }
+
+            return MapEntityToModel(projectEntity);
+        }
+        catch (ArgumentException ex)
+        {
+            throw new InvalidOperationException($"Invalid argument provided: {ex.Message}", ex);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An unexpected error occurred while retrieving the project by alias.", ex);
+        }
     }
 
     public async Task<Guid> GetEnvironmentIdByAlias(string alias)
@@ -65,6 +83,5 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
         }
 
         return fetchedEntity.EnvironmentId;
-
     }
 }
