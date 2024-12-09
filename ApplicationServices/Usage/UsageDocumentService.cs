@@ -1,5 +1,6 @@
 using Domain.Entities;
 using Domain.ValueObject;
+using Infrastructure.Repositories.Project;
 using Infrastructure.Repositories.Usage;
 
 namespace ApplicationServices.Usage;
@@ -7,24 +8,30 @@ namespace ApplicationServices.Usage;
 public class UsageDocumentService : IUsageDocumentService
 {
     private readonly IUsageDocumentRepository _usageDocumentRepository;
+    private readonly IProjectRepository _projectRepository;
+    
+    public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository, IProjectRepository projectRepository)
 
-    public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository)
     {
         _usageDocumentRepository = usageDocumentRepository;
+        _projectRepository = projectRepository;
     }
 
-    public async Task<UsageEntity?> GetUsageEntity(Guid environmentId, int month, int year)
+    public async Task<UsageEntity?> GetUsageEntity(string alias, int month, int year)
     {
+        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
+        
         var date = new DateOnly(year, month, 1);
         var documentIdentifier = new DocumentIdentifier(environmentId, date);
 
         return await _usageDocumentRepository.GetUsageEntity(documentIdentifier);
     }
 
-    public async Task<IEnumerable<UsageEntity>> GetUsageEntitiesForMultipleMonths(Guid environmentId, int month, int year, int monthsToTake)
+    public async Task<IEnumerable<UsageEntity>?> GetUsageEntitiesForMultipleMonths(string alias, int month, int year, int monthsToTake)
     {
         var usageData = new List<UsageEntity>();
-
+        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
+        
         for (var i = 0; i < monthsToTake; i++)
         {
             var date = new DateOnly(year, month, 1).AddMonths(-i);
@@ -40,10 +47,11 @@ public class UsageDocumentService : IUsageDocumentService
         return usageData;
     }
 
-    public async Task<(long totalBandwidthInBytes, long totalMediaInBytes)> GetYearOfUsageData(Guid environmentId, int year)
+    public async Task<(long totalBandwidthInBytes, long totalMediaInBytes)> GetYearOfUsageData(string alias, int year)
     {
         var usageData = new List<UsageEntity>();
         var currentDate = DateTime.UtcNow;
+        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
 
         for (var i = 0; i < 12; i++)
         {

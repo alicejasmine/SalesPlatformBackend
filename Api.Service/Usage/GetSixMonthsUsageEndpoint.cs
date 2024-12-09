@@ -1,6 +1,4 @@
-﻿using Api.Service.Controllers;
-using Api.Service.DTOs;
-using Api.Service.Usage.DTOs;
+﻿using Api.Service.Usage.DTOs;
 using ApplicationServices.Usage;
 using Ardalis.ApiEndpoints;
 using Microsoft.AspNetCore.Mvc;
@@ -21,19 +19,19 @@ public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthl
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Get Six Months Usage",
-        Description = "Get total bandwidth and media usage for the last 6 months by environment id and date",
+        Description = "Get total bandwidth and media usage for the last 6 months by alias and date",
         OperationId = "GetSixMonthsUsage")
         ]
 
     public override async Task<ActionResult<TotalUsageResponse>> HandleAsync([FromQuery] GetMonthlyUsageRequestDto dto, CancellationToken cancellationToken = new())
     {
-        var usageData = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(dto.EnvironmentId, dto.Month, dto.Year, 6);
+        var usageData = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(dto.Alias, dto.Month, dto.Year, 6);
 
         if (usageData == null || !usageData.Any())
         {
             return Problem(
                 title: "Usage data not found",
-                detail: $"No usage data found for environmentId {dto.EnvironmentId} starting from {dto.Month}/{dto.Year}",
+                detail: $"No usage data found for alias {dto.Alias} starting from {dto.Month}/{dto.Year}",
                 statusCode: StatusCodes.Status404NotFound);
         }
 
