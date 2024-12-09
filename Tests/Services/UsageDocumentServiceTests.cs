@@ -4,6 +4,7 @@ using Moq;
 using Domain.ValueObject;
 using Domain.Entities;
 using Test.Fixtures.Usage;
+using Infrastructure.Repositories.Project;
 
 namespace Tests.Services;
 public class UsageDocumentServiceTests

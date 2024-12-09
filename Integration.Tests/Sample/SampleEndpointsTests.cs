@@ -10,8 +10,6 @@ namespace Integration.Tests.Sample;
 [TestFixture]
 internal sealed class SampleEndpointsTests : BaseEndpointTests
 {
-    private const string BaseUrl = "https://localhost:7065";
-
     [Test]
     public async Task GetSample_ShouldReturnSample_WhenSampleExists()
     {
@@ -61,10 +59,10 @@ internal sealed class SampleEndpointsTests : BaseEndpointTests
     public async Task DeleteSample_ShouldReturnOk_WhenSampleExists()
     {
         // Arrange
-        await Data.StoreUser(SampleModelFixture.DefaultSample);
+        await Data.StoreSample(SampleModelFixture.DefaultSample);
 
         // Act
-        var response = await AppHttpClient.DeleteAsync($"/DeleteSample?id={sampleId}");
+        var response = await AppHttpClient.DeleteAsync($"/DeleteSample?id={SampleModelFixture.DefaultSample.Id}");
 
         // Assert
         Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.OK));
