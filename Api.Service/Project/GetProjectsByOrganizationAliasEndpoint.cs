@@ -28,7 +28,7 @@ namespace Api.Service.Project
            
             var projects = await _projectService.GetProjectsByOrganizationAlias(dto.OrganizationAlias);
 
-            if (!projects.Any())
+            if (projects.Count==0)
             {
                 return Problem(
                     title: "Projects not found",

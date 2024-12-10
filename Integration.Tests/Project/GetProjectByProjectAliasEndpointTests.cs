@@ -21,11 +21,12 @@ internal sealed class GetProjectByProjectAliasEndpointTests : BaseEndpointTests
         var projectAlias = "non existent alias";
         
         //Act
-        using var response = await AppHttpClient.GetAsync($"/GetProjectByAlias?alias={projectAlias}");
+        using var response = await AppHttpClient.GetAsync($"/GetProjectByProjectAlias?alias={projectAlias}");
 
         //Assert
         var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
         Assert.That(problemDetails, Is.Not.Null);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         Assert.That(problemDetails!.Title, Is.EqualTo("Project not found"));
         Assert.That(problemDetails.Detail, Does.Contain(projectAlias));
     }
@@ -39,7 +40,7 @@ internal sealed class GetProjectByProjectAliasEndpointTests : BaseEndpointTests
         await Data.StoreProject(project);
 
         //Act
-        using var response = await AppHttpClient.GetAsync($"/GetProjectByAlias?alias={project.Alias}");
+        using var response = await AppHttpClient.GetAsync($"/GetProjectByProjectAlias?alias={project.Alias}");
 
         //Assert
         var projectResponse = await response.Content.ReadFromJsonAsync<ProjectModel>();
