@@ -52,7 +52,7 @@ internal sealed class GetProjectsByOrganizationAliasEndpointTests : BaseEndpoint
         var projectResponse = await response.Content.ReadFromJsonAsync<List<ProjectResponse>>();
         Assert.That(projectResponse, Is.Not.Null);
         Assert.That(projectResponse.Count, Is.EqualTo(2)); 
-        Console.WriteLine($"Expected Alias: {organization.Alias}");
+     
         foreach (var actualProject in projectResponse)
         {
             Assert.That(actualProject.Alias, Is.EqualTo(ProjectModelFixture.DefaultProject.Alias));
@@ -62,8 +62,6 @@ internal sealed class GetProjectsByOrganizationAliasEndpointTests : BaseEndpoint
             Assert.That(actualProject.OrganizationId, Is.EqualTo(ProjectModelFixture.DefaultProject.OrganizationId));
             Assert.That(actualProject.Created.Date, Is.EqualTo(ProjectModelFixture.DefaultProject.Created.Date));
             Assert.That(actualProject.Modified.Date, Is.EqualTo(ProjectModelFixture.DefaultProject.Modified.Date));
-           
-
         }
     }
 }
