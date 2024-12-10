@@ -6,32 +6,32 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace Api.Service.Project;
 
-public class GetProjectByAliasEndpoint : EndpointBaseAsync.WithRequest<GetProjectByAliasRequestDto>.WithActionResult<ProjectResponse>
+public class GetProjectByProjectAliasEndpoint : EndpointBaseAsync.WithRequest<GetProjectByProjectAliasRequestDto>.WithActionResult<ProjectResponse>
 {
     private readonly IProjectService _projectService;
 
-    public GetProjectByAliasEndpoint(IProjectService projectService)
+    public GetProjectByProjectAliasEndpoint(IProjectService projectService)
     {
         _projectService = projectService;
     }
 
-    [HttpGet("GetProjectByAlias")]
+    [HttpGet("GetProjectByProjectAlias")]
     [ProducesResponseType(typeof(ProjectResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
-        Summary = "Get Project by Alias",
-        Description = "Retrieve project details by alias",
-        OperationId = "GetProjectByAlias")
+        Summary = "Get Project by Project Alias",
+        Description = "Retrieve project details by project alias",
+        OperationId = "GetProjectByProjectAlias")
     ]
-    public override async Task<ActionResult<ProjectResponse>> HandleAsync([FromQuery] GetProjectByAliasRequestDto dto, CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<ActionResult<ProjectResponse>> HandleAsync([FromQuery] GetProjectByProjectAliasRequestDto dto, CancellationToken cancellationToken = new CancellationToken())
     {
-        var project = await _projectService.GetProjectByAlias(dto.Alias);
+        var project = await _projectService.GetProjectByProjectAlias(dto.Alias);
 
         if (project == null)
         {
             return Problem(
                 title: "Project not found",
-                detail: $"No project found with alias '{dto.Alias}'",
+                detail: $"No project found with project alias '{dto.Alias}'",
                 statusCode: 404
             );
         }

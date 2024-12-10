@@ -4,6 +4,7 @@ namespace ApplicationServices.Project;
 
 public interface IProjectService
 {
-    Task<ProjectModel?> GetProjectByAlias(string alias);
+    Task<ProjectModel?> GetProjectByProjectAlias(string alias);
+    Task<List<ProjectModel>> GetProjectsByOrganizationAlias(string dtoOrganizationAlias);
     Task<List<ProjectModel>> GetAllProjects();
 }

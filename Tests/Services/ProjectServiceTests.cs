@@ -2,6 +2,7 @@
 using Domain.Models;
 using Infrastructure.Repositories.Project;
 using Moq;
+using TestFixtures.Organization;
 using TestFixtures.Project;
 
 namespace Tests.Services
@@ -20,16 +21,16 @@ namespace Tests.Services
         }
 
         [Test]
-        public async Task GetProjectByAlias_ReturnsProject_WhenFound()
+        public async Task GetProjectByProjectAlias_ReturnsProject_WhenFound()
         {
             //Arrange
             var expectedProject = ProjectModelFixture.DefaultProject;
 
-            _mockProjectRepository.Setup(repo => repo.GetProjectByAlias(expectedProject.Alias))
+            _mockProjectRepository.Setup(repo => repo.GetProjectByProjectAlias(expectedProject.Alias))
                 .ReturnsAsync(expectedProject);
 
             //Act
-            var result = await _projectService.GetProjectByAlias(expectedProject.Alias);
+            var result = await _projectService.GetProjectByProjectAlias(expectedProject.Alias);
 
             //Assert
             Assert.That(result, Is.Not.Null);
@@ -38,16 +39,16 @@ namespace Tests.Services
         }
 
         [Test]
-        public async Task GetProjectByAlias_ReturnsNull_WhenNotFound()
+        public async Task GetProjectByProjectAlias_ReturnsNull_WhenNotFound()
         {
             //Arrange
             var alias = "non-existent-alias";
 
-            _mockProjectRepository.Setup(repo => repo.GetProjectByAlias(alias))
+            _mockProjectRepository.Setup(repo => repo.GetProjectByProjectAlias(alias))
                 .ReturnsAsync((ProjectModel?)null);
 
             //Act
-            var result = await _projectService.GetProjectByAlias(alias);
+            var result = await _projectService.GetProjectByProjectAlias(alias);
 
             //Assert
             Assert.That(result, Is.Null);
@@ -87,6 +88,62 @@ namespace Tests.Services
 
             // Act
             var result = await _projectService.GetAllProjects();
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count, Is.EqualTo(0));
+        }
+        
+         [Test]
+        public async Task GetProjectsByOrganizationAlias_ReturnsProjects_WhenOrganizationAliasFound()
+        {
+            // Arrange
+            var organizationAlias = OrganizationModelFixture.DefaultOrganization.Alias;
+            var project1 = ProjectModelFixture.DefaultProject;
+            var project2 = ProjectModelFixture.OtherDefaultProject;
+            var expectedProjects = new List<ProjectModel> { project1, project2 };
+
+            _mockProjectRepository.Setup(repo => repo.GetProjectsByOrganizationAlias(organizationAlias))
+                .ReturnsAsync(expectedProjects);
+
+            // Act
+            var result = await _projectService.GetProjectsByOrganizationAlias(organizationAlias);
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result[0].Alias, Is.EqualTo(project1.Alias));
+            Assert.That(result[1].Alias, Is.EqualTo(project2.Alias));
+        }
+
+        [Test]
+        public async Task GetProjectsByOrganizationAlias_ReturnsEmptyList_WhenNoProjectsFound()
+        {
+            // Arrange
+            var organizationAlias = OrganizationModelFixture.DefaultOrganization.Alias;
+
+            _mockProjectRepository.Setup(repo => repo.GetProjectsByOrganizationAlias(organizationAlias))
+                .ReturnsAsync(new List<ProjectModel>());
+
+            // Act
+            var result = await _projectService.GetProjectsByOrganizationAlias(organizationAlias);
+
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public async Task GetProjectsByOrganizationAlias_ReturnsEmptyList_WhenOrganizationAliasNotFound()
+        {
+            // Arrange
+            var organizationAlias = "non-existent-alias";
+
+            _mockProjectRepository.Setup(repo => repo.GetProjectsByOrganizationAlias(organizationAlias))
+                .ReturnsAsync(new List<ProjectModel>());
+
+            // Act
+            var result = await _projectService.GetProjectsByOrganizationAlias(organizationAlias);
 
             // Assert
             Assert.That(result, Is.Not.Null);

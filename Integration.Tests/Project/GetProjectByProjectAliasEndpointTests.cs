@@ -10,28 +10,29 @@ using TestFixtures.Project;
 namespace Integration.Tests.Project;
 
 [TestFixture]
-[TestOf(typeof(GetProjectByAliasEndpoint))]
-internal sealed class GetProjectByAliasEndpointTests : BaseEndpointTests
+[TestOf(typeof(GetProjectByProjectAliasEndpoint))]
+internal sealed class GetProjectByProjectAliasEndpointTests : BaseEndpointTests
 {
     
     [Test]
-    public async Task GetProjectByAlias_ReturnsNotFound_WithDetails_WhenProjectNotFound()
+    public async Task GetProjectByProjectAlias_ReturnsNotFound_WithDetails_WhenProjectNotFound()
     {
         //Arrange 
         var projectAlias = "non existent alias";
         
         //Act
-        using var response = await AppHttpClient.GetAsync($"/GetProjectByAlias?alias={projectAlias}");
+        using var response = await AppHttpClient.GetAsync($"/GetProjectByProjectAlias?alias={projectAlias}");
 
         //Assert
         var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
         Assert.That(problemDetails, Is.Not.Null);
+        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
         Assert.That(problemDetails!.Title, Is.EqualTo("Project not found"));
         Assert.That(problemDetails.Detail, Does.Contain(projectAlias));
     }
 
     [Test]
-    public async Task GetProjectByAlias_ReturnsProject_WhenSuccess()
+    public async Task GetProjectByProjectAlias_ReturnsProject_WhenSuccess()
     {
         //Arrange
         var project = ProjectModelFixture.DefaultProject;
@@ -39,7 +40,7 @@ internal sealed class GetProjectByAliasEndpointTests : BaseEndpointTests
         await Data.StoreProject(project);
 
         //Act
-        using var response = await AppHttpClient.GetAsync($"/GetProjectByAlias?alias={project.Alias}");
+        using var response = await AppHttpClient.GetAsync($"/GetProjectByProjectAlias?alias={project.Alias}");
 
         //Assert
         var projectResponse = await response.Content.ReadFromJsonAsync<ProjectModel>();
