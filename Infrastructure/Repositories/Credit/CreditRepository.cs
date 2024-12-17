@@ -9,7 +9,7 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
     {
     }
 
-    public new async Task UpsertAsync(CreditHistoryModel creditHistory)
+    public async Task UpsertAsync(CreditHistoryModel creditHistory)
     {
         var existingCreditHistory = await DbSet
             .FirstOrDefaultAsync(ch => ch.Id == creditHistory.Id);
