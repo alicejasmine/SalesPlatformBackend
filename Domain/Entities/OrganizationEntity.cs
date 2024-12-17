@@ -1,5 +1,7 @@
-﻿using Domain.Enum;
+﻿using System.Collections;
+using Domain.Enum;
 using System.ComponentModel.DataAnnotations;
+using Domain.Models;
 
 namespace Domain.Entities;
 public class OrganizationEntity : BaseEntity
@@ -20,6 +22,10 @@ public class OrganizationEntity : BaseEntity
 
     [Required]
     public ICollection<ProjectEntity>? Projects { get; set; }
+    
+    [Required]
+    public ICollection<CreditHistoryModel>? CreditHistories{ get; set; }
+    // public IEnumerable<PurchaseEntity>? Purchases { get; set; }
 
     public OrganizationEntity(Guid id, string alias, string displayName, int totalCredits, PartnershipEnum partnership, DateTime created, DateTime modified) : base(id, created, modified)
     {
@@ -28,8 +34,4 @@ public class OrganizationEntity : BaseEntity
         TotalCredits = totalCredits;
         Partnership = partnership;
     }
-
-    // future implemntation
-    //public ICollection<PurchaseModel>? Purchases { get; set; }
-    //public ICollection<CreditHistoryModel>? CreditHistory { get; set; }
 }

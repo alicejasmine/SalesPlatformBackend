@@ -10,7 +10,7 @@ public class SalesPlatformDbContext : DbContext
     public DbSet<ProjectEntity> ProjectEntities { get; set; }
     public DbSet<PlanEntity> PlanEntities { get; set; }
     public DbSet<OrganizationEntity> organizationEntities { get; set; }
-    //change names and remove Entities from names
+    public DbSet<CreditHistoryEntity> CreditHistoryEntities { get; set; } 
     
     public SalesPlatformDbContext(DbContextOptions<SalesPlatformDbContext> options) : base(options)
     {
@@ -24,6 +24,12 @@ public class SalesPlatformDbContext : DbContext
             .HasForeignKey(p => p.OrganizationId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        modelBuilder.Entity<CreditHistoryEntity>()
+            .HasOne(ch => ch.Organization)
+            .WithMany(o => o.CreditHistories)
+            .HasForeignKey(ch => ch.OrganizationId)
+            .OnDelete(DeleteBehavior.Cascade);
+        
         base.OnModelCreating(modelBuilder);
     }
 }
