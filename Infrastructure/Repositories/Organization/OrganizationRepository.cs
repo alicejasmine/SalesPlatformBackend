@@ -29,7 +29,8 @@ public class OrganizationRepository : BaseRepository<OrganizationModel, Organiza
             entity.TotalCredits,
             entity.Partnership,
             entity.Created,
-            entity.Modified);
+            entity.Modified,
+            entity.CreditHistories);
     }
 
     protected override OrganizationEntity MapModelToEntity(OrganizationModel model)
@@ -41,6 +42,7 @@ public class OrganizationRepository : BaseRepository<OrganizationModel, Organiza
             model.TotalCredits,
             model.Partnership,
             model.Created,
-            model.Modified);
+            model.Modified,
+            model.CreditHistory);
     }
 }

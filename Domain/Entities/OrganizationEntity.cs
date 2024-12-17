@@ -27,11 +27,12 @@ public class OrganizationEntity : BaseEntity
     public ICollection<CreditHistoryModel>? CreditHistories{ get; set; }
     // public IEnumerable<PurchaseEntity>? Purchases { get; set; }
 
-    public OrganizationEntity(Guid id, string alias, string displayName, int totalCredits, PartnershipEnum partnership, DateTime created, DateTime modified) : base(id, created, modified)
+    public OrganizationEntity(Guid id, string alias, string displayName, int totalCredits, PartnershipEnum partnership, DateTime created, DateTime modified, ICollection<CreditHistoryModel>? creditHistories) : base(id, created, modified)
     {
         Alias = alias;
         DisplayName = displayName;
         TotalCredits = totalCredits;
         Partnership = partnership;
+        CreditHistories = creditHistories;
     }
 }
