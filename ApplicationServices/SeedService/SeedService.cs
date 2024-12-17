@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using Domain.Enum;
 using Domain.Models;
+using Infrastructure.Repositories.Credit;
 using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Plan;
 using Infrastructure.Repositories.Project;
@@ -14,6 +15,7 @@ public class SeedService : ISeedService
     private readonly IOrganizationRepository _organizationRepository;
     private readonly IProjectRepository _projectRepository;
     private readonly IPlanRepository _planRepository;
+    private readonly ICreditRepository _creditRepository;
 
     private List<Guid> PlanIds = new List<Guid>();
     private List<Guid> OrganizationIds = new List<Guid>();
@@ -24,12 +26,14 @@ public class SeedService : ISeedService
         IUsageDocumentRepository usageDocumentRepository,
         IOrganizationRepository organizationRepository,
         IProjectRepository projectRepository,
-        IPlanRepository planRepository)
+        IPlanRepository planRepository, 
+        ICreditRepository creditRepository)
     {
         _usageDocumentRepository = usageDocumentRepository;
         _organizationRepository = organizationRepository;
         _projectRepository = projectRepository;
         _planRepository = planRepository;
+        _creditRepository = creditRepository;
     }
 
     public async Task SeedDatabasesWithData()
@@ -38,6 +42,7 @@ public class SeedService : ISeedService
         await SeedOrganization();
         await SeedProjects();
         await SeedUsage();
+        await SeedCredits();
     }
 
     private async Task SeedPlans()
@@ -61,9 +66,9 @@ public class SeedService : ISeedService
     {
         var Organizations = new List<OrganizationModel>
         {
-            new OrganizationModel(Guid.NewGuid(), "oxygen", "Oxygen", 154827, PartnershipEnum.Gold, DateTime.UtcNow, DateTime.UtcNow),
-            new OrganizationModel(Guid.NewGuid(), "io", "iO", 789456, PartnershipEnum.Platinum, DateTime.UtcNow, DateTime.UtcNow),
-            new OrganizationModel(Guid.NewGuid(), "increo", "Increo", 784, PartnershipEnum.Silver, DateTime.UtcNow, DateTime.UtcNow)
+            new OrganizationModel(Guid.NewGuid(), "oxygen", "Oxygen", 154827, PartnershipEnum.Gold, DateTime.UtcNow, DateTime.UtcNow,  new List<CreditHistoryModel>()),
+            new OrganizationModel(Guid.NewGuid(), "io", "iO", 789456, PartnershipEnum.Platinum, DateTime.UtcNow, DateTime.UtcNow,  new List<CreditHistoryModel>()),
+            new OrganizationModel(Guid.NewGuid(), "increo", "Increo", 784, PartnershipEnum.Silver, DateTime.UtcNow, DateTime.UtcNow,  new List<CreditHistoryModel>()),
         };
 
         foreach (var organization in Organizations)
@@ -71,6 +76,7 @@ public class SeedService : ISeedService
             await _organizationRepository.UpsertAsync(organization);
             OrganizationIds.Add(organization.Id);
         }
+        
     }
 
     private async Task SeedProjects()
@@ -100,6 +106,52 @@ public class SeedService : ISeedService
             EnvironmentIds.Add(project.EnvironmentId);
         }
     }
+    private async Task SeedCredits()
+    {
+        var creditHistories = new List<CreditHistoryModel>
+        {
+            new CreditHistoryModel(
+                Guid.NewGuid(),
+                DateTime.UtcNow,
+                DateTime.UtcNow,
+                351358,
+                1000,
+                200,
+                800,
+                new DateOnly(2024, 12, 17),
+                new DateOnly(2024, 12, 18),
+                OrganizationIds[0] 
+            ),
+            new CreditHistoryModel(
+                Guid.NewGuid(),
+                DateTime.UtcNow,
+                DateTime.UtcNow,
+                351359,
+                2000,
+                500,
+                1500,
+                new DateOnly(2024, 12, 19),
+                new DateOnly(2024, 12, 20),
+                OrganizationIds[1] 
+            )
+        };
+
+        foreach (var creditHistory in creditHistories)
+        {
+            await _creditRepository.UpsertAsync(creditHistory);
+        }
+        
+        foreach (var creditHistory in creditHistories)
+        {
+            var organization = await _organizationRepository.GetByIdAsync(creditHistory.OrganizationId);
+            if (organization != null)
+            {
+                organization.CreditHistory.Add(creditHistory);
+                await _organizationRepository.UpsertAsync(organization);
+            }
+        }
+    }
+
 
     private async Task SeedUsage()
     {
