@@ -35,4 +35,8 @@ public class OrganizationEntity : BaseEntity
         Partnership = partnership;
         CreditHistories = creditHistories;
     }
+
+    public OrganizationEntity()
+    {
+    }
 }

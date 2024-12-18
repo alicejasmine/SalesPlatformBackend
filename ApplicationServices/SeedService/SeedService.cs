@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Enum;
+﻿using Domain.Enum;
 using Domain.Models;
 using Infrastructure.Repositories.Credit;
 using Infrastructure.Repositories.Organization;
@@ -114,24 +113,20 @@ public class SeedService : ISeedService
                 Guid.NewGuid(),
                 DateTime.UtcNow,
                 DateTime.UtcNow,
-                351358,
+                "351358",
                 1000,
                 200,
                 800,
-                new DateOnly(2024, 12, 17),
-                new DateOnly(2024, 12, 18),
                 OrganizationIds[0] 
             ),
             new CreditHistoryModel(
                 Guid.NewGuid(),
                 DateTime.UtcNow,
                 DateTime.UtcNow,
-                351359,
+                "351359",
                 2000,
                 500,
                 1500,
-                new DateOnly(2024, 12, 19),
-                new DateOnly(2024, 12, 20),
                 OrganizationIds[1] 
             )
         };

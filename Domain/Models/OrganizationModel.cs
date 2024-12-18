@@ -21,6 +21,6 @@ public class OrganizationModel : BaseModel
     public int TotalCredits { get; private set; }
     public PartnershipEnum Partnership { get; set; }
     public ICollection<ProjectModel> Projects { get; set; }
-    public ICollection<CreditHistoryModel> CreditHistory { get; set; }
+    public ICollection<CreditHistoryModel>? CreditHistory { get; set; }
     //public ICollection<PurchaseModel> Purchases { get; set; }
 }

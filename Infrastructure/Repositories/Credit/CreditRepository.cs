@@ -20,8 +20,6 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
             existingCreditHistory.PartnershipCredits = creditHistory.PartnershipCredits;
             existingCreditHistory.CreditsSpend = creditHistory.CreditsSpend;
             existingCreditHistory.CurrentCredits = creditHistory.CurrentCredits;
-            existingCreditHistory.CreditStart = creditHistory.CreditStart;
-            existingCreditHistory.CreditEnd = creditHistory.CreditEnd;
             existingCreditHistory.OrganizationId = creditHistory.OrganizationId;
             existingCreditHistory.Modified = DateTime.UtcNow; // Update modified date
 
@@ -46,8 +44,6 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
             entity.PartnershipCredits,
             entity.CreditsSpend,
             entity.CurrentCredits,
-            entity.CreditStart,
-            entity.CreditEnd,
             entity.OrganizationId
         );
     }
@@ -63,8 +59,6 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
             PartnershipCredits = model.PartnershipCredits,
             CreditsSpend = model.CreditsSpend,
             CurrentCredits = model.CurrentCredits,
-            CreditStart = model.CreditStart,
-            CreditEnd = model.CreditEnd,
             OrganizationId = model.OrganizationId
         };
     }
