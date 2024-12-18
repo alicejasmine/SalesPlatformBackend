@@ -1,5 +1,6 @@
 ﻿using ApplicationServices.Seed;
 using Domain.Models;
+using Infrastructure.Repositories.Credit;
 using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Plan;
 using Infrastructure.Repositories.Project;
@@ -16,6 +17,7 @@ namespace Tests.Services
         private Mock<IOrganizationRepository> _organizationRepository;
         private Mock<IProjectRepository> _projectRepository;
         private Mock<IPlanRepository> _planRepository;
+        private Mock<ICreditRepository> _creditRepository;
 
         [SetUp]
         public void Setup()
@@ -24,12 +26,14 @@ namespace Tests.Services
             _organizationRepository = new Mock<IOrganizationRepository>();
             _projectRepository = new Mock<IProjectRepository>();
             _planRepository = new Mock<IPlanRepository>();
+            _creditRepository = new Mock<ICreditRepository>();
 
             _seedService = new SeedService(
                 _usageDocumentRepository.Object,
                 _organizationRepository.Object,
                 _projectRepository.Object,
-                _planRepository.Object
+                _planRepository.Object,
+                _creditRepository.Object
             );
         }
 

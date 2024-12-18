@@ -19,24 +19,20 @@ public static class OrganizationModelFixture
             id: Guid.NewGuid(),
             created: DateTime.UtcNow,
             modified: DateTime.UtcNow,
-            invoiceNumber: 123456,
+            invoiceNumber: "123456",
             partnershipCredits: 500,
             creditsSpend: 100,
             currentCredits: 400,
-            creditStart: new DateOnly(2024, 1, 1),
-            creditEnd: new DateOnly(2024, 12, 31),
             organizationId: DefaultOrganizationId
         ),
         new CreditHistoryModel(
             id: Guid.NewGuid(),
             created: DateTime.UtcNow,
             modified: DateTime.UtcNow,
-            invoiceNumber: 123457,
+            invoiceNumber: "123457",
             partnershipCredits: 300,
             creditsSpend: 50,
             currentCredits: 250,
-            creditStart: new DateOnly(2024, 2, 1),
-            creditEnd: new DateOnly(2024, 12, 31),
             organizationId: DefaultOrganizationId
         )
     }
