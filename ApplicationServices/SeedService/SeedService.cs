@@ -65,9 +65,9 @@ public class SeedService : ISeedService
     {
         var Organizations = new List<OrganizationModel>
         {
-            new OrganizationModel(Guid.NewGuid(), "oxygen", "Oxygen", 154827, PartnershipEnum.Gold, DateTime.UtcNow, DateTime.UtcNow,  new List<CreditHistoryModel>()),
-            new OrganizationModel(Guid.NewGuid(), "io", "iO", 789456, PartnershipEnum.Platinum, DateTime.UtcNow, DateTime.UtcNow,  new List<CreditHistoryModel>()),
-            new OrganizationModel(Guid.NewGuid(), "increo", "Increo", 784, PartnershipEnum.Silver, DateTime.UtcNow, DateTime.UtcNow,  new List<CreditHistoryModel>()),
+            new OrganizationModel(Guid.NewGuid(), "oxygen", "Oxygen", 190000, PartnershipEnum.Gold, DateTime.UtcNow, DateTime.UtcNow,  new List<CreditHistoryModel>()),
+            new OrganizationModel(Guid.NewGuid(), "io", "iO", 95000, PartnershipEnum.Platinum, DateTime.UtcNow, DateTime.UtcNow,  new List<CreditHistoryModel>()),
+            new OrganizationModel(Guid.NewGuid(), "increo", "Increo", 7800, PartnershipEnum.Silver, DateTime.UtcNow, DateTime.UtcNow,  new List<CreditHistoryModel>()),
         };
 
         foreach (var organization in Organizations)
@@ -114,9 +114,9 @@ public class SeedService : ISeedService
                 DateTime.UtcNow,
                 DateTime.UtcNow,
                 "351358",
-                1000,
-                200,
-                800,
+                200000,
+                8000,
+                192000,
                 OrganizationIds[0] 
             ),
             new CreditHistoryModel(
@@ -124,11 +124,32 @@ public class SeedService : ISeedService
                 DateTime.UtcNow,
                 DateTime.UtcNow,
                 "351359",
+                200000,
                 2000,
-                500,
-                1500,
+                190000,
+                OrganizationIds[0] 
+            ),
+            new CreditHistoryModel(
+                Guid.NewGuid(),
+                DateTime.UtcNow,
+                DateTime.UtcNow,
+                "351360",
+                100000,
+                5000,
+                95000,
                 OrganizationIds[1] 
-            )
+            ),
+            
+            new CreditHistoryModel(
+                Guid.NewGuid(),
+                DateTime.UtcNow,
+                DateTime.UtcNow,
+                "351361",
+                7800,
+                800,
+                7000,
+                OrganizationIds[2] 
+            ),
         };
 
         foreach (var creditHistory in creditHistories)
