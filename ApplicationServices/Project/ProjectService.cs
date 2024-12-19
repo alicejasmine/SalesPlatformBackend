@@ -11,8 +11,18 @@ public class ProjectService : IProjectService
     {
         _projectRepository = projectRepository;
     }
-    public async Task<ProjectModel?> GetProjectByAlias(string alias)
+    public async Task<ProjectModel?> GetProjectByProjectAlias(string projectAlias)
     {
-        return await _projectRepository.GetProjectByAlias(alias);
+        return await _projectRepository.GetProjectByProjectAlias(projectAlias);
+    }
+
+    public async Task<List<ProjectModel>> GetProjectsByOrganizationAlias(string organizationAlias)
+    {
+        return await _projectRepository.GetProjectsByOrganizationAlias(organizationAlias);
+    }
+
+    public async Task<List<ProjectModel>> GetAllProjects()
+    {
+        return await _projectRepository.GetAllProjects();
     }
 }

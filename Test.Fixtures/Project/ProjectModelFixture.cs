@@ -23,4 +23,15 @@ public class ProjectModelFixture
         created: DefaultCreated,
         modified: DefaultModified
     );
+    
+    public static ProjectModel OtherDefaultProject { get; } = new ProjectModel(
+        id: Guid.NewGuid(),
+        environmentId:DefaultEnvironmentId,
+        alias: DefaultAlias,
+        displayName: DefaultDisplayName,
+        planId: DefaultPlanId,
+        organizationId: DefaultOrganizationId,
+        created: DefaultCreated,
+        modified: DefaultModified
+    );
 }

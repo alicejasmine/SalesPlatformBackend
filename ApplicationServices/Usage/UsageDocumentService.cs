@@ -21,16 +21,8 @@ public class UsageDocumentService : IUsageDocumentService
 
     public async Task<UsageEntity?> GetUsageEntity(string alias, int month, int year)
     {
-        var environmentId = Guid.Empty;
-        try
-        {
-            environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
-        }
-        catch(KeyNotFoundException) 
-        {
-            return null;
-        }
-
+        var environmentId = await _projectRepository.GetEnvironmentIdByProjectAlias(alias);
+        
         var date = new DateOnly(year, month, 1);
         var documentIdentifier = new DocumentIdentifier(environmentId, date);
 
@@ -40,15 +32,8 @@ public class UsageDocumentService : IUsageDocumentService
     public async Task<IEnumerable<UsageEntity>?> GetUsageEntitiesForMultipleMonths(string alias, int month, int year, int monthsToTake)
     {
         var usageData = new List<UsageEntity>();
-        var environmentId = Guid.Empty;
-        try
-        {
-            environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
-        }
-        catch(KeyNotFoundException) {
-            return null;
-        }
-
+        var environmentId = await _projectRepository.GetEnvironmentIdByProjectAlias(alias);
+        
         for (var i = 0; i < monthsToTake; i++)
         {
             var date = new DateOnly(year, month, 1).AddMonths(-i);

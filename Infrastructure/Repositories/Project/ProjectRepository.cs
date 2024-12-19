@@ -10,35 +10,8 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
     public ProjectRepository(SalesPlatformDbContext context) : base(context)
     {
     }
-
-    protected override ProjectModel MapEntityToModel(ProjectEntity entity)
-    {
-        return new ProjectModel(
-            entity.Id,
-            entity.EnvironmentId,
-            entity.Alias,
-            entity.DisplayName,
-            entity.PlanId,
-            entity.OrganizationId,
-            entity.Created,
-            entity.Modified);
-    }
-
-    protected override ProjectEntity MapModelToEntity(ProjectModel model)
-    {
-        return new ProjectEntity(
-            model.Id,
-            model.EnvironmentId,
-            model.DisplayName,
-            model.Alias,
-            model.PlanId,
-            model.OrganizationId,
-            model.Created,
-            model.Modified
-        );
-    }
-
-    public async Task<ProjectModel?> GetProjectByAlias(string alias)
+    
+    public async Task<ProjectModel?> GetProjectByProjectAlias(string alias)
     {
         try
         {
@@ -67,7 +40,7 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
         }
     }
 
-    public async Task<Guid> GetEnvironmentIdByAlias(string alias)
+    public async Task<Guid> GetEnvironmentIdByProjectAlias(string alias)
     {
         if (string.IsNullOrWhiteSpace(alias))
         {
@@ -83,5 +56,82 @@ public class ProjectRepository : BaseRepository<ProjectModel, ProjectEntity>, IP
         }
 
         return fetchedEntity.EnvironmentId;
+    }
+
+    public async Task<List<ProjectModel>> GetAllProjects()
+    {
+        try
+        { 
+            var projectEntities = await DbSetReadOnly.ToListAsync();
+            
+            if (!projectEntities.Any())
+            {
+                return new List<ProjectModel>();
+            }
+
+            return projectEntities.Select(MapEntityToModel).ToList();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An unexpected error occurred while retrieving the projects.", ex);
+        }
+    }
+
+    public async Task<List<ProjectModel>> GetProjectsByOrganizationAlias(string organizationAlias)
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(organizationAlias))
+            {
+                throw new ArgumentException("OrganizationAlias cannot be null or empty");
+            }
+            
+            var projectEntities = await Context.Set<ProjectEntity>()
+                .Include(p => p.Organization) 
+                .Where(p => p.Organization.Alias == organizationAlias) 
+                .ToListAsync();
+            
+            if (!projectEntities.Any())
+            {
+                return new List<ProjectModel>();
+            }
+            
+            return projectEntities.Select(MapEntityToModel).ToList();
+        }
+        catch (ArgumentException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An unexpected error occurred while retrieving the projects by organization alias.", ex);
+        }
+    }
+
+    protected override ProjectModel MapEntityToModel(ProjectEntity entity)
+    {
+        return new ProjectModel(
+            entity.Id,
+            entity.EnvironmentId,
+            entity.Alias,
+            entity.DisplayName,
+            entity.PlanId,
+            entity.OrganizationId,
+            entity.Created,
+            entity.Modified);
+    }
+
+    protected override ProjectEntity MapModelToEntity(ProjectModel model)
+    {
+        return new ProjectEntity(
+            model.Id,
+            model.EnvironmentId,
+            model.DisplayName,
+            model.Alias,
+            model.PlanId,
+            model.OrganizationId,
+            model.Created,
+            model.Modified
+        );
     }
 }
