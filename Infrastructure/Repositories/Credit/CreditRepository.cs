@@ -46,25 +46,60 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
         return organization.Id;
     }
 
+    public async Task UpsertListAsync(List<CreditHistoryModel> creditHistories)
+    {
+        foreach (var creditHistory in creditHistories)
+        {
+            var existingCreditHistory = await DbSet
+                .FirstOrDefaultAsync(ch => ch.Id == creditHistory.Id);
+
+            if (existingCreditHistory != null)
+            {
+                existingCreditHistory.InvoiceNumber = creditHistory.InvoiceNumber;
+                existingCreditHistory.PartnershipCredits = creditHistory.PartnershipCredits;
+                existingCreditHistory.CreditsSpend = creditHistory.CreditsSpend;
+                existingCreditHistory.CurrentCredits = creditHistory.CurrentCredits;
+                existingCreditHistory.OrganizationId = creditHistory.OrganizationId;
+                existingCreditHistory.Modified = DateTime.UtcNow; // Update modified date
+            }
+            else
+            {
+                var entity = MapModelToEntity(creditHistory);
+                await DbSet.AddAsync(entity);
+            }
+        }
+
+        await Context.SaveChangesAsync();
+    }
+
     public async Task<List<CreditHistoryModel>> GetCreditHistoryByOrganizationAlias(string organizationAlias)
     {
-        var organizationId = await GetOrganizationIdByAlias(organizationAlias);
-        
-        var creditHistoryEntities = await  DbSet
-            .Where(ch => ch.OrganizationId == organizationId)
-            .OrderByDescending(ch => ch.Created) //Order by the created date to show latest first
-            .ToListAsync();
-
-    
-        if (!creditHistoryEntities.Any())
+        try
         {
-            throw new KeyNotFoundException($"No credit history found for organization with alias '{organizationAlias}'.");
-        }
-        
-        return creditHistoryEntities.Select(MapEntityToModel).ToList();
-    }
-    
+            var organizationId = await GetOrganizationIdByAlias(organizationAlias);
 
+            var creditHistoryEntities = await DbSet
+                .Where(ch => ch.OrganizationId == organizationId)
+                .OrderByDescending(ch => ch.Created) //Order by the created date to show latest first
+                .ToListAsync();
+
+            if (!creditHistoryEntities.Any())
+            {
+                throw new KeyNotFoundException(
+                    $"No credit history found for organization with alias '{organizationAlias}'.");
+            }
+
+            return creditHistoryEntities.Select(MapEntityToModel).ToList();
+        }
+        catch (KeyNotFoundException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("An unexpected error occurred while retrieving the credits history.", ex);
+        }
+    }
 
     protected override CreditHistoryModel MapEntityToModel(CreditHistoryEntity entity)
     {

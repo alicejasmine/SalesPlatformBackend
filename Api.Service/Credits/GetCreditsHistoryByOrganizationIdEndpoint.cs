@@ -16,7 +16,7 @@ public class GetCreditsHistoryByOrganizationAliasEndpoint : EndpointBaseAsync.Wi
     }
 
     [HttpGet("GetCreditsHistoryByOrganizationAlias")]
-    [ProducesResponseType(typeof(CreditHistoryResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(List<CreditHistoryResponse>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerOperation(
@@ -30,10 +30,10 @@ public class GetCreditsHistoryByOrganizationAliasEndpoint : EndpointBaseAsync.Wi
         {
             var creditHistories = await _creditService.GetCreditHistoryByOrganizationAlias(dto.OrganizationAlias);
 
-            if (creditHistories == null)
+            if (creditHistories == null || !creditHistories.Any())
             {
                 return Problem(
-                    title: "Organization Not Found",
+                    title: "No Credits History found",
                     detail: $"No credit history found for the organization with alias '{dto.OrganizationAlias}'.",
                     statusCode: 404
                 );
@@ -53,12 +53,21 @@ public class GetCreditsHistoryByOrganizationAliasEndpoint : EndpointBaseAsync.Wi
 
             return Ok(response);
         }
+        catch (KeyNotFoundException ex)
+        {
+            return NotFound(new ProblemDetails
+            {
+                Title = "Organization Not Found",
+                Detail = ex.Message,
+                Status = StatusCodes.Status404NotFound
+            });
+        }
         catch (Exception ex)
         {
             return Problem(
                 title: "Error Retrieving Credit History",
                 detail: ex.Message,
-                statusCode: 500
+                statusCode: StatusCodes.Status500InternalServerError
             );
         }
     }
