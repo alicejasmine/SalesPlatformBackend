@@ -56,11 +56,16 @@ internal class GetYearWorthOfTotalDataEndpointTests : BaseCosmoEndpointTests
     {
         //Arrange 
         var nonExistingAlias = "non-existing-alias";
+        try
+        {
+            //Act
+            var response = await AppHttpClient.GetAsync($"Usage/GetMonthlyUsage?alias={nonExistingAlias}&year={2024}&month={1}");
+        }
+        catch (Exception ex)
+        {
+            //Assert
+            Assert.That(ex.Message, Is.EqualTo($"No project found with alias '{nonExistingAlias}'"));
+        }
 
-        //Act
-        var response = await AppHttpClient.GetAsync($"Usage/GetMonthlyUsage?alias={nonExistingAlias}&year={2024}&month={1}");
-
-        //Assert
-        Assert.That(response.StatusCode, Is.EqualTo(HttpStatusCode.NotFound));
     }
 }

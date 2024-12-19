@@ -52,7 +52,7 @@ public class UsageDocumentService : IUsageDocumentService
     public async Task<(long totalBandwidthInBytes, long totalMediaInBytes)> GetYearOfUsageData(string alias, int month, int year)
     {
         var usageData = new List<UsageEntity>();
-        var environmentId = await _projectRepository.GetEnvironmentIdByAlias(alias);
+        var environmentId = await _projectRepository.GetEnvironmentIdByProjectAlias(alias);
 
         for (var i = 0; i < 12; i++)
         {
