@@ -82,7 +82,7 @@ public class UsageDocumentServiceTests
         var monthsToTake = 6;
 
         _projectRepository
-            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .Setup(x => x.GetEnvironmentIdByProjectAlias(It.Is<string>(s => s == project.Alias)))
             .ReturnsAsync(project.EnvironmentId);
 
         _usageDocumentRepository
@@ -129,7 +129,7 @@ public class UsageDocumentServiceTests
         }
 
         _projectRepository
-            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .Setup(x => x.GetEnvironmentIdByProjectAlias(It.Is<string>(s => s == project.Alias)))
             .ReturnsAsync(project.EnvironmentId);
 
         _usageDocumentRepository
@@ -155,7 +155,7 @@ public class UsageDocumentServiceTests
         var date = usageEntity.DocumentCreationDate;
 
         _projectRepository
-            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .Setup(x => x.GetEnvironmentIdByProjectAlias(It.Is<string>(s => s == project.Alias)))
             .ReturnsAsync(usageEntity.EnvironmentId);
 
         _usageDocumentRepository
@@ -194,7 +194,7 @@ public class UsageDocumentServiceTests
         var defualtDate = UsageEntityFixture.DefaultUsage.DocumentCreationDate;
 
         _projectRepository
-            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .Setup(x => x.GetEnvironmentIdByProjectAlias(It.Is<string>(s => s == project.Alias)))
             .ReturnsAsync(project.EnvironmentId);
 
         _usageDocumentRepository
@@ -228,7 +228,7 @@ public class UsageDocumentServiceTests
         }
 
         _projectRepository
-            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .Setup(x => x.GetEnvironmentIdByProjectAlias(It.Is<string>(s => s == project.Alias)))
             .ReturnsAsync(project.EnvironmentId);
 
         foreach (var entity in usageEntities)
@@ -254,7 +254,7 @@ public class UsageDocumentServiceTests
         var defualtDate = UsageEntityFixture.DefaultUsage.DocumentCreationDate;
 
         _projectRepository
-            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .Setup(x => x.GetEnvironmentIdByProjectAlias(It.Is<string>(s => s == project.Alias)))
             .ReturnsAsync(project.EnvironmentId);
 
         _usageDocumentRepository
