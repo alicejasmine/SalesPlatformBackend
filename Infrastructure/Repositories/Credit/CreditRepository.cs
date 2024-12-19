@@ -33,6 +33,38 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
         }
     }
 
+    public async Task<Guid> GetOrganizationIdByAlias(string organizationAlias)
+    {
+        var organization = await Context.organizationEntities
+            .FirstOrDefaultAsync(o => o.Alias == organizationAlias);
+
+        if (organization == null)
+        {
+            throw new KeyNotFoundException($"No organization found with alias '{organizationAlias}'.");
+        }
+
+        return organization.Id;
+    }
+
+    public async Task<List<CreditHistoryModel>> GetCreditHistoryByOrganizationAlias(string organizationAlias)
+    {
+        var organizationId = await GetOrganizationIdByAlias(organizationAlias);
+        
+        var creditHistoryEntities = await  DbSet
+            .Where(ch => ch.OrganizationId == organizationId)
+            .OrderByDescending(ch => ch.Created) //Order by the created date to show latest first
+            .ToListAsync();
+
+    
+        if (!creditHistoryEntities.Any())
+        {
+            throw new KeyNotFoundException($"No credit history found for organization with alias '{organizationAlias}'.");
+        }
+        
+        return creditHistoryEntities.Select(MapEntityToModel).ToList();
+    }
+    
+
 
     protected override CreditHistoryModel MapEntityToModel(CreditHistoryEntity entity)
     {
