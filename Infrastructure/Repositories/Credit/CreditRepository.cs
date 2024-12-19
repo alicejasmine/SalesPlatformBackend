@@ -46,34 +46,12 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
         return organization.Id;
     }
 
-    public async Task UpsertListAsync(List<CreditHistoryModel> creditHistories)
-    {
-        foreach (var creditHistory in creditHistories)
-        {
-            var existingCreditHistory = await DbSet
-                .FirstOrDefaultAsync(ch => ch.Id == creditHistory.Id);
-
-            if (existingCreditHistory != null)
-            {
-                existingCreditHistory.InvoiceNumber = creditHistory.InvoiceNumber;
-                existingCreditHistory.PartnershipCredits = creditHistory.PartnershipCredits;
-                existingCreditHistory.CreditsSpend = creditHistory.CreditsSpend;
-                existingCreditHistory.CurrentCredits = creditHistory.CurrentCredits;
-                existingCreditHistory.OrganizationId = creditHistory.OrganizationId;
-                existingCreditHistory.Modified = DateTime.UtcNow; // Update modified date
-            }
-            else
-            {
-                var entity = MapModelToEntity(creditHistory);
-                await DbSet.AddAsync(entity);
-            }
-        }
-
-        await Context.SaveChangesAsync();
-    }
-
     public async Task<List<CreditHistoryModel>> GetCreditHistoryByOrganizationAlias(string organizationAlias)
     {
+        if (string.IsNullOrWhiteSpace(organizationAlias))
+        {
+            throw new ArgumentException("OrganizationAlias cannot be null or empty");
+        }
         try
         {
             var organizationId = await GetOrganizationIdByAlias(organizationAlias);
@@ -85,8 +63,7 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
 
             if (!creditHistoryEntities.Any())
             {
-                throw new KeyNotFoundException(
-                    $"No credit history found for organization with alias '{organizationAlias}'.");
+                return new List<CreditHistoryModel>();
             }
 
             return creditHistoryEntities.Select(MapEntityToModel).ToList();

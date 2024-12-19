@@ -37,7 +37,8 @@ public sealed class DataOperations
     public async Task StoreCreditHistory(List<CreditHistoryModel> creditHistory)
     {
         var repo = _services.GetRequiredService<ICreditRepository>();
-        await repo.UpsertListAsync(creditHistory);
+        await repo.UpsertAsync(creditHistory[0]);
+        await repo.UpsertAsync(creditHistory[1]);
     }
 }
 
