@@ -12,6 +12,7 @@ public class UsageResponse
 
     public class DailyUsageResponse
     {
+        public DateOnly Date { get; set; }
         public long BandwidthInBytes { get; set; }
         public int ContentNodes { get; set; }
         public int Hostnames { get; set; }

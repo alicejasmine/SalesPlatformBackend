@@ -1,7 +1,9 @@
-﻿using Domain.Models;
+﻿using Domain.Entities;
+using Domain.Models;
 using Domain.Sample;
 using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Project;
+using Infrastructure.Repositories.Usage;
 using Infrastructure.Repository.Sample;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -31,6 +33,12 @@ public sealed class DataOperations
     {
         var repo = _services.GetRequiredService<IOrganizationRepository>();
         await repo.UpsertAsync(organization);
+    }
+
+    public async Task StoreUsage(UsageEntity usage)
+    {
+        var repo = _services.GetRequiredService<IUsageDocumentRepository>();
+        await repo.CreateUsageDocument(usage);
     }
 }
 

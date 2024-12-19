@@ -44,9 +44,9 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddCosmosDb(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddCosmosDb(this IServiceCollection services, IConfiguration configuration, string env)
     {
-        services.ConfigureCosmosDbContainer(configuration);
+        services.ConfigureCosmosDbContainer(configuration, env);
         return services;
     }
 }

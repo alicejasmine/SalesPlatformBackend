@@ -4,5 +4,6 @@
     {
         public string Alias { get; set; }
         public int year { get; set; }
+        public int Month { get; set; }
     }
 }

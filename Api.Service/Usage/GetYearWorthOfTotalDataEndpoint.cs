@@ -28,14 +28,13 @@ public class GetYearWorthOfTotalDataEndpoint : EndpointBaseAsync
         ]
     public override async Task<ActionResult<YearTotalUsageResponse>> HandleAsync([FromQuery] GetYearWorthOfTotalDataRequestDto requestDto, CancellationToken cancellationToken = new())
     {
-        var currentDate = DateTime.UtcNow;
-        var usageData = await _usageDocumentService.GetYearOfUsageData(requestDto.Alias, requestDto.year);
+        var usageData = await _usageDocumentService.GetYearOfUsageData(requestDto.Alias, requestDto.Month, requestDto.year);
 
         if (usageData.totalBandwidthInBytes == 0 && usageData.totalMediaInBytes == 0)
         {
             return Problem(
                 title: "Usage data not found",
-                detail: $"No usage data found for alias {requestDto.Alias} starting from {currentDate.Month}/{currentDate.Year}",
+                detail: $"No usage data found for alias {requestDto.Alias} starting from {requestDto.Month}/{requestDto.year}",
                 statusCode: StatusCodes.Status404NotFound);
         }
 

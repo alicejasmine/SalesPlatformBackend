@@ -1,13 +1,14 @@
 ﻿using Infrastructure;
 using Integration.Tests.Library.Http;
+using Integration.Tests.Library.TestContainers;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.TestHelpers;
 using Respawn;
 using System.Text;
 
-namespace Integration.Tests.Library;
+namespace Integration.Tests.Library.Cosmo;
 
-public abstract class BaseEndpointTests
+public abstract class BaseCosmoEndpointTests : CosmosDbTestFixture
 {
     protected HttpClient AppHttpClient => _appClient;
     protected FakeBus AppBusMock => _selfHostedApi.Bus;

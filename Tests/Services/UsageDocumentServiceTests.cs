@@ -81,6 +81,10 @@ public class UsageDocumentServiceTests
         var baseDate = new DateOnly(2024, 11, 1);
         var monthsToTake = 6;
 
+        _projectRepository
+            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .ReturnsAsync(project.EnvironmentId);
+
         _usageDocumentRepository
             .Setup(x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()))
             .ReturnsAsync((UsageEntity?)null);
@@ -124,6 +128,10 @@ public class UsageDocumentServiceTests
                 .ReturnsAsync(entity);
         }
 
+        _projectRepository
+            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .ReturnsAsync(project.EnvironmentId);
+
         _usageDocumentRepository
             .Setup(x => x.GetUsageEntity(It.Is<DocumentIdentifier>(d => d.Date == baseDate.AddMonths(-1))))
                     .ReturnsAsync((UsageEntity?)null);
@@ -144,7 +152,7 @@ public class UsageDocumentServiceTests
         // Arrange
         var usageEntity = UsageEntityFixture.DefaultUsage;
         var project = ProjectEntityFixture.DefaultProject;
-        var date = new DateOnly(2024, 11, 1);
+        var date = usageEntity.DocumentCreationDate;
 
         _projectRepository
             .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
@@ -182,16 +190,19 @@ public class UsageDocumentServiceTests
     public async Task GetUsageEntity_ReturnsNull_WhenNotFound()
     {
         // Arrange
-        var environmentId = UsageEntityFixture.DefaultDocumentIdentifier.EnvironmentId;
         var project = ProjectEntityFixture.DefaultProject;
-        var date = new DateOnly(2024, 11, 1);
+        var defualtDate = UsageEntityFixture.DefaultUsage.DocumentCreationDate;
+
+        _projectRepository
+            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .ReturnsAsync(project.EnvironmentId);
 
         _usageDocumentRepository
             .Setup(x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()))
             .ReturnsAsync((UsageEntity?)null);
 
         // Act
-        var result = await _usageDocumentService.GetUsageEntity(project.Alias, date.Month, date.Year);
+        var result = await _usageDocumentService.GetUsageEntity(project.Alias, defualtDate.Month, defualtDate.Year);
 
         // Assert
         Assert.That(result, Is.Null);
@@ -205,13 +216,21 @@ public class UsageDocumentServiceTests
     public async Task GetYearOfUsageData_ReturnsAggregatedData_WhenDataExists()
     {
         var project = ProjectEntityFixture.DefaultProject;
-        var year = 2024;
+        var defualtDate = UsageEntityFixture.DefaultUsage.DocumentCreationDate;
+        var usageEntities = new List<UsageEntity>();
 
-        var usageEntities = Enumerable.Range(1, 12).Select(i => new UsageEntityBuilder()
-            .WithEnvironmentId(project.EnvironmentId, new DateOnly(year, i, 1))
-            .WithDate(new DateOnly(year, i, 1))
-            .Build()).ToList();
-        
+        for (var i = 0; i < 12; i++)
+        {
+            usageEntities.Add(new UsageEntityBuilder()
+                .WithEnvironmentId(project.EnvironmentId, defualtDate.AddMonths(-i))
+                .WithDate(defualtDate.AddMonths(-i))
+                .Build());
+        }
+
+        _projectRepository
+            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .ReturnsAsync(project.EnvironmentId);
+
         foreach (var entity in usageEntities)
         {
             _usageDocumentRepository
@@ -220,7 +239,7 @@ public class UsageDocumentServiceTests
         }
 
         // Act
-        var (totalBandwidth, totalMedia) = await _usageDocumentService.GetYearOfUsageData(project.Alias, year);
+        var (totalBandwidth, totalMedia) = await _usageDocumentService.GetYearOfUsageData(project.Alias, defualtDate.Month, defualtDate.Year);
 
         // Assert
         Assert.That(totalBandwidth, Is.EqualTo(12288));
@@ -232,14 +251,18 @@ public class UsageDocumentServiceTests
     {
         // Arrange
         var project = ProjectEntityFixture.DefaultProject;
-        var year = 2024;
+        var defualtDate = UsageEntityFixture.DefaultUsage.DocumentCreationDate;
+
+        _projectRepository
+            .Setup(x => x.GetEnvironmentIdByAlias(It.Is<string>(s => s == project.Alias)))
+            .ReturnsAsync(project.EnvironmentId);
 
         _usageDocumentRepository
             .Setup(x => x.GetUsageEntity(It.IsAny<DocumentIdentifier>()))
             .ReturnsAsync((UsageEntity?)null);
 
         // Act
-        var (totalBandwidth, totalMedia) = await _usageDocumentService.GetYearOfUsageData(project.Alias, year);
+        var (totalBandwidth, totalMedia) = await _usageDocumentService.GetYearOfUsageData(project.Alias, defualtDate.Month, defualtDate.Year);
 
         // Assert
         Assert.That(totalBandwidth, Is.EqualTo(0));

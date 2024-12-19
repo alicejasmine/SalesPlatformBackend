@@ -13,11 +13,14 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+        var serviceProvider = services.BuildServiceProvider();
+        var env = serviceProvider.GetRequiredService<IWebHostEnvironment>();
+
         services.AddServices();
         services.AddRepositories();
 
         services.AddDbContext(Configuration);
-        services.AddCosmosDb(Configuration);
+        services.AddCosmosDb(Configuration, env.EnvironmentName);
 
         services.AddEndpointsApiExplorer();
         services.AddControllers();

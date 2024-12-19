@@ -8,4 +8,5 @@ public interface IUsageDocumentRepository
 {
     Task<UsageEntity?> GetUsageEntity(DocumentIdentifier documentIdentifier);
     Task SeedUsageDocument(Guid projectId, Guid environmentId);
+    Task<UsageEntity?> CreateUsageDocument(UsageEntity usageEntity);
 }

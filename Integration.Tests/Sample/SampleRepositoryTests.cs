@@ -6,7 +6,7 @@ using Test.Fixtures.Sample;
 namespace Integration.Tests.Sample;
 
 [TestFixture]
-public sealed class SampleRepositoryTests : BaseDatabaseTestFixture
+internal sealed class SampleRepositoryTests : BaseDatabaseTestFixture
 {
     private SampleRepository _sampleRepository;
 

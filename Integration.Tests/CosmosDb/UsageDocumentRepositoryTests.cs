@@ -6,7 +6,7 @@ using Test.Fixtures.Usage;
 
 namespace Integration.Tests.CosmosDb;
 
-public class UsageDocumentRepositoryTests : CosmosDbTestFixture
+internal sealed class UsageDocumentRepositoryTests : CosmosDbTestFixture
 {
     private UsageDocumentRepository _usageDocumentRepository;
 

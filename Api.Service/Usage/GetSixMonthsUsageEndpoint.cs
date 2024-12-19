@@ -22,7 +22,6 @@ public class GetSixMonthsUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthl
         Description = "Get total bandwidth and media usage for the last 6 months by alias and date",
         OperationId = "GetSixMonthsUsage")
         ]
-
     public override async Task<ActionResult<TotalUsageResponse>> HandleAsync([FromQuery] GetMonthlyUsageRequestDto dto, CancellationToken cancellationToken = new())
     {
         var usageData = await _usageDocumentService.GetUsageEntitiesForMultipleMonths(dto.Alias, dto.Month, dto.Year, 6);
