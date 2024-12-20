@@ -1,4 +1,4 @@
-using Domain.Models;
+using Infrastructure.Repositories.Credit;
 using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Project;
 using Integration.Tests.Library;
@@ -11,6 +11,7 @@ namespace Integration.Tests.Project;
 internal sealed class ProjectRepositoryTests :BaseDatabaseTestFixture
 {
     private ProjectRepository _projectRepository;
+    private CreditRepository _creditRepository;
     private OrganizationRepository _organizationRepository;
   
 
@@ -18,7 +19,7 @@ internal sealed class ProjectRepositoryTests :BaseDatabaseTestFixture
     public async Task SetUp()
     {
         _projectRepository = new(DatabaseTestsFixture.DbContext);
-        _organizationRepository = new (DatabaseTestsFixture.DbContext);
+        _organizationRepository = new OrganizationRepository(DatabaseTestsFixture.DbContext, _creditRepository);
     }
     
     [Test]

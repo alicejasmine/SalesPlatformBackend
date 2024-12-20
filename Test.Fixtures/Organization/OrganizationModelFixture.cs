@@ -13,6 +13,28 @@ public static class OrganizationModelFixture
         totalCredits: 1000,
         partnership: PartnershipEnum.Silver,
         created: DateTime.UtcNow,
-        modified: DateTime.UtcNow
+        modified: DateTime.UtcNow, creditHistory: new List<CreditHistoryModel>
+    {
+        new CreditHistoryModel(
+            id: Guid.NewGuid(),
+            created: DateTime.UtcNow,
+            modified: DateTime.UtcNow,
+            invoiceNumber: "123456",
+            partnershipCredits: 500,
+            creditsSpend: 100,
+            currentCredits: 400,
+            organizationId: DefaultOrganizationId
+        ),
+        new CreditHistoryModel(
+            id: Guid.NewGuid(),
+            created: DateTime.UtcNow,
+            modified: DateTime.UtcNow,
+            invoiceNumber: "123457",
+            partnershipCredits: 300,
+            creditsSpend: 50,
+            currentCredits: 250,
+            organizationId: DefaultOrganizationId
+        )
+    }
     );
 }
