@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration.Tests", "Integr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testing", "testing", "{2F96EB5C-6647-4B36-8A1F-8B02520B4A65}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFixtures", "Test.Fixtures\TestFixtures.csproj", "{F3128133-1EF6-430D-A5F1-30A5A1B744E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestFixtures", "Test.Fixtures\TestFixtures.csproj", "{F3128133-1EF6-430D-A5F1-30A5A1B744E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
