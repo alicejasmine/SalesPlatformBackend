@@ -1,7 +1,9 @@
 using Domain.Entities;
+using Domain.Models;
 using Domain.ValueObject;
 using Infrastructure.Repositories.Project;
 using Infrastructure.Repositories.Usage;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ApplicationServices.Usage;
 
@@ -9,7 +11,7 @@ public class UsageDocumentService : IUsageDocumentService
 {
     private readonly IUsageDocumentRepository _usageDocumentRepository;
     private readonly IProjectRepository _projectRepository;
-    
+
     public UsageDocumentService(IUsageDocumentRepository usageDocumentRepository, IProjectRepository projectRepository)
 
     {
@@ -47,15 +49,14 @@ public class UsageDocumentService : IUsageDocumentService
         return usageData;
     }
 
-    public async Task<(long totalBandwidthInBytes, long totalMediaInBytes)> GetYearOfUsageData(string alias, int year)
+    public async Task<(long totalBandwidthInBytes, long totalMediaInBytes)> GetYearOfUsageData(string alias, int month, int year)
     {
         var usageData = new List<UsageEntity>();
-        var currentDate = DateTime.UtcNow;
         var environmentId = await _projectRepository.GetEnvironmentIdByProjectAlias(alias);
 
         for (var i = 0; i < 12; i++)
         {
-            var date = new DateOnly(year, currentDate.Month, 1).AddMonths(-i);
+            var date = new DateOnly(year, month, 1).AddMonths(-i);
             var documentIdentifier = new DocumentIdentifier(environmentId, date);
 
             var usageEntity = await _usageDocumentRepository.GetUsageEntity(documentIdentifier);

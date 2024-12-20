@@ -3,6 +3,7 @@ using Domain.ValueObject;
 
 using Microsoft.Azure.Cosmos;
 using Domain.Entities;
+using Domain.Models;
 
 namespace Infrastructure.Repositories.Usage;
 

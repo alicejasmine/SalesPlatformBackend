@@ -172,7 +172,6 @@ public class SeedService : ISeedService
         for (int i = 0; i < ProjectIds.Count; i++)
         {
             await _usageDocumentRepository.SeedUsageDocument(ProjectIds[i], EnvironmentIds[i]);
-
         }
     }
 }

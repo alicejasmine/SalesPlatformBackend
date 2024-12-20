@@ -7,7 +7,9 @@ namespace Infrastructure.CosmosDb;
 public static class ConfigureCosmosDb
 {
     public static IServiceCollection ConfigureCosmosDbContainer(
-        this IServiceCollection services, IConfiguration configuration)
+        this IServiceCollection services, 
+        IConfiguration configuration,
+        string env)
     {
         var endpoint = configuration["CosmosDbServiceEndpoint"];
         var authKey = configuration["CosmosDbServiceAuthKey"];
@@ -19,14 +21,28 @@ public static class ConfigureCosmosDb
             throw new InvalidOperationException("CosmosDbServiceAuthKey is not set in the configuration");
 
         var cosmosClient = new CosmosClient(endpoint, authKey);
-        
-        var databaseResponse = cosmosClient.CreateDatabaseIfNotExistsAsync(Constants.CosmosDbProperties.DatabaseName).GetAwaiter().GetResult();
-        var containerResponse = databaseResponse.Database.CreateContainerIfNotExistsAsync(
-            new ContainerProperties(Constants.CosmosDbProperties.CollectionName, Constants.CosmosDbProperties.PartitionKeyPath)
-        ).GetAwaiter().GetResult();
-        
-        services.AddSingleton(containerResponse.Container);
-        services.AddSingleton(cosmosClient);
-        return services;
+
+        if (env == "integration-test")
+        {
+            var databaseResponse = cosmosClient.CreateDatabaseIfNotExistsAsync(Constants.CosmosDbProperties.TestDatabaseName).GetAwaiter().GetResult();
+            var containerResponse = databaseResponse.Database.CreateContainerIfNotExistsAsync(
+                new ContainerProperties(Constants.CosmosDbProperties.TestCollectionName, Constants.CosmosDbProperties.PartitionKeyPath)
+            ).GetAwaiter().GetResult();
+
+            services.AddSingleton(containerResponse.Container);
+            services.AddSingleton(cosmosClient);
+            return services;
+        }
+        else
+        {
+            var databaseResponse = cosmosClient.CreateDatabaseIfNotExistsAsync(Constants.CosmosDbProperties.DatabaseName).GetAwaiter().GetResult();
+            var containerResponse = databaseResponse.Database.CreateContainerIfNotExistsAsync(
+                new ContainerProperties(Constants.CosmosDbProperties.CollectionName, Constants.CosmosDbProperties.PartitionKeyPath)
+            ).GetAwaiter().GetResult();
+         
+            services.AddSingleton(containerResponse.Container);
+            services.AddSingleton(cosmosClient);
+            return services;
+        }
     }
 }
