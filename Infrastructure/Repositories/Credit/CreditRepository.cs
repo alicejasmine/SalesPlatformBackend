@@ -21,7 +21,7 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
             existingCreditHistory.CreditsSpend = creditHistory.CreditsSpend;
             existingCreditHistory.CurrentCredits = creditHistory.CurrentCredits;
             existingCreditHistory.OrganizationId = creditHistory.OrganizationId;
-            existingCreditHistory.Modified = DateTime.UtcNow; // Update modified date
+            existingCreditHistory.Modified = DateTime.UtcNow; 
 
             await Context.SaveChangesAsync();
         }

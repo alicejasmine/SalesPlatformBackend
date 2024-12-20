@@ -4,11 +4,10 @@ namespace Domain.Entities;
 
 public class CreditHistoryEntity : BaseEntity
 {  
+        [Required] 
+        public Guid OrganizationId { get; set; }
         [Required]
-        public Guid OrganizationId { get; set; } 
-      
-        [Required]
-        [MaxLength(8)]
+        [MaxLength(8)] 
         public string InvoiceNumber { get; set; }
         [Required]
         public decimal PartnershipCredits { get; set; }

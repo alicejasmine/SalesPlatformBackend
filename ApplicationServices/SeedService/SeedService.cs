@@ -75,7 +75,6 @@ public class SeedService : ISeedService
             await _organizationRepository.UpsertAsync(organization);
             OrganizationIds.Add(organization.Id);
         }
-        
     }
 
     private async Task SeedProjects()
@@ -167,8 +166,7 @@ public class SeedService : ISeedService
             }
         }
     }
-
-
+    
     private async Task SeedUsage()
     {
         for (int i = 0; i < ProjectIds.Count; i++)
