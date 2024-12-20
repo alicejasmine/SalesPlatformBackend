@@ -6,7 +6,7 @@ public static class SampleModelFixture
 {
     public static SampleModel DefaultSample { get; } = new SampleModel(
         Guid.NewGuid(),
-        "DefualtSample",
+        "DefaultSample",
         "Description",
         1234,
         DateTime.Now,
