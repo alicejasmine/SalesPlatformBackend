@@ -13,7 +13,6 @@ public class OrganizationModel : BaseModel
         TotalCredits = totalCredits;
         Partnership = partnership;
         CreditHistory = creditHistory ?? new List<CreditHistoryModel>();
-        //Purchases = purchases ?? new List<PurchaseModel>();
     }
 
     public string Alias { get; set; }
@@ -22,5 +21,4 @@ public class OrganizationModel : BaseModel
     public PartnershipEnum Partnership { get; set; }
     public ICollection<ProjectModel> Projects { get; set; }
     public ICollection<CreditHistoryModel>? CreditHistory { get; set; }
-    //public ICollection<PurchaseModel> Purchases { get; set; }
 }

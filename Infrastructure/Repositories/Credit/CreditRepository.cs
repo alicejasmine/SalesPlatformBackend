@@ -21,7 +21,7 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
             existingCreditHistory.CreditsSpend = creditHistory.CreditsSpend;
             existingCreditHistory.CurrentCredits = creditHistory.CurrentCredits;
             existingCreditHistory.OrganizationId = creditHistory.OrganizationId;
-            existingCreditHistory.Modified = DateTime.UtcNow; // Update modified date
+            existingCreditHistory.Modified = DateTime.UtcNow; 
 
             await Context.SaveChangesAsync();
         }
@@ -58,7 +58,7 @@ public class CreditRepository : BaseRepository<CreditHistoryModel, CreditHistory
 
             var creditHistoryEntities = await DbSet
                 .Where(ch => ch.OrganizationId == organizationId)
-                .OrderByDescending(ch => ch.Created) //Order by the created date to show latest first
+                .OrderByDescending(ch => ch.Created) 
                 .ToListAsync();
 
             if (!creditHistoryEntities.Any())

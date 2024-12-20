@@ -14,7 +14,8 @@ public static class OrganizationModelFixture
         totalCredits: 850,
         partnership: PartnershipEnum.Silver,
         created: DateTime.UtcNow,
-        modified: DateTime.UtcNow, creditHistory: new List<CreditHistoryModel>
+        modified: DateTime.UtcNow, 
+        creditHistory: new List<CreditHistoryModel>
     {
         new CreditHistoryModel(
             id: Guid.NewGuid(),
