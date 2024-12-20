@@ -1,9 +1,11 @@
-﻿using ApplicationServices.Project;
+﻿using ApplicationServices.Credit;
+using ApplicationServices.Project;
 using ApplicationServices.Sample;
 using ApplicationServices.Usage;
 using ApplicationServices.Seed;
 using Infrastructure;
 using Infrastructure.CosmosDb;
+using Infrastructure.Repositories.Credit;
 using Infrastructure.Repositories.Usage;
 using Infrastructure.Repository.Sample;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +25,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IUsageDocumentService, UsageDocumentService>();
         services.AddScoped<ISeedService, SeedService>();
         services.AddScoped<IProjectService, ProjectService>();
+        services.AddScoped<ICreditService, CreditService>();
         
        return services;
     }
@@ -33,6 +36,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IOrganizationRepository, OrganizationRepository>();
         services.AddScoped<IPlanRepository, PlanRepository>();
+        services.AddScoped<ICreditRepository, CreditRepository>();
         return services;
     }
     public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
