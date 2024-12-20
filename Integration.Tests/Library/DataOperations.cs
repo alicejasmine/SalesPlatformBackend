@@ -1,5 +1,6 @@
 ﻿using Domain.Models;
 using Domain.Sample;
+using Infrastructure.Repositories.Credit;
 using Infrastructure.Repositories.Organization;
 using Infrastructure.Repositories.Project;
 using Infrastructure.Repository.Sample;
@@ -31,6 +32,13 @@ public sealed class DataOperations
     {
         var repo = _services.GetRequiredService<IOrganizationRepository>();
         await repo.UpsertAsync(organization);
+    }
+
+    public async Task StoreCreditHistory(List<CreditHistoryModel> creditHistory)
+    {
+        var repo = _services.GetRequiredService<ICreditRepository>();
+        await repo.UpsertAsync(creditHistory[0]);
+        await repo.UpsertAsync(creditHistory[1]);
     }
 }
 
