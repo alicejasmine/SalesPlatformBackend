@@ -4,7 +4,7 @@ namespace Domain.Models;
 
 public class OrganizationModel : BaseModel
 {
-    public OrganizationModel(Guid id, string alias, string displayName, int totalCredits, PartnershipEnum partnership,
+    public OrganizationModel(Guid id, string alias, string displayName, decimal totalCredits, PartnershipEnum partnership,
         DateTime created, DateTime modified, ICollection<CreditHistoryModel>? creditHistory)
         : base(id, created, modified)
     {
@@ -17,7 +17,7 @@ public class OrganizationModel : BaseModel
 
     public string Alias { get; set; }
     public string DisplayName { get; set; }
-    public int TotalCredits { get; private set; }
+    public decimal TotalCredits { get; private set; }
     public PartnershipEnum Partnership { get; set; }
     public ICollection<ProjectModel> Projects { get; set; }
     public ICollection<CreditHistoryModel>? CreditHistory { get; set; }
