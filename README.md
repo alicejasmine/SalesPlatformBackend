@@ -25,22 +25,25 @@ The project is organized into the following libraries:
 
 ## Setup Instructions
 
- 1. Clone the repository:
+To run the application
+ - Clone the repository:
 `git clone  https://github.com/your-username/school-project.git`
-2. Install .NET SDK: Ensure you have the .NET SDK version 8.0 installed. 
-3. Run CosmosDB Emulator: Follow the instructions to install and start the CosmosDB Emulator on Windows. You can find the emulator [here](https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-develop-emulator?tabs=windows,csharp&pivots=api-nosql#tabpanel_1_windows)
-4. Setup SQL Server:
-	5. `docker run -e "ACCEPT_EULA=Y" \  
--e "MSSQL_SA_PASSWORD=Suits0811" \  
--e "MSSQL_PID=Evaluation" \  
--p 1433:1433 \  
---name sqlpreview \  
---hostname sqlpreview \  
--d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04`
-5. Build and Run the Application: Open the solution in Visual Studio or Visual Studio Code and build the solution.
-	6. `dotnet build`
-	7. `dotnet run --project YourProject.API`
-6. dotnet build dotnet run --project YourProject.API
-7. Run Tests: To run unit and integration tests:
-	8. Use the following command `dotnet test`
-	9. Or use visual studio build in test manager
+ - Run CosmosDB Emulator: Follow the instructions to install and start the CosmosDB Emulator on Windows. You can find the emulator [here](https://learn.microsoft.com/en-us/azure/cosmos-db/how-to-develop-emulator?tabs=windows,csharp&pivots=api-nosql#tabpanel_1_windows)
+ - Setup SQL Server:
+	 - Open a powershell in the same folder as the .git of the repository
+	 -  `docker run -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=Suits0811" -e "MSSQL_PID=Evaluation" -p 1433:1433 --name sqlpreview --hostname sqlpreview -d mcr.microsoft.com/mssql/server:2022-preview-ubuntu-22.04`
+	 - `cd .\Infrastructure\`
+	 - `dotnet tool install --global dotnet-ef`
+	 - `$env:sqlconn="Server=localhost,1433;Database=SalesPlatformDB;User Id=sa;Password=Suits0811;TrustServerCertificate=True;"`
+		 - This is to ensure the environment id for the context is set correctly
+	 - `dotnet ef database update`
+ - Build and Run the Application: Open the solution in Visual Studio or Visual Studio Code and build the solution.
+	 - `dotnet build`
+	 - `cd .\Api.Service\`
+	 - `dotnet run`
+ - Open the browser and find the `http://localhost:5088/swagger/index.html`
+ - Send a `/SeedDataEndpoint` to get test data in the database.
+
+To Run the tests
+- Use the following command `dotnet test` in the main folder
+- Or use visual studio build in test manager
