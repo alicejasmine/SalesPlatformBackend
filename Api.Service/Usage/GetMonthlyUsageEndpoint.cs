@@ -22,7 +22,7 @@ public class GetMonthlyUsageEndpoint : EndpointBaseAsync.WithRequest<GetMonthlyU
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [SwaggerOperation(
         Summary = "Get Monthly Usage",
-        Description = "Get Monthly Usage by alias and date",
+        Description = "Get Monthly Usage by project alias and date",
         OperationId = "GetMonthlyUsage")
     ]
     
